@@ -98,7 +98,7 @@ Builder.registerComponent(KiboHeroCarousel, {
       ],
       subFields: [
         {
-          name: 'mobileImageUrl',
+          name: 'imageUrl',
           type: 'file',
         },
         {
