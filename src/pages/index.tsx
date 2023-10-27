@@ -143,7 +143,7 @@ Builder.registerComponent(ProductRecommendations, {
     },
     {
       name: 'productCodes',
-      type: 'KiboCommerceProduct', // 'ShopifyCollectionHandle',
+      type: 'KiboCommerceProductsList',
     },
   ],
 })
