@@ -49,9 +49,15 @@ const fetchProductSearch = async (searchParams: CategorySearchParams) => {
 
 export const useGetProducts = (productCodes: Array<string>): UseProductsResponse => {
   const productCodeFilter: Array<string> = []
-  productCodes?.forEach((code) => {
-    productCodeFilter.push(`productCode eq ${code}`)
-  })
+  // console.log("Product codes --> ", productCodes);
+  if (Array.isArray(productCodes)) {
+    productCodes?.forEach((code) => {
+      productCodeFilter.push(`productCode eq ${code}`)
+    })
+  } else {
+    console.error('productCodes is not an array or is undefined!')
+  }
+
   const searchParams = buildProductSearchParams({
     filter: productCodeFilter.join(' or '),
     pageSize: productCodes?.length,

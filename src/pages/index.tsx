@@ -98,7 +98,7 @@ Builder.registerComponent(KiboHeroCarousel, {
       ],
       subFields: [
         {
-          name: 'mobileImageUrl',
+          name: 'imageUrl',
           type: 'file',
         },
         {
@@ -143,7 +143,7 @@ Builder.registerComponent(ProductRecommendations, {
     },
     {
       name: 'productCodes',
-      type: 'KiboCommerceProduct', // 'ShopifyCollectionHandle',
+      type: 'KiboCommerceProductsList',
     },
   ],
 })
