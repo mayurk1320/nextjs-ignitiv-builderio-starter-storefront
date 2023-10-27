@@ -19,6 +19,7 @@ const ProductRecommendations = (props: ProductRecommendationsProps) => {
   const { title, productCodes } = props
   const { t } = useTranslation('common')
   const { getProductLink } = uiHelpers()
+  console.log('Product codes --> ', productCodes)
   const { data: productSearchResult } = useGetProducts(productCodes)
   const products = productSearchResult?.items as Product[]
 

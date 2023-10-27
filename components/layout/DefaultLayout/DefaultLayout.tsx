@@ -7,6 +7,7 @@ import { HydrationBoundary } from '@tanstack/react-query'
 import creditCardType from 'credit-card-type'
 import Router from 'next/router'
 
+import { IgnitivHeader } from '../AppHeader/Common'
 import { GlobalFetchingIndicator } from '@/components/common'
 import { Footer, KiboHeader } from '@/components/layout'
 import {
@@ -53,7 +54,21 @@ const DefaultLayout = ({ pageProps, children }: { pageProps: any; children: Reac
           <AuthContextProvider>
             <HeaderContextProvider>
               <GlobalFetchingIndicator />
-              <KiboHeader
+              {/* <KiboHeader
+                navLinks={[
+                  {
+                    link: '/order-status',
+                    text: 'order-status',
+                  },
+                  {
+                    link: '/wishlist',
+                    text: 'wishlist',
+                  },
+                ]}
+                categoriesTree={pageProps.categoriesTree || []}
+                isSticky={true}
+              /> */}
+              <IgnitivHeader
                 navLinks={[
                   {
                     link: '/order-status',
