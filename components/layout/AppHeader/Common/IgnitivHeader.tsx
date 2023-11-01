@@ -162,6 +162,7 @@ const HeaderActionArea = (props: HeaderActionAreaProps) => {
         sx={{
           ...topHeaderStyles.container,
           justifyContent: 'space-between',
+          overflow: 'hidden',
         }}
       >
         <Box
