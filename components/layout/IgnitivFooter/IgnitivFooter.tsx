@@ -37,8 +37,8 @@ export default function IgnitivFooter(props: any) {
           <Grid item md={3}>
             <KiboImage src={Logo} height={35} alt="Ignitiv" />
             <Typography sx={{ marginTop: 2, fontSize: { xs: 13, sm: 16 } }}>
-              This is a headless ecommerce starter kit for KiboCommerce platform using Next.JS and
-              BuilderIO
+              This is a headless ecommerce starter kit for IgnitivCommerce platform using Next.JS
+              and BuilderIO
             </Typography>
             <Box sx={{ marginTop: 3 }}>
               {socialItems.map(({ icon, key }: { icon: React.ReactNode; key: string }) => (
