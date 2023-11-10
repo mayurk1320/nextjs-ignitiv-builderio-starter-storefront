@@ -9,6 +9,7 @@ export { default as MegaMenu } from './MegaMenu/MegaMenu'
 export { default as MegaMenuItem } from './MegaMenuItem/MegaMenuItem'
 export { default as SearchSuggestions } from './SearchSuggestions/SearchSuggestions'
 export { default as Footer } from './Footer/Footer'
+export { default as IgnitivFooter } from './IgnitivFooter/IgnitivFooter'
 export { default as DefaultLayout } from './DefaultLayout/DefaultLayout'
 export { default as FullWidthLayout } from './FullWidthLayout/FullWidthLayout'
 export { default as RegisterAccountDialog } from './RegisterAccount/RegisterAccountDialog/RegisterAccountDialog'
@@ -18,4 +19,3 @@ export { default as AccountIcon } from './AppHeader/Icons/AccountIcon/AccountIco
 export { default as CartIcon } from './AppHeader/Icons/CartIcon/CartIcon'
 export { default as StoreFinderIcon } from './AppHeader/Icons/StoreFinderIcon/StoreFinderIcon'
 export { default as HamburgerIcon } from './AppHeader/Icons/HamburgerIcon/HamburgerIcon'
-
