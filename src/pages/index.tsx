@@ -3,7 +3,8 @@ import getConfig from 'next/config'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import CmsHomePageProducts from '../../cms/components/CmsHomePageProducts/CmsHomePageProducts'
-import { KiboHeroCarousel, ContentTile, SmallBanner } from '@/components/home'
+import CmsShopByCategory from '../../cms/components/CmsShopByCategory/CmsShopByCategory'
+import { KiboHeroCarousel, ContentTile, SmallBanner, ShopByCategory } from '@/components/home'
 import { ProductRecommendations } from '@/components/product'
 import getCategoryTree from '@/lib/api/operations/get-category-tree'
 import type { CategoryTreeResponse, NextPageWithLayout } from '@/lib/types'
@@ -143,7 +144,7 @@ Builder.registerComponent(ProductRecommendations, {
     },
     {
       name: 'productCodes',
-      type: 'KiboCommerceProduct', // 'ShopifyCollectionHandle',
+      type: 'KiboCommerceProductsList', // 'ShopifyCollectionHandle',
     },
   ],
 })
@@ -367,7 +368,28 @@ Builder.registerComponent(ContentTile, {
     },
   ],
 })
-
+Builder.registerComponent(CmsShopByCategory, {
+  name: 'CmsShopByCategory',
+  inputs: [
+    {
+      name: 'shopByCategory',
+      type: 'object',
+      defaultValue: {
+        title: 'Shop By Category',
+      },
+      subFields: [
+        {
+          name: 'title',
+          type: 'string',
+        },
+        {
+          name: 'categoryCodes',
+          type: 'KiboCommerceProductsList',
+        },
+      ],
+    },
+  ],
+})
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
   const { serverRuntimeConfig } = getConfig()
