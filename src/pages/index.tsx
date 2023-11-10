@@ -3,8 +3,9 @@ import getConfig from 'next/config'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import CmsHomePageProducts from '../../cms/components/CmsHomePageProducts/CmsHomePageProducts'
-import { KiboHeroCarousel, ContentTile, SmallBanner } from '@/components/home'
+import { KiboHeroCarousel, ContentTile, SmallBanner, IgnHeroBanner } from '@/components/home'
 import { ProductRecommendations } from '@/components/product'
+import { CategorySlider } from '@/components/product-listing'
 import getCategoryTree from '@/lib/api/operations/get-category-tree'
 import type { CategoryTreeResponse, NextPageWithLayout } from '@/lib/types'
 
@@ -57,6 +58,61 @@ Builder.registerComponent(SmallBanner, {
         {
           name: 'backgroundColor',
           type: 'string',
+        },
+      ],
+    },
+  ],
+})
+
+Builder.registerComponent(IgnHeroBanner, {
+  name: 'IgnHeroBanner',
+  inputs: [
+    {
+      name: 'heroBannerProps',
+      type: 'object',
+      defaultValue: {
+        imageUrl: 'https://cdn-sb.mozu.com/26507-m1/cms/files/655bb09f-e5f2-4027-8cf6-76d0363172d1',
+        mobileImageUrl:
+          'https://cdn-sb.mozu.com/26507-m1/cms/files/655bb09f-e5f2-4027-8cf6-76d0363172d1',
+        imageAlt: 'image Alt text',
+        title: 'Make your house into a home',
+        subtitle: 'Explore the latest deals.',
+        callToAction: { title: 'Shop Now', url: '/category/deals' },
+      },
+      subFields: [
+        {
+          name: 'imageUrl',
+          type: 'file',
+        },
+        {
+          name: 'mobileImageUrl',
+          type: 'file',
+        },
+        {
+          name: 'imageAlt',
+          type: 'string',
+        },
+        {
+          name: 'title',
+          type: 'string',
+        },
+        {
+          name: 'subtitle',
+          type: 'string',
+        },
+        {
+          name: 'callToAction',
+          type: 'object',
+          subFields: [
+            {
+              name: 'title',
+              type: 'string',
+            },
+            {
+              name: 'url',
+              type: 'string',
+            },
+          ],
         },
       ],
     },
@@ -184,6 +240,16 @@ Builder.registerComponent(CmsHomePageProducts, {
           type: 'KiboCommerceProductsList',
         },
       ],
+    },
+  ],
+})
+
+Builder.registerComponent(CategorySlider, {
+  name: 'CategorySlider',
+  inputs: [
+    {
+      name: 'categoryCodes',
+      type: 'KiboCommerceCategoriesList',
     },
   ],
 })

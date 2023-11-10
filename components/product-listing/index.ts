@@ -5,4 +5,4 @@ export { default as FacetItem } from './FacetItem/FacetItem'
 export { default as FacetItemList } from './FacetItemList/FacetItemList'
 export { default as FacetList } from './FacetList/FacetList'
 export { default as FacetSkeleton } from './Facet/FacetSkeleton'
-
+export { default as CategorySlider } from './CategorySlider/CategorySlider'
