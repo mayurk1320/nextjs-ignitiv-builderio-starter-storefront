@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { composeStories } from '@storybook/testing-react'
-import { render, screen, waitFor, act } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import * as stories from './ProductCard.stories' // import all stories from the stories file
@@ -51,7 +51,7 @@ describe('[components] Product Card Component', () => {
     it('should render title', () => {
       setup()
 
-      const title = screen.getByText(Common.args?.title as string)
+      const title = screen.getByText(Common.args.title)
 
       expect(title).toBeVisible()
     })
@@ -59,7 +59,7 @@ describe('[components] Product Card Component', () => {
     it('should render price', () => {
       setup()
 
-      const price = screen.getByText(Common.args?.price as string)
+      const price = screen.getByText(Common.args.price)
 
       expect(price).toBeVisible()
     })
@@ -95,7 +95,7 @@ describe('[components] Product Card Component', () => {
     it('should render sale price text', () => {
       render(<WithSalePrice {...WithSalePrice.args} />)
 
-      const salePrice = screen.getByText(WithSalePrice.args?.salePrice as string)
+      const salePrice = screen.getByText(WithSalePrice.args.salePrice)
 
       expect(salePrice).toBeVisible()
     })
@@ -107,7 +107,7 @@ describe('[components] Product Card Component', () => {
 
       const filledRating = screen.getAllByTestId('filled-rating')
 
-      expect(filledRating).toHaveLength((WithRating.args?.rating as number) * 2)
+      expect(filledRating).toHaveLength(WithRating.args.rating * 2)
     })
   })
 
@@ -117,7 +117,7 @@ describe('[components] Product Card Component', () => {
 
       const image = screen.getByTestId('product-image')
 
-      expect(image).toHaveAttribute('alt', 'product-image-alt')
+      expect(image).toHaveAttribute('alt', 'no-image-alt')
     })
   })
 
@@ -131,18 +131,22 @@ describe('[components] Product Card Component', () => {
     })
   })
   describe('Wishlist Product Card', () => {
-    it('should render Product Card with wishlist icon', async () => {
+    it('should render Product Card with wishlist icon and shop now button', async () => {
       wishlistSetup()
 
       const inWishlistIcon = screen.getByTestId('FavoriteRoundedIcon')
       const notInWishlistIcon = screen.queryByTestId('FavoriteBorderRoundedIcon')
+      const shopNowButton = screen.getAllByRole('button', {
+        name: /shop-now/i,
+      })
 
       expect(inWishlistIcon).toBeVisible()
       expect(notInWishlistIcon).not.toBeInTheDocument()
+      expect(shopNowButton[0]).toBeVisible()
     })
 
     it('should render Product Card without in wishlist icon and shop now button', async () => {
-      render(<WithWishlist {...WithWishlist.args} isInWishlist={false} />)
+      render(<WithWishlist {...WithWishlist.args} isInWishlist={false} isShopNow={false} />)
       const inWishlistIcon = screen.queryByTestId('FavoriteRoundedIcon')
       const notInWishlistIcon = screen.getByTestId('FavoriteBorderRoundedIcon')
       const shopNowButton = screen.queryByRole('link', {
@@ -158,13 +162,9 @@ describe('[components] Product Card Component', () => {
       const { user } = wishlistSetup()
       const inWishlistIcon = screen.getByTestId('FavoriteRoundedIcon')
 
-      act(() => {
-        user.click(inWishlistIcon)
-      })
+      await user.click(inWishlistIcon)
 
-      await waitFor(() => {
-        expect(onAddOrRemoveWishlistItemMock).toBeCalled()
-      })
+      expect(onAddOrRemoveWishlistItemMock).toBeCalled()
     })
   })
 
@@ -183,13 +183,9 @@ describe('[components] Product Card Component', () => {
       const { user } = quickViewSetup()
 
       const quickViewButton = screen.getByRole('button', { name: /quick-view/i })
-      act(() => {
-        user.click(quickViewButton)
-      })
+      await user.click(quickViewButton)
 
-      await waitFor(() => {
-        expect(onClickQuickViewModalMock).toBeCalled()
-      })
+      expect(onClickQuickViewModalMock).toBeCalled()
     })
   })
 })

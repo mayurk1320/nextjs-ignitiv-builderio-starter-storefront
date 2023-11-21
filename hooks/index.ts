@@ -1,4 +1,5 @@
 // Query hooks
+export * from './queries/useCategorySearchQueries/useCategorySearchQueries'
 
 // address
 export * from './queries/address/useGetCustomerAddresses/useGetCustomerAddresses'

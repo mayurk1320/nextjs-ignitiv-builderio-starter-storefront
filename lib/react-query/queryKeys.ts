@@ -1,4 +1,4 @@
-import type { CategorySearchParams } from '../types'
+import type { CategoryPagedCollectionParams, CategorySearchParams } from '../types'
 
 export const checkoutKeys = {
   all: ['checkout'] as const,
@@ -28,9 +28,20 @@ export const categoryTreeKeys = {
   all: ['categoryTree'] as const,
 }
 
+export const addressKeys = {
+  all: ['address'] as const,
+}
+
 export const loginKeys = {
   user: ['user'] as const,
 }
+
+export const categorySearchResultKeys = {
+  all: ['categorySearch'] as const,
+  searchParams: (params: CategoryPagedCollectionParams) =>
+    [...categorySearchResultKeys.all, params] as const,
+}
+
 export const productSearchResultKeys = {
   all: ['productSearch'] as const,
   searchParams: (params: CategorySearchParams) => [...productSearchResultKeys.all, params] as const,
@@ -91,8 +102,4 @@ export const productKeys = {
   all: ['product'] as const,
   productParams: (productCode: string, useSubscriptionPricing: boolean) =>
     [productCode, useSubscriptionPricing] as const,
-}
-
-export const addressKeys = {
-  all: ['address'] as const,
 }
