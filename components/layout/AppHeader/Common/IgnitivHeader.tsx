@@ -12,8 +12,8 @@ import {
   useTheme,
   Slide,
   useScrollTrigger,
-  Theme,
   styled,
+  Toolbar,
 } from '@mui/material'
 import getConfig from 'next/config'
 import Link from 'next/link'
@@ -23,7 +23,7 @@ import { useTranslation } from 'next-i18next'
 import Logo from '@/assets/ignitiv-black.svg'
 import { HeaderAction, KiboLogo } from '@/components/common'
 import {
-  MegaMenu,
+  //MegaMenu,
   SearchSuggestions,
   MobileHeader,
   StoreFinderIcon,
@@ -32,6 +32,7 @@ import {
   HamburgerMenu,
   LoginDialog,
   CheckoutHeader,
+  NestedDrawer,
 } from '@/components/layout'
 import { useAuthContext, useHeaderContext, useModalContext } from '@/context'
 import { useGetCategoryTree } from '@/hooks'
@@ -56,6 +57,26 @@ interface HideOnScrollProps {
   trigger: boolean
   children: React.ReactElement
 }
+
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+  '&.MuiToolbar-root': {
+    backgroundColor: 'inherit',
+    position: 'relative',
+    minHeight: 55,
+    display: 'flex',
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: theme.palette.grey[300],
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    borderTopColor: theme.palette.grey[300],
+    paddingInline: 0,
+    whiteSpace: 'nowrap',
+    flex: 1,
+    color: 'black',
+    maxWidth: '100%',
+  },
+}))
 
 const topHeaderStyles = {
   wrapper: {
@@ -104,47 +125,12 @@ const kiboHeaderStyles = {
     scrollBehavior: 'smooth',
   },
   megaMenuStyles: {
+    //This is for the whole bar containing the products megamenu button.
     backgroundColor: 'common.white',
     borderWidth: '1px',
     borderStyle: 'solid',
     borderColor: 'grey.500',
   },
-}
-
-const StyledLink = styled(Link)(({ theme }: { theme: Theme }) => ({
-  color: theme?.palette.common.white,
-  fontSize: theme?.typography.body2.fontSize,
-}))
-
-const TopHeader = ({
-  navLinks,
-  isElementVisible,
-}: {
-  navLinks: NavigationLink[]
-  isElementVisible: boolean
-}) => {
-  const { t } = useTranslation('common')
-
-  return (
-    <Box
-      sx={{ ...topHeaderStyles.wrapper, ...(!isElementVisible && { display: 'none' }) }}
-      data-testid="top-bar"
-    >
-      <Container maxWidth="xl" sx={{ ...topHeaderStyles.container }}>
-        <Box display="flex" justifyContent="flex-end" alignItems="center" gap={5}>
-          {navLinks?.map((nav, index) => {
-            return (
-              <Box key={index}>
-                <StyledLink href={nav.link} passHref>
-                  {t(`${nav.text}`)}
-                </StyledLink>
-              </Box>
-            )
-          })}
-        </Box>
-      </Container>
-    </Box>
-  )
 }
 
 const HeaderActionArea = (props: HeaderActionAreaProps) => {
@@ -197,7 +183,12 @@ const HeaderActionArea = (props: HeaderActionAreaProps) => {
         )}
         {shouldShowSearchIconInSmallHeader && (
           <Box maxWidth="calc(100% - 501px)" sx={{ backgroundColor: 'grey.300' }}>
-            <MegaMenu categoryTree={categoriesTree} onBackdropToggle={setIsBackdropOpen} />
+            {/* <MegaMenu categoryTree={categoriesTree} onBackdropToggle={setIsBackdropOpen} /> */}
+            <StyledToolbar data-testid="bottom-toolbar">
+              <Container maxWidth="xl">
+                <NestedDrawer categoryTree={categoriesTree} />
+              </Container>
+            </StyledToolbar>
           </Box>
         )}
         <Box display="flex" gap={2}>
@@ -252,6 +243,8 @@ const IgnitivHeader = (props: KiboHeaderProps) => {
   const { publicRuntimeConfig } = getConfig()
   const isMultiShipEnabled = publicRuntimeConfig.isMultiShipEnabled
 
+  // console.log("This is categories tree ---> ", categoriesTree);
+
   const handleAccountIconClick = () => {
     isHamburgerMenuVisible && toggleHamburgerMenu()
     if (!isAuthenticated) {
@@ -302,7 +295,12 @@ const IgnitivHeader = (props: KiboHeaderProps) => {
             }}
             data-testid="mega-menu-container"
           >
-            <MegaMenu categoryTree={categoriesTree} onBackdropToggle={setIsBackdropOpen} />
+            <StyledToolbar data-testid="bottom-toolbar">
+              <Container maxWidth="xl">
+                <NestedDrawer categoryTree={categoriesTree} />
+              </Container>
+            </StyledToolbar>
+            {/* <MegaMenu categoryTree={categoriesTree} onBackdropToggle={setIsBackdropOpen} /> */}
           </Box>
         </HideOnScroll>
 

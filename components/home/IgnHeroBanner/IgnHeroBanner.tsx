@@ -16,6 +16,7 @@ import Link from 'next/link'
 
 import { heroBannerStyles } from './IgnHeroBanner.style'
 import { KiboImage } from '@/components/common'
+import theme from '@/styles/theme'
 
 export interface ItemProps {
   heroBannerProps: HeroBannerProps
@@ -90,7 +91,7 @@ const IgnHeroBanner = ({ heroBannerProps }: ItemProps) => {
                   {subtitle}&nbsp;
                 </Typography>
                 <Box display="inline-flex" alignItems="center" marginTop="20px">
-                  <ArrowCircleRightIcon sx={{ color: '#AA59DC' }} />
+                  <ArrowCircleRightIcon sx={{ color: theme.palette.primary.main }} />
                   <Typography variant="h5" data-testid="callToAction" marginLeft="7px">
                     <StyledLink href={callToAction?.url || ''} passHref>
                       {callToAction?.title}
