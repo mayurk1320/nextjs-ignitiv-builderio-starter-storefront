@@ -27,6 +27,11 @@ module.exports = {
       'store.storeimages.cdn-apple.com',
       '5.imimg.com',
       'blog.teufel.de',
+      'static.nike.com',
+      'e7.pngegg.com',
+      'sportsclick.my',
+      'www.assamcane.com',
+      'static.connect2india.com',
     ],
     deviceSizes: [
       100, 240, 340, 380, 400, 450, 500, 550, 600, 640, 750, 828, 1080, 1200, 1920, 2048, 3840,

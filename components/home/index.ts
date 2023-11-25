@@ -1,5 +1,6 @@
 export { default as KiboHeroCarousel } from './Carousel/KiboHeroCarousel'
 export { default as ContentTile } from './ContentTile/ContentTile'
 export { default as SmallBanner } from './SmallBanner/SmallBanner'
+export { default as SaleBanner } from './SaleBanner/SaleBanner'
 export { default as IgnHeroBanner } from './IgnHeroBanner/IgnHeroBanner'
 export { default as Deals } from './Deals/Deals'

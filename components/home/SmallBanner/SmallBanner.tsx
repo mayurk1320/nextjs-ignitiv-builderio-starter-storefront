@@ -1,81 +1,66 @@
 import React from 'react'
 
-import {
-  useMediaQuery,
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  useTheme,
-  Theme,
-  styled,
-} from '@mui/material'
-import Link from 'next/link'
+import { useMediaQuery, Typography, Box, useTheme, Button, Grid } from '@mui/material'
+import { useRouter } from 'next/router'
 
+import { SmallBannerStyles } from './SmallBanner.styles'
+import { KiboImage } from '@/components/common'
 export interface ItemProps {
-  bannerProps: BannerProps
+  smallBannerProps: SmallBannerProps[]
 }
-interface BannerProps {
+interface SmallBannerProps {
   title: string
-  subtitle: string
+  imageUrl: string
+  mobileImageUrl: string
+  imageAlt: string
+  btnColor: string
+  bgColor: string
   callToAction: { title: string; url: string }
-  backgroundColor: string
 }
 
-const styles = {
-  boxStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    color: 'common.white',
-  },
-  topStyle: {
-    height: '60px',
-    padding: '20px !important',
-    color: 'common.white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  titleStyle: {
-    fontSize: (theme: Theme) => theme.typography.h2,
-  },
-}
-
-const StyledLink = styled(Link)(({ theme }: { theme: Theme }) => ({
-  color: theme?.palette.common.white,
-}))
-
-const SmallBanner = ({ bannerProps }: ItemProps) => {
-  const kiboTheme = useTheme()
-  const mobileView = useMediaQuery(kiboTheme.breakpoints.down('sm'))
-
-  const { title, subtitle, callToAction, backgroundColor } = bannerProps || {}
+const SmallBanner = ({ smallBannerProps }: ItemProps) => {
+  const theme = useTheme()
+  const md = useMediaQuery(theme.breakpoints.down('md'))
+  const router = useRouter()
 
   return (
-    <>
-      {bannerProps && (
-        <Card sx={{ backgroundColor, borderRadius: '0px' }}>
-          <CardContent
-            sx={styles.topStyle}
-            style={{ display: 'flex', flexDirection: mobileView ? 'column' : 'row' }}
-          >
-            <Typography sx={styles.titleStyle}>{title} &nbsp;</Typography>
-
-            <Box sx={styles.boxStyle}>
-              <Typography variant="h5">{subtitle}&nbsp;</Typography>
-              <Typography variant="h5" data-testid="callToAction">
-                <StyledLink href={callToAction?.url || ''} passHref>
-                  {callToAction?.title}
-                </StyledLink>
-              </Typography>
-            </Box>
-          </CardContent>
-        </Card>
-      )}
-    </>
+    <Grid container>
+      {smallBannerProps?.map((banner: SmallBannerProps) => (
+        <Grid
+          item
+          lg={6}
+          md={6}
+          xs={12}
+          key={banner?.title}
+          sx={{ backgroundColor: banner?.bgColor, ...SmallBannerStyles.bannerItem }}
+        >
+          <Box sx={{ ...SmallBannerStyles.bannerImageContainer }}>
+            <KiboImage
+              src={md ? banner?.imageUrl : banner?.mobileImageUrl}
+              alt={banner?.imageAlt}
+              sizes="(max-width: 1200px) 92vw, 1152px"
+              loading="eager"
+              data-testid="product-image"
+              priority
+              layout="responsive"
+              width={250}
+              height={250}
+              style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+            />
+          </Box>
+          <Box sx={{ width: '40%' }}>
+            <Typography sx={{ ...SmallBannerStyles.bannerTitle }}>{banner?.title}</Typography>
+            <Button
+              variant="contained"
+              sx={{ ...SmallBannerStyles.bannerBtn }}
+              onClick={() => router.push(banner?.callToAction?.url)}
+            >
+              {banner?.callToAction?.title}
+            </Button>
+          </Box>
+        </Grid>
+      ))}
+    </Grid>
   )
 }
 

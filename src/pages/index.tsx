@@ -3,7 +3,14 @@ import getConfig from 'next/config'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import CmsHomePageProducts from '../../cms/components/CmsHomePageProducts/CmsHomePageProducts'
-import { KiboHeroCarousel, ContentTile, SmallBanner, IgnHeroBanner, Deals } from '@/components/home'
+import {
+  KiboHeroCarousel,
+  ContentTile,
+  SmallBanner,
+  IgnHeroBanner,
+  Deals,
+  SaleBanner,
+} from '@/components/home'
 import { ProductRecommendations } from '@/components/product'
 import { CategorySlider } from '@/components/product-listing'
 import getCategoryTree from '@/lib/api/operations/get-category-tree'
@@ -20,11 +27,11 @@ const apiKey = publicRuntimeConfig?.builderIO?.apiKey
 
 builder.init(apiKey)
 
-Builder.registerComponent(SmallBanner, {
-  name: 'SmallBanner',
+Builder.registerComponent(SaleBanner, {
+  name: 'SaleBanner',
   inputs: [
     {
-      name: 'bannerProps',
+      name: 'saleBannerProps',
       type: 'object',
       defaultValue: {
         title: 'Save up to 50% + Free Shipping',
@@ -58,6 +65,78 @@ Builder.registerComponent(SmallBanner, {
         {
           name: 'backgroundColor',
           type: 'string',
+        },
+      ],
+    },
+  ],
+})
+
+Builder.registerComponent(SmallBanner, {
+  name: 'SmallBanner',
+  inputs: [
+    {
+      name: 'smallBannerProps',
+      type: 'array',
+      defaultValue: [
+        {
+          title: 'New collection available now',
+          imageUrl:
+            'https://e7.pngegg.com/pngimages/323/773/png-clipart-sneakers-basketball-shoe-sportswear-nike-shoe-outdoor-shoe-running.png',
+          mobileImageUrl: 'https://sportsclick.my/wp-content/uploads/2023/01/DC3728-014-2.jpg',
+          imageAlt: 'Nike',
+          btnColor: '#7B68EE',
+          bgColor: '#E4D00A',
+          callToAction: { title: 'Check More', url: '/' },
+        },
+        {
+          title: 'Redefining the modern design',
+          imageUrl: 'https://www.assamcane.com/wp-content/uploads/2023/01/Untitled-1-copy.jpg',
+          mobileImageUrl:
+            'https://static.connect2india.com/c2icd/company_resources/6009493/images/products/product-universal-furniture-bamboo-cane-sofa-chair.jpg',
+          imageAlt: 'Bamboo Sofa',
+          btnColor: '#7B68EE',
+          bgColor: '#FBFAF8',
+          callToAction: { title: 'Check More', url: '/' },
+        },
+      ],
+      subFields: [
+        {
+          name: 'title',
+          type: 'string',
+        },
+        {
+          name: 'imageUrl',
+          type: 'string',
+        },
+        {
+          name: 'mobileImageUrl',
+          type: 'string',
+        },
+        {
+          name: 'imageAlt',
+          type: 'string',
+        },
+        {
+          name: 'btnColor',
+          type: 'string',
+        },
+        {
+          name: 'bgColor',
+          type: 'string',
+        },
+        {
+          name: 'callToAction',
+          type: 'object',
+          subFields: [
+            {
+              name: 'title',
+              type: 'string',
+            },
+            {
+              name: 'url',
+              type: 'string',
+            },
+          ],
         },
       ],
     },
