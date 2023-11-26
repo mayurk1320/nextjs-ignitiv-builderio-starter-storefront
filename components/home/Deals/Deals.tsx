@@ -1,103 +1,124 @@
-import { Box, Button, Card, Grid, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
 
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import { Box, Button, Grid, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
+
+import { DealsStyles } from './Deals.styles'
 import { dealsDataMock } from '@/__mocks__/stories/dealsDataMock'
 import { KiboImage } from '@/components/common'
 
-const Deals = () => {
+type DealItem = {
+  imgUrl: string
+  title: string
+  itemCode: string
+  mfrCode: string
+  price: number
+  discountedPrice: number
+}
+
+interface DealProps {
+  dealItems: DealItem[]
+}
+
+const Deals = (props: DealProps) => {
+  const { dealItems } = props
+
+  const theme = useTheme()
+  const md = useMediaQuery(theme.breakpoints.up('md'))
+  const sm = useMediaQuery(theme.breakpoints.up('sm'))
+  const xs = useMediaQuery(theme.breakpoints.up('xs'))
+
+  const [deals, setDeals] = useState<any>([])
+  const [pageSize, setPageSize] = useState<number>(0)
+  const [index, setIndex] = useState<{ start: number; end: number }>({ start: 0, end: 0 })
+
+  useEffect(() => {
+    if (xs) setPageSize(1)
+    if (sm) setPageSize(2)
+    if (md) setPageSize(5)
+  }, [md, sm, xs])
+
+  useEffect(() => setIndex({ start: 0, end: pageSize }), [pageSize])
+  // useEffect(() => console.log(pageSize, index, dealsDataMock), [pageSize, dealsDataMock, index])
+
+  const handleNavigationClick = (action: string) => {
+    const isStartZero = index.start === 0
+    const isEndEqualsTotalDeals = index.end === dealsDataMock.length
+    if (action == 'left') {
+      setIndex({
+        start: index.start <= pageSize ? 0 : index.start - pageSize,
+        end: index.end <= pageSize ? pageSize : index.end - pageSize,
+      })
+    } else {
+      const start =
+        index.start >= dealsDataMock.length - pageSize
+          ? dealsDataMock.length - pageSize
+          : index.start + pageSize
+      setIndex({
+        start,
+        end: start + pageSize,
+      })
+    }
+  }
+
   return (
     <Grid container sx={{ marginBottom: '50px' }}>
-      <Grid
-        item
-        md={12}
-        sx={{ marginBottom: '25px', display: 'flex', justifyContent: 'space-between' }}
-      >
+      <Grid item md={12} sx={DealsStyles.headingSection}>
         <Grid>
-          <Typography sx={{ fontSize: '36px', opacity: 0.8 }}>Deals Today</Typography>
-          <Typography sx={{ fontSize: '16px', opacity: 0.7 }}>
-            Deals refresh every 24 hrs
-          </Typography>
+          <Typography sx={DealsStyles.heading}>Deals Today</Typography>
+          <Typography sx={DealsStyles.subHeading}>Deals refresh every 24 hrs</Typography>
         </Grid>
-        <Grid>View All</Grid>
+        <Grid sx={{ display: 'flex', alignItems: 'baseline', marginTop: '8px' }}>
+          <Typography sx={DealsStyles.viewAllLink}>View All</Typography>
+          <Box>
+            <IconButton
+              onClick={() => handleNavigationClick('left')}
+              sx={{ ...DealsStyles.navigationIcon, marginRight: '3px' }}
+            >
+              <KeyboardArrowLeftIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => handleNavigationClick('right')}
+              sx={{ ...DealsStyles.navigationIcon, marginLeft: '3px' }}
+            >
+              <KeyboardArrowRightIcon />
+            </IconButton>
+          </Box>
+        </Grid>
       </Grid>
       <Grid item md={12}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {dealsDataMock.map((deal, index) => (
-            <Box key={deal?.title}>
-              <Card
-                sx={{
-                  position: 'relative',
-                  marginLeft: index > 0 ? 2 : 0,
-                  marginRight: index <= dealsDataMock.length ? 2 : 0,
-                  padding: '20px 30px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  maxWidth: '250px',
-                  backgroundColor: '#FBFAF8',
-                }}
-              >
-                {/* <Box sx={{marginTop: '-40px', position: 'absolute', top: '10px'}}> */}
-                <Typography
-                  sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: '80px',
-                    backgroundColor: '#FF2400',
-                    color: '#FFFFFF',
-                    fontWeight: 600,
-                    width: 'fit-content',
-                    padding: '3px 20px',
-                    borderRadius: '16px',
-                    margin: 'auto',
-                  }}
-                >
-                  SALE
-                </Typography>
-                {/* </Box> */}
-                <KiboImage
-                  style={{ margin: '10px auto', objectFit: 'contain' }}
-                  src={deal?.imgUrl}
-                  width={200}
-                  height={200}
-                  alt={deal?.title}
-                />
-                <Typography sx={{ padding: '5px 0' }}>{deal?.title}</Typography>
-                <Typography sx={{ padding: '5px 0 0' }}>Item#: {deal?.itemCode}</Typography>
-                <Typography sx={{ padding: '5px 0' }}>Mfr#: {deal?.mfrCode}</Typography>
-                <Box sx={{ display: 'flex', margin: 'auto' }}>
-                  <Typography sx={{ padding: '5px 0 0', textDecoration: 'line-through' }}>
-                    ${deal?.price}
-                  </Typography>
-                  <Typography sx={{ padding: '5px 0', marginLeft: 2, fontWeight: 900 }}>
-                    ${deal?.discountedPrice}
-                  </Typography>
-                </Box>
-                <Button
-                  sx={{
-                    fontWeight: 600,
-                    backgroundColor: '#7B68EE',
-                    maxWidth: '150px',
-                    margin: '15px auto 0',
-                    padding: '3px 16px',
-                    borderRadius: '6px',
-                  }}
-                  variant="contained"
-                >
-                  Add to Cart
-                </Button>
-                <Button
-                  sx={{
-                    fontWeight: 600,
-                    color: '#2B2B2B',
-                    marginTop: 1,
-                    textDecoration: 'underline',
-                  }}
-                >
-                  {' '}
-                  Add to Wishlist
-                </Button>
-              </Card>
+        <Box sx={DealsStyles.dealsList}>
+          {dealsDataMock.map((deal: DealItem, index: number) => (
+            <Box
+              key={deal?.title}
+              sx={{
+                ...DealsStyles.dealsCard,
+                marginLeft: index > 0 ? 2 : 0,
+                marginRight: index <= dealsDataMock.length ? 2 : 0,
+              }}
+            >
+              <Typography sx={DealsStyles.saleChip}>SALE</Typography>
+              <KiboImage
+                style={{ margin: '10px auto', objectFit: 'contain' }}
+                src={deal?.imgUrl}
+                width={200}
+                height={200}
+                alt={deal?.title}
+              />
+              <Typography sx={{ padding: '5px 0' }}>{deal?.title}</Typography>
+              <Typography sx={{ padding: '5px 0 0' }}>Item#: {deal?.itemCode}</Typography>
+              <Typography sx={{ padding: '5px 0' }}>Mfr#: {deal?.mfrCode}</Typography>
+
+              <Box sx={{ display: 'flex', margin: 'auto' }}>
+                <Typography sx={DealsStyles.price}>${deal?.price}</Typography>
+                <Typography sx={DealsStyles.discountPrice}>${deal?.discountedPrice}</Typography>
+              </Box>
+
+              <Button sx={DealsStyles.addToCartBtn} variant="contained">
+                Add to Cart
+              </Button>
+              <Button sx={DealsStyles.addToWishlist}> Add to Wishlist</Button>
             </Box>
           ))}
         </Box>
