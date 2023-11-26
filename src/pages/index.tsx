@@ -3,6 +3,7 @@ import getConfig from 'next/config'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import CmsHomePageProducts from '../../cms/components/CmsHomePageProducts/CmsHomePageProducts'
+import CmsShopByCategory from '../../cms/components/CmsShopByCategory/CmsShopByCategory'
 import {
   KiboHeroCarousel,
   ContentTile,
@@ -588,6 +589,24 @@ Builder.registerComponent(Deals, {
         {
           name: 'discountedPrice',
           type: 'number',
+        },
+      ],
+    },
+  ],
+})
+Builder.registerComponent(CmsShopByCategory, {
+  name: 'CmsShopByCategory',
+  inputs: [
+    {
+      name: 'shopByCategory',
+      type: 'object',
+      defaultValue: {
+        title: 'Shop By Category',
+      },
+      subFields: [
+        {
+          name: 'title',
+          type: 'string',
         },
       ],
     },
