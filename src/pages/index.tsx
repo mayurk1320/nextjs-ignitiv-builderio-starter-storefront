@@ -608,10 +608,6 @@ Builder.registerComponent(CmsShopByCategory, {
           name: 'title',
           type: 'string',
         },
-        {
-          name: 'categoryCodes',
-          type: 'KiboCommerceProductsList',
-        },
       ],
     },
   ],
