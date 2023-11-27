@@ -17,17 +17,22 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 
 const jsonData = cmsShopByCategoryMock
 
-export interface Item {
+interface Item {
   link: string
   imageUrl: string
   imageAlt: string
   categoryName: string
 }
-export interface ShopByCategoryProp {
+interface ShopByCategoryProp {
   title: string
+  categoryItems: Item[]
 }
 
-const CmsHomePageCategory = (props: ShopByCategoryProp) => {
+interface HomePageProps {
+  shopByCategory: ShopByCategoryProp
+}
+
+const CmsHomePageCategory = (props: HomePageProps) => {
   const kiboTheme = useTheme()
   const [items, setItems] = useState(jsonData)
   const [selectedItems, setSelectedItems] = useState<Item[]>([])
@@ -65,7 +70,7 @@ const CmsHomePageCategory = (props: ShopByCategoryProp) => {
   return (
     <Container maxWidth={'xl'} sx={ShopByCategoryStyle.container}>
       <Typography variant="h2" gutterBottom>
-        {props?.title}
+        {props?.shopByCategory?.title}
       </Typography>
       <Box sx={ShopByCategoryStyle.navigationContainer}>
         <Box sx={ShopByCategoryStyle.navigationIconConainer}>
