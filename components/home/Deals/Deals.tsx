@@ -5,7 +5,6 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { Box, Button, Grid, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
 
 import { DealsStyles } from './Deals.styles'
-import { dealsDataMock } from '@/__mocks__/stories/dealsDataMock'
 import { KiboImage } from '@/components/common'
 
 type DealItem = {
@@ -44,7 +43,7 @@ const Deals = (props: DealProps) => {
 
   const handleNavigationClick = (action: string) => {
     const isStartZero = index.start === 0
-    const isEndEqualsTotalDeals = index.end === dealsDataMock.length
+    const isEndEqualsTotalDeals = index.end === dealItems.length
     if (action == 'left') {
       setIndex({
         start: index.start <= pageSize ? 0 : index.start - pageSize,
@@ -52,8 +51,8 @@ const Deals = (props: DealProps) => {
       })
     } else {
       const start =
-        index.start >= dealsDataMock.length - pageSize
-          ? dealsDataMock.length - pageSize
+        index.start >= dealItems.length - pageSize
+          ? dealItems.length - pageSize
           : index.start + pageSize
       setIndex({
         start,
@@ -89,13 +88,13 @@ const Deals = (props: DealProps) => {
       </Grid>
       <Grid item md={12}>
         <Box sx={DealsStyles.dealsList}>
-          {dealsDataMock.map((deal: DealItem, index: number) => (
+          {dealItems.slice(index.start, index.end).map((deal: DealItem, index: number) => (
             <Box
               key={deal?.title}
               sx={{
                 ...DealsStyles.dealsCard,
                 marginLeft: index > 0 ? 2 : 0,
-                marginRight: index <= dealsDataMock.length ? 2 : 0,
+                marginRight: index <= dealItems.length ? 2 : 0,
               }}
             >
               <Typography sx={DealsStyles.saleChip}>SALE</Typography>
