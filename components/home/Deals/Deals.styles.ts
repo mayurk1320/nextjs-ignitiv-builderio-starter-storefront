@@ -33,12 +33,6 @@ export const DealsStyles = {
       color: '#FFFFFF',
     },
   },
-  dealsList: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   dealsCard: {
     position: 'relative',
     padding: '20px 30px',
@@ -46,12 +40,9 @@ export const DealsStyles = {
     flexDirection: 'column',
     justifyContent: 'center',
     textAlign: 'center',
-    // minWidth: { xs: '300px', sm: '218px', md: '250px' },
-    // maxWidth: { xs: '300px', sm: '218px', md: '250px' },
     backgroundColor: '#F7F6F3',
     borderRadius: '8px',
     border: '1px solid #FFFFFF',
-    // marginRight: 0,
     '&:hover': {
       cursor: 'pointer',
       backgroundColor: '#FFFFFF',

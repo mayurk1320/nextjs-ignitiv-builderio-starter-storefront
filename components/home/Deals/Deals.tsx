@@ -48,7 +48,6 @@ const Deals = (props: DealProps) => {
   }, [md, sm, xs])
 
   useEffect(() => setIndex({ start: 0, end: pageSize }), [pageSize])
-  // useEffect(() => console.log(pageSize, index, dealsDataMock), [pageSize, dealsDataMock, index])
 
   const handleNavigationClick = (action: string) => {
     const isStartZero = index.start === 0
@@ -74,11 +73,11 @@ const Deals = (props: DealProps) => {
     <Grid container sx={{ marginBottom: '50px' }}>
       <Grid item md={12} sx={DealsStyles.headingSection}>
         <Grid>
-          <Typography sx={DealsStyles.heading}>{header.title}</Typography>
-          <Typography sx={DealsStyles.subHeading}>{header.subTitle}</Typography>
+          <Typography sx={DealsStyles.heading}>{header?.title}</Typography>
+          <Typography sx={DealsStyles.subHeading}>{header?.subTitle}</Typography>
         </Grid>
         <Grid sx={{ display: 'flex', alignItems: 'baseline', marginTop: '8px' }}>
-          <Typography sx={DealsStyles.viewAllLink} onClick={() => router.push(header.viewAllLink)}>
+          <Typography sx={DealsStyles.viewAllLink} onClick={() => router.push(header?.viewAllLink)}>
             View All
           </Typography>
           <Box>
@@ -98,7 +97,6 @@ const Deals = (props: DealProps) => {
         </Grid>
       </Grid>
       <Grid item md={12}>
-        {/* <Box sx={DealsStyles.dealsList}> */}
         <Grid justifyContent={'space-between'} container gap={1}>
           {dealItems.slice(index.start, index.end).map((deal: DealItem, index: number) => (
             <Grid
@@ -136,7 +134,6 @@ const Deals = (props: DealProps) => {
             </Grid>
           ))}
         </Grid>
-        {/* </Box> */}
       </Grid>
     </Grid>
   )
