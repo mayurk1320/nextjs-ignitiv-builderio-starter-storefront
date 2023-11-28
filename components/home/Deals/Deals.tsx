@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { Box, Button, Grid, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { useRouter } from 'next/router'
 
 import { DealsStyles } from './Deals.styles'
 import { KiboImage } from '@/components/common'
@@ -16,13 +17,21 @@ type DealItem = {
   discountedPrice: number
 }
 
+type HeaderItem = {
+  title: string
+  subTitle: string
+  viewAllLink: string
+}
+
 interface DealProps {
+  header: HeaderItem
   dealItems: DealItem[]
 }
 
 const Deals = (props: DealProps) => {
-  const { dealItems } = props
+  const { header, dealItems } = props
 
+  const router = useRouter()
   const theme = useTheme()
   const md = useMediaQuery(theme.breakpoints.up('md'))
   const sm = useMediaQuery(theme.breakpoints.up('sm'))
@@ -34,7 +43,7 @@ const Deals = (props: DealProps) => {
 
   useEffect(() => {
     if (xs) setPageSize(1)
-    if (sm) setPageSize(2)
+    if (sm) setPageSize(3)
     if (md) setPageSize(5)
   }, [md, sm, xs])
 
@@ -65,11 +74,13 @@ const Deals = (props: DealProps) => {
     <Grid container sx={{ marginBottom: '50px' }}>
       <Grid item md={12} sx={DealsStyles.headingSection}>
         <Grid>
-          <Typography sx={DealsStyles.heading}>Deals Today</Typography>
-          <Typography sx={DealsStyles.subHeading}>Deals refresh every 24 hrs</Typography>
+          <Typography sx={DealsStyles.heading}>{header.title}</Typography>
+          <Typography sx={DealsStyles.subHeading}>{header.subTitle}</Typography>
         </Grid>
         <Grid sx={{ display: 'flex', alignItems: 'baseline', marginTop: '8px' }}>
-          <Typography sx={DealsStyles.viewAllLink}>View All</Typography>
+          <Typography sx={DealsStyles.viewAllLink} onClick={() => router.push(header.viewAllLink)}>
+            View All
+          </Typography>
           <Box>
             <IconButton
               onClick={() => handleNavigationClick('left')}
@@ -87,14 +98,18 @@ const Deals = (props: DealProps) => {
         </Grid>
       </Grid>
       <Grid item md={12}>
-        <Box sx={DealsStyles.dealsList}>
+        {/* <Box sx={DealsStyles.dealsList}> */}
+        <Grid justifyContent={'space-between'} container gap={1}>
           {dealItems.slice(index.start, index.end).map((deal: DealItem, index: number) => (
-            <Box
+            <Grid
+              item
+              xs={12}
+              sm={3.8}
+              md={2.3}
               key={deal?.title}
               sx={{
                 ...DealsStyles.dealsCard,
-                marginLeft: index > 0 ? 2 : 0,
-                marginRight: index <= dealItems.length ? 2 : 0,
+                width: '100%',
               }}
             >
               <Typography sx={DealsStyles.saleChip}>SALE</Typography>
@@ -118,9 +133,10 @@ const Deals = (props: DealProps) => {
                 Add to Cart
               </Button>
               <Button sx={DealsStyles.addToWishlist}> Add to Wishlist</Button>
-            </Box>
+            </Grid>
           ))}
-        </Box>
+        </Grid>
+        {/* </Box> */}
       </Grid>
     </Grid>
   )
