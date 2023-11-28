@@ -1,3 +1,6 @@
+import theme from '@/styles/theme'
+import { ForkRight } from '@mui/icons-material'
+
 export const ShopByCategoryStyle = {
   categoryLink: {
     textDecoration: 'none',
@@ -43,25 +46,51 @@ export const ShopByCategoryStyle = {
   carouselContainer: {
     position: 'relative',
   },
-  arrowButton: {
-    position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    backgroundColor: '#000000',
-    width: '15px',
-    letterSpacing: '0.5px',
-    color: '#000000',
-  },
+
   prevButton: {
     float: 'right',
-    marginRight: '15px',
+    marginRight: '10px',
+    marginTop: '8px',
+    color: '#8D59FC',
+    backgroundColor: '#ffffff',
+    border: '2px solid #8D59FC',
+    borderRadius: '7px',
+    height: '28px',
+    width: '28px',
+    '&:hover': {
+      color: '#ffffff',
+      backgroundColor: '#8D59FC',
+    },
   },
   nextButton: {
     float: 'right',
-    marginRight: '5px',
+    marginRight: '10px',
+    marginTop: '8px',
+    color: '#8D59FC',
+    backgroundColor: '#ffffff',
+    border: '2px solid #8D59FC',
+    borderRadius: '7px',
+    height: '28px',
+    width: '28px',
+    '&:hover': {
+      color: '#ffffff',
+      backgroundColor: '#8D59FC',
+    },
   },
   disabledButton: {
-    color: '#dddddd',
+    float: 'right',
+    marginRight: '10px',
+    marginTop: '8px',
+    color: '#8D59FC',
+    backgroundColor: '#ffffff',
+    border: '2px solid #8D59FC',
+    borderRadius: '7px',
+    height: '28px',
+    width: '28px',
+    '&:hover': {
+      color: '#ffffff',
+      backgroundColor: '#8D59FC',
+    },
   },
   selectedItem: {
     border: '2px solid #cccccc',
@@ -75,10 +104,28 @@ export const ShopByCategoryStyle = {
   },
   viewAllText: {
     float: 'right',
-    marginTop: '8px',
+    marginTop: '10px',
     fontSize: '16px',
+    color: '#8D59FC',
+    fontWeight: '600',
+    marginRight: '15px',
+    '@media (max-width: 767px)': {
+      display: 'none',
+    },
   },
   navigationIconConainer: {
     float: 'right',
+    width: 'auto',
+  },
+  mainTitle: {
+    FontSize: '36px !important',
+    color: '#555555',
+    fontWeight: '400',
+    margin: '15px',
+    float: 'left',
+    width: 'auto',
+  },
+  categoryMainItem: {
+    float: 'left',
   },
 }

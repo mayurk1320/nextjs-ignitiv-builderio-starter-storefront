@@ -37,8 +37,9 @@ const CmsHomePageCategory = (props: HomePageProps) => {
   const [items, setItems] = useState(jsonData)
   const [selectedItems, setSelectedItems] = useState<Item[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
-  const isMobile = useMediaQuery(kiboTheme.breakpoints.down('md'))
-  const itemsPerPage = isMobile ? 1 : 8
+  const isMobile = useMediaQuery(kiboTheme.breakpoints.down('sm'))
+  const isTablet = useMediaQuery(kiboTheme.breakpoints.down('md'))
+  const itemsPerPage = isMobile ? 1 : isTablet ? 3 : 8
 
   const handleItemClick = (item: Item) => {
     setSelectedItems((prevSelected) =>
@@ -55,8 +56,8 @@ const CmsHomePageCategory = (props: HomePageProps) => {
   }
 
   const handleNextClick = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex + itemsPerPage >= items.length ? 0 : prevIndex + itemsPerPage
+    setCurrentIndex((nextIndex) =>
+      nextIndex + itemsPerPage >= items.length ? 0 : nextIndex + itemsPerPage
     )
   }
 
@@ -69,31 +70,42 @@ const CmsHomePageCategory = (props: HomePageProps) => {
 
   return (
     <Container maxWidth={'xl'} sx={ShopByCategoryStyle.container}>
-      <Typography variant="h2" gutterBottom>
-        {props?.shopByCategory?.title}
-      </Typography>
       <Box sx={ShopByCategoryStyle.navigationContainer}>
+        <Typography variant="h1" gutterBottom sx={ShopByCategoryStyle.mainTitle}>
+          {props?.shopByCategory?.title}
+        </Typography>
         <Box sx={ShopByCategoryStyle.navigationIconConainer}>
           <IconButton
-            onClick={handlePrevClick}
-            sx={isPrevDisabled ? ShopByCategoryStyle.disabledButton : {}}
-            disabled={isPrevDisabled}
-          >
-            <NavigateBeforeIcon />
-          </IconButton>
-          <IconButton
             onClick={handleNextClick}
-            sx={isNextDisabled ? ShopByCategoryStyle.disabledButton : {}}
+            sx={
+              isNextDisabled ? ShopByCategoryStyle.disabledButton : ShopByCategoryStyle.prevButton
+            }
             disabled={isNextDisabled}
           >
             <NavigateNextIcon />
           </IconButton>
+          <IconButton
+            onClick={handlePrevClick}
+            sx={
+              isPrevDisabled ? ShopByCategoryStyle.disabledButton : ShopByCategoryStyle.nextButton
+            }
+            disabled={isPrevDisabled}
+          >
+            <NavigateBeforeIcon />
+          </IconButton>
         </Box>
-        <Box sx={ShopByCategoryStyle.viewAllText}>View All</Box>
+        <Box sx={ShopByCategoryStyle.viewAllText}>VIEW ALL</Box>
       </Box>
       <Grid container spacing={4} sx={ShopByCategoryStyle.gridContainer}>
         {items.slice(currentIndex, currentIndex + itemsPerPage).map((item: any) => (
-          <Grid item xs={12} sm={4} md={3} onClick={() => handleItemClick(item)}>
+          <Grid
+            item
+            md={3}
+            sm={4}
+            xs={12}
+            onClick={() => handleItemClick(item)}
+            sx={ShopByCategoryStyle.categoryMainItem}
+          >
             <Box sx={ShopByCategoryStyle.categoryItem}>
               <Link href={item.link} sx={ShopByCategoryStyle.categoryLink}>
                 <Box
