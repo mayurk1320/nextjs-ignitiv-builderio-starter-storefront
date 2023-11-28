@@ -2,6 +2,7 @@ import theme from '@/styles/theme'
 
 export const DealsStyles = {
   headingSection: {
+    width: '100%',
     display: 'flex',
     marginBottom: '25px',
     justifyContent: 'space-between',
@@ -20,6 +21,7 @@ export const DealsStyles = {
     fontWeight: 600,
     marginRight: '20px',
     fontSize: { md: '16px', xs: '14px' },
+    cursor: 'pointer',
   },
   navigationIcon: {
     color: theme.palette.primary.main,
@@ -32,8 +34,10 @@ export const DealsStyles = {
     },
   },
   dealsList: {
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   dealsCard: {
     position: 'relative',
@@ -42,10 +46,12 @@ export const DealsStyles = {
     flexDirection: 'column',
     justifyContent: 'center',
     textAlign: 'center',
-    maxWidth: '250px',
+    // minWidth: { xs: '300px', sm: '218px', md: '250px' },
+    // maxWidth: { xs: '300px', sm: '218px', md: '250px' },
     backgroundColor: '#F7F6F3',
     borderRadius: '8px',
     border: '1px solid #FFFFFF',
+    // marginRight: 0,
     '&:hover': {
       cursor: 'pointer',
       backgroundColor: '#FFFFFF',
@@ -53,11 +59,15 @@ export const DealsStyles = {
       transition: '0.3s',
       boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
     },
+    '& img': {
+      width: { sm: '150px', md: '150px' },
+      height: { sm: '150px', md: '150px' },
+    },
   },
   saleChip: {
     position: 'absolute',
     top: '-14px',
-    left: '80px',
+    left: { xs: '36%', sm: '30%' },
     backgroundColor: '#FF2400',
     color: '#FFFFFF',
     fontWeight: 600,
