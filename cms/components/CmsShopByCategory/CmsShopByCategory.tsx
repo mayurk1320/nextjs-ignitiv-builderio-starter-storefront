@@ -37,9 +37,9 @@ const CmsHomePageCategory = (props: HomePageProps) => {
   const [items, setItems] = useState(jsonData)
   const [selectedItems, setSelectedItems] = useState<Item[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
-  const isMobile = useMediaQuery(kiboTheme.breakpoints.down('md'))
-  const isTablet = useMediaQuery(kiboTheme.breakpoints.up('sm'))
-  const itemsPerPage = isMobile ? 1 : 8
+  const isMobile = useMediaQuery(kiboTheme.breakpoints.down('sm'))
+  const isTablet = useMediaQuery(kiboTheme.breakpoints.down('md'))
+  const itemsPerPage = isMobile ? 1 : isTablet ? 3 : 8
 
   const handleItemClick = (item: Item) => {
     setSelectedItems((prevSelected) =>
@@ -98,7 +98,14 @@ const CmsHomePageCategory = (props: HomePageProps) => {
       </Box>
       <Grid container spacing={4} sx={ShopByCategoryStyle.gridContainer}>
         {items.slice(currentIndex, currentIndex + itemsPerPage).map((item: any) => (
-          <Grid item md={3} sm={4} xs={12} onClick={() => handleItemClick(item)}>
+          <Grid
+            item
+            md={3}
+            sm={4}
+            xs={12}
+            onClick={() => handleItemClick(item)}
+            sx={ShopByCategoryStyle.categoryMainItem}
+          >
             <Box sx={ShopByCategoryStyle.categoryItem}>
               <Link href={item.link} sx={ShopByCategoryStyle.categoryLink}>
                 <Box
