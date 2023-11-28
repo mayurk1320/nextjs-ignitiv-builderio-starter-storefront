@@ -518,6 +518,15 @@ Builder.registerComponent(Deals, {
   name: 'Deals',
   inputs: [
     {
+      name: 'header',
+      type: 'object',
+      defaultValue: {
+        title: 'Deals Today',
+        subTitle: 'Deals refresh every 24 hrs',
+        viewAllLink: '/',
+      },
+    },
+    {
       name: 'dealItems',
       type: 'list',
       defaultValue: [
