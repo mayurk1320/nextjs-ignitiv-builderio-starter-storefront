@@ -23,7 +23,6 @@ import { useTranslation } from 'next-i18next'
 import Logo from '@/assets/ignitiv-black.svg'
 import { HeaderAction, KiboLogo } from '@/components/common'
 import {
-  //MegaMenu,
   SearchSuggestions,
   MobileHeader,
   StoreFinderIcon,
@@ -64,12 +63,8 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     position: 'relative',
     minHeight: 55,
     display: 'flex',
-    borderBottomWidth: 1,
-    borderBottomStyle: 'solid',
-    borderBottomColor: theme.palette.grey[300],
-    borderTopWidth: 1,
-    borderTopStyle: 'solid',
-    borderTopColor: theme.palette.grey[300],
+    borderBottom: '1 solid theme.palette.grey[300]',
+    borderTop: '1 solid theme.palette.grey[300]',
     paddingInline: 0,
     whiteSpace: 'nowrap',
     flex: 1,
@@ -125,7 +120,6 @@ const kiboHeaderStyles = {
     scrollBehavior: 'smooth',
   },
   megaMenuStyles: {
-    //This is for the whole bar containing the products megamenu button.
     backgroundColor: 'common.white',
     borderWidth: '1px',
     borderStyle: 'solid',
@@ -137,9 +131,7 @@ const HeaderActionArea = (props: HeaderActionAreaProps) => {
   const { isHeaderSmall, categoriesTree, setIsBackdropOpen, onAccountIconClick } = props
   const { headerState, toggleSearchBar } = useHeaderContext()
   const { isMobileSearchPortalVisible, isSearchBarVisible } = headerState
-  const { t } = useTranslation('common')
 
-  const showSearchBarInLargeHeader = !isHeaderSmall || isSearchBarVisible
   const shouldShowSearchIconInSmallHeader = isHeaderSmall && !isSearchBarVisible
   return (
     <Box sx={{ ...headerActionAreaStyles.wrapper }} data-testid="header-action-area">
@@ -174,7 +166,6 @@ const HeaderActionArea = (props: HeaderActionAreaProps) => {
             </StyledToolbar>
           </Box>
         )}
-        {/* {showSearchBarInLargeHeader && ( */}
         <Box sx={headerActionAreaStyles.searchSuggestionsWrapper} data-testid="Search-container">
           <SearchSuggestions
             isViewSearchPortal={isMobileSearchPortalVisible}
