@@ -118,7 +118,7 @@ let theme = createTheme({
       light: '#C0E3DF',
     },
     secondary: {
-      main: '#c0e3df',
+      main: '#b698f5',
     },
     text: {
       primary: grey[900],

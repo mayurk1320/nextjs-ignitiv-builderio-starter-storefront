@@ -12,8 +12,8 @@ import {
   useTheme,
   Slide,
   useScrollTrigger,
-  Theme,
   styled,
+  Toolbar,
 } from '@mui/material'
 import getConfig from 'next/config'
 import Link from 'next/link'
@@ -23,7 +23,6 @@ import { useTranslation } from 'next-i18next'
 import Logo from '@/assets/ignitiv-black.svg'
 import { HeaderAction, KiboLogo } from '@/components/common'
 import {
-  MegaMenu,
   SearchSuggestions,
   MobileHeader,
   StoreFinderIcon,
@@ -32,6 +31,7 @@ import {
   HamburgerMenu,
   LoginDialog,
   CheckoutHeader,
+  NestedDrawer,
 } from '@/components/layout'
 import { useAuthContext, useHeaderContext, useModalContext } from '@/context'
 import { useGetCategoryTree } from '@/hooks'
@@ -56,6 +56,22 @@ interface HideOnScrollProps {
   trigger: boolean
   children: React.ReactElement
 }
+
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+  '&.MuiToolbar-root': {
+    backgroundColor: 'inherit',
+    position: 'relative',
+    minHeight: 55,
+    display: 'flex',
+    borderBottom: '1 solid theme.palette.grey[300]',
+    borderTop: '1 solid theme.palette.grey[300]',
+    paddingInline: 0,
+    whiteSpace: 'nowrap',
+    flex: 1,
+    color: 'black',
+    maxWidth: '100%',
+  },
+}))
 
 const topHeaderStyles = {
   wrapper: {
@@ -111,49 +127,11 @@ const kiboHeaderStyles = {
   },
 }
 
-const StyledLink = styled(Link)(({ theme }: { theme: Theme }) => ({
-  color: theme?.palette.common.white,
-  fontSize: theme?.typography.body2.fontSize,
-}))
-
-const TopHeader = ({
-  navLinks,
-  isElementVisible,
-}: {
-  navLinks: NavigationLink[]
-  isElementVisible: boolean
-}) => {
-  const { t } = useTranslation('common')
-
-  return (
-    <Box
-      sx={{ ...topHeaderStyles.wrapper, ...(!isElementVisible && { display: 'none' }) }}
-      data-testid="top-bar"
-    >
-      <Container maxWidth="xl" sx={{ ...topHeaderStyles.container }}>
-        <Box display="flex" justifyContent="flex-end" alignItems="center" gap={5}>
-          {navLinks?.map((nav, index) => {
-            return (
-              <Box key={index}>
-                <StyledLink href={nav.link} passHref>
-                  {t(`${nav.text}`)}
-                </StyledLink>
-              </Box>
-            )
-          })}
-        </Box>
-      </Container>
-    </Box>
-  )
-}
-
 const HeaderActionArea = (props: HeaderActionAreaProps) => {
   const { isHeaderSmall, categoriesTree, setIsBackdropOpen, onAccountIconClick } = props
   const { headerState, toggleSearchBar } = useHeaderContext()
   const { isMobileSearchPortalVisible, isSearchBarVisible } = headerState
-  const { t } = useTranslation('common')
 
-  const showSearchBarInLargeHeader = !isHeaderSmall || isSearchBarVisible
   const shouldShowSearchIconInSmallHeader = isHeaderSmall && !isSearchBarVisible
   return (
     <Box sx={{ ...headerActionAreaStyles.wrapper }} data-testid="header-action-area">
@@ -173,41 +151,28 @@ const HeaderActionArea = (props: HeaderActionAreaProps) => {
           }}
         >
           <Link href="/" passHref>
-            <KiboLogo small={isHeaderSmall} logo={Logo} />
+            <KiboLogo logo={Logo} />
           </Link>
         </Box>
-        {showSearchBarInLargeHeader && (
-          <Box sx={headerActionAreaStyles.searchSuggestionsWrapper} data-testid="Search-container">
-            <SearchSuggestions
-              isViewSearchPortal={isMobileSearchPortalVisible}
-              onEnterSearch={() => toggleSearchBar(false)}
-            />
-            {isHeaderSmall && (
-              <Box p={1} pt={0.7}>
-                <Typography
-                  color="text.primary"
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => toggleSearchBar(false)}
-                >
-                  {t('cancel')}
-                </Typography>
-              </Box>
-            )}
-          </Box>
-        )}
         {shouldShowSearchIconInSmallHeader && (
-          <Box maxWidth="calc(100% - 501px)" sx={{ backgroundColor: 'grey.300' }}>
-            <MegaMenu categoryTree={categoriesTree} onBackdropToggle={setIsBackdropOpen} />
+          <Box
+            maxWidth="calc(100% - 501px)"
+            sx={{ backgroundColor: 'grey.300', marginLeft: '20px' }}
+          >
+            <StyledToolbar data-testid="bottom-toolbar">
+              <Container maxWidth="xl">
+                <NestedDrawer categoryTree={categoriesTree} headerSize="small" />
+              </Container>
+            </StyledToolbar>
           </Box>
         )}
+        <Box sx={headerActionAreaStyles.searchSuggestionsWrapper} data-testid="Search-container">
+          <SearchSuggestions
+            isViewSearchPortal={isMobileSearchPortalVisible}
+            onEnterSearch={() => toggleSearchBar(false)}
+          />
+        </Box>
         <Box display="flex" gap={2}>
-          {shouldShowSearchIconInSmallHeader && (
-            <HeaderAction
-              icon={SearchIcon}
-              iconFontSize={isHeaderSmall ? 'medium' : 'large'}
-              onClick={() => toggleSearchBar(true)}
-            />
-          )}
           <StoreFinderIcon size={isHeaderSmall ? 'medium' : 'large'} />
           <AccountIcon
             size={isHeaderSmall ? 'medium' : 'large'}
@@ -280,10 +245,6 @@ const IgnitivHeader = (props: KiboHeaderProps) => {
     <>
       <AppBar position={isSticky ? 'sticky' : 'static'} sx={kiboHeaderStyles.appBarStyles}>
         <Backdrop open={isBackdropOpen} data-testid="backdrop" />
-
-        {/* <HideOnScroll trigger={trigger}>
-                    <TopHeader navLinks={navLinks} isElementVisible={isElementVisible} />
-                </HideOnScroll> */}
         <Box
           component={'section'}
           sx={{
@@ -302,7 +263,11 @@ const IgnitivHeader = (props: KiboHeaderProps) => {
             }}
             data-testid="mega-menu-container"
           >
-            <MegaMenu categoryTree={categoriesTree} onBackdropToggle={setIsBackdropOpen} />
+            <StyledToolbar data-testid="bottom-toolbar">
+              <Container maxWidth="xl">
+                <NestedDrawer categoryTree={categoriesTree} headerSize="big" />
+              </Container>
+            </StyledToolbar>
           </Box>
         </HideOnScroll>
 
