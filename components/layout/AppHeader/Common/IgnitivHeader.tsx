@@ -159,46 +159,29 @@ const HeaderActionArea = (props: HeaderActionAreaProps) => {
           }}
         >
           <Link href="/" passHref>
-            <KiboLogo small={isHeaderSmall} logo={Logo} />
+            <KiboLogo logo={Logo} />
           </Link>
         </Box>
-        {showSearchBarInLargeHeader && (
-          <Box sx={headerActionAreaStyles.searchSuggestionsWrapper} data-testid="Search-container">
-            <SearchSuggestions
-              isViewSearchPortal={isMobileSearchPortalVisible}
-              onEnterSearch={() => toggleSearchBar(false)}
-            />
-            {isHeaderSmall && (
-              <Box p={1} pt={0.7}>
-                <Typography
-                  color="text.primary"
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => toggleSearchBar(false)}
-                >
-                  {t('cancel')}
-                </Typography>
-              </Box>
-            )}
-          </Box>
-        )}
         {shouldShowSearchIconInSmallHeader && (
-          <Box maxWidth="calc(100% - 501px)" sx={{ backgroundColor: 'grey.300' }}>
-            {/* <MegaMenu categoryTree={categoriesTree} onBackdropToggle={setIsBackdropOpen} /> */}
+          <Box
+            maxWidth="calc(100% - 501px)"
+            sx={{ backgroundColor: 'grey.300', marginLeft: '20px' }}
+          >
             <StyledToolbar data-testid="bottom-toolbar">
               <Container maxWidth="xl">
-                <NestedDrawer categoryTree={categoriesTree} />
+                <NestedDrawer categoryTree={categoriesTree} headerSize="small" />
               </Container>
             </StyledToolbar>
           </Box>
         )}
+        {/* {showSearchBarInLargeHeader && ( */}
+        <Box sx={headerActionAreaStyles.searchSuggestionsWrapper} data-testid="Search-container">
+          <SearchSuggestions
+            isViewSearchPortal={isMobileSearchPortalVisible}
+            onEnterSearch={() => toggleSearchBar(false)}
+          />
+        </Box>
         <Box display="flex" gap={2}>
-          {shouldShowSearchIconInSmallHeader && (
-            <HeaderAction
-              icon={SearchIcon}
-              iconFontSize={isHeaderSmall ? 'medium' : 'large'}
-              onClick={() => toggleSearchBar(true)}
-            />
-          )}
           <StoreFinderIcon size={isHeaderSmall ? 'medium' : 'large'} />
           <AccountIcon
             size={isHeaderSmall ? 'medium' : 'large'}
@@ -243,8 +226,6 @@ const IgnitivHeader = (props: KiboHeaderProps) => {
   const { publicRuntimeConfig } = getConfig()
   const isMultiShipEnabled = publicRuntimeConfig.isMultiShipEnabled
 
-  // console.log("This is categories tree ---> ", categoriesTree);
-
   const handleAccountIconClick = () => {
     isHamburgerMenuVisible && toggleHamburgerMenu()
     if (!isAuthenticated) {
@@ -273,10 +254,6 @@ const IgnitivHeader = (props: KiboHeaderProps) => {
     <>
       <AppBar position={isSticky ? 'sticky' : 'static'} sx={kiboHeaderStyles.appBarStyles}>
         <Backdrop open={isBackdropOpen} data-testid="backdrop" />
-
-        {/* <HideOnScroll trigger={trigger}>
-                    <TopHeader navLinks={navLinks} isElementVisible={isElementVisible} />
-                </HideOnScroll> */}
         <Box
           component={'section'}
           sx={{
@@ -297,10 +274,9 @@ const IgnitivHeader = (props: KiboHeaderProps) => {
           >
             <StyledToolbar data-testid="bottom-toolbar">
               <Container maxWidth="xl">
-                <NestedDrawer categoryTree={categoriesTree} />
+                <NestedDrawer categoryTree={categoriesTree} headerSize="big" />
               </Container>
             </StyledToolbar>
-            {/* <MegaMenu categoryTree={categoriesTree} onBackdropToggle={setIsBackdropOpen} /> */}
           </Box>
         </HideOnScroll>
 
