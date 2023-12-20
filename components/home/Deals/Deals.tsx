@@ -127,10 +127,14 @@ const Deals = (props: DealProps) => {
                 <Typography sx={DealsStyles.discountPrice}>${deal?.discountedPrice}</Typography>
               </Box>
 
-              <Button sx={DealsStyles.addToCartBtn} variant="contained">
-                Add to Cart
+              <Button
+                sx={DealsStyles.addToCartBtn}
+                onClick={() => router.push('/product/' + deal?.itemCode)}
+                variant="contained"
+              >
+                View Product
               </Button>
-              <Button sx={DealsStyles.addToWishlist}> Add to Wishlist</Button>
+              {/* <Button sx={DealsStyles.addToWishlist}> Add to Wishlist</Button> */}
             </Grid>
           ))}
         </Grid>
