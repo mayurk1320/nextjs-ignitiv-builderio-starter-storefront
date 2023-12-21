@@ -4,6 +4,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { Box, Button, Grid, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
 import { DealsStyles } from './Deals.styles'
 import { KiboImage } from '@/components/common'
@@ -37,6 +38,7 @@ const Deals = (props: DealProps) => {
   const sm = useMediaQuery(theme.breakpoints.up('sm'))
   const xs = useMediaQuery(theme.breakpoints.up('xs'))
 
+  const { t } = useTranslation('common')
   const [deals, setDeals] = useState<any>([])
   const [pageSize, setPageSize] = useState<number>(0)
   const [index, setIndex] = useState<{ start: number; end: number }>({ start: 0, end: 0 })
@@ -132,7 +134,7 @@ const Deals = (props: DealProps) => {
                 onClick={() => router.push('/product/' + deal?.itemCode)}
                 variant="contained"
               >
-                View Product
+                {t('view-product')}
               </Button>
               {/* <Button sx={DealsStyles.addToWishlist}> Add to Wishlist</Button> */}
             </Grid>
