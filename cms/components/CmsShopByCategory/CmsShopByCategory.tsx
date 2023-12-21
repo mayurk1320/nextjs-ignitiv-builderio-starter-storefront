@@ -1,5 +1,8 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
+
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
+import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import {
   Box,
   Container,
@@ -10,10 +13,9 @@ import {
   useTheme,
   Typography,
 } from '@mui/material'
+
 import { ShopByCategoryStyle } from './CmsShopByCategory.styles'
 import { cmsShopByCategoryMock } from '__mocks__/stories'
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
-import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 
 const jsonData = cmsShopByCategoryMock
 
