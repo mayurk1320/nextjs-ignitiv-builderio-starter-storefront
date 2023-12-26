@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 
 import { SmallBannerStyles } from './SmallBanner.styles'
 import { KiboImage } from '@/components/common'
+
 export interface ItemProps {
   smallBannerProps: SmallBannerProps[]
 }
@@ -36,16 +37,15 @@ const SmallBanner = ({ smallBannerProps }: ItemProps) => {
         >
           <Box sx={{ ...SmallBannerStyles.bannerImageContainer }}>
             <KiboImage
-              src={md ? banner?.imageUrl : banner?.mobileImageUrl}
+              src={md ? banner?.mobileImageUrl : banner?.imageUrl}
               alt={banner?.imageAlt}
               sizes="(max-width: 1200px) 92vw, 1152px"
               loading="eager"
               data-testid="product-image"
               priority
-              layout="responsive"
               width={250}
               height={250}
-              style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
             />
           </Box>
           <Box sx={{ width: '40%' }}>
