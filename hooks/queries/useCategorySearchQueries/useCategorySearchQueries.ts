@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { makeGraphQLClient } from '@/lib/gql/client'
 import { categorySearchQuery } from '@/lib/gql/queries'
@@ -31,19 +31,20 @@ export const useCategorySearchQueries = (categoryCodes: Array<string>): Category
   categoryCodes?.forEach((code) => {
     categroyCodeFilter.push(`categoryCode eq ${code}`)
   })
+
   console.log('categroyCodeFilter', categroyCodeFilter)
   console.log('categoryCodes', categoryCodes)
+
   const searchParams = buildCategorySearchParams({
     filter: categroyCodeFilter.join(' or '),
     pageSize: categoryCodes?.length,
   }) as CategoryPagedCollectionParams
-  const { data, isLoading, isSuccess, isFetching } = useQuery(
-    categorySearchResultKeys?.searchParams(searchParams),
-    () => fetchCategorySearch(searchParams),
-    {
-      enabled: !!searchParams.filter,
-    }
-  )
+
+  const { data, isLoading, isSuccess, isFetching } = useQuery({
+    queryKey: categorySearchResultKeys?.searchParams(searchParams),
+    queryFn: () => fetchCategorySearch(searchParams),
+    enabled: !!searchParams.filter,
+  })
 
   return { data, isLoading, isSuccess, isFetching }
 }
