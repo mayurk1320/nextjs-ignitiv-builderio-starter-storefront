@@ -30,7 +30,7 @@ export const ShopByCategoryStyle = {
     width: '100%',
   },
   categoryItem: {
-    background: '#dddddd',
+    background: '#e8ddfe',
     height: '350px',
     padding: '25px',
     borderRadius: '5px',

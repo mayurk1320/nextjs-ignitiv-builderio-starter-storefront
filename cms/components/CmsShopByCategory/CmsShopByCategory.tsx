@@ -13,16 +13,11 @@ import {
   useTheme,
   Typography,
 } from '@mui/material'
-import getConfig from 'next/config'
 
 import { ShopByCategoryStyle } from './CmsShopByCategory.styles'
-import { ProductCard } from '@/components/product'
 import { useCategorySearchQueries } from '@/hooks'
 import { categorySearchGetters, productGetters } from '@/lib/getters'
 import { uiHelpers } from '@/lib/helpers'
-import { cmsShopByCategoryMock } from '__mocks__/stories'
-
-const jsonData = cmsShopByCategoryMock
 
 interface Item {
   link: string
@@ -44,7 +39,6 @@ const CmsHomePageCategory = (props: HomePageProps) => {
   const kiboTheme = useTheme()
   const { shopByCategory, categoryCodes } = props
 
-  const { publicRuntimeConfig } = getConfig()
   const { getCategoryLink } = uiHelpers()
   const { data: categorySearchResult } = useCategorySearchQueries(categoryCodes)
   const categories = categorySearchResult?.items || []
