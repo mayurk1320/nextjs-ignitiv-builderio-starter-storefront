@@ -13,8 +13,13 @@ import {
   useTheme,
   Typography,
 } from '@mui/material'
+import getConfig from 'next/config'
 
 import { ShopByCategoryStyle } from './CmsShopByCategory.styles'
+import { ProductCard } from '@/components/product'
+import { useCategorySearchQueries } from '@/hooks'
+import { categorySearchGetters, productGetters } from '@/lib/getters'
+import { uiHelpers } from '@/lib/helpers'
 import { cmsShopByCategoryMock } from '__mocks__/stories'
 
 const jsonData = cmsShopByCategoryMock
@@ -32,11 +37,19 @@ interface ShopByCategoryProp {
 
 interface HomePageProps {
   shopByCategory: ShopByCategoryProp
+  categoryCodes: Array<string>
 }
 
 const CmsHomePageCategory = (props: HomePageProps) => {
   const kiboTheme = useTheme()
-  const [items, setItems] = useState(jsonData)
+  const { shopByCategory, categoryCodes } = props
+
+  const { publicRuntimeConfig } = getConfig()
+  const { getCategoryLink } = uiHelpers()
+  const { data: categorySearchResult } = useCategorySearchQueries(categoryCodes)
+  const categories = categorySearchResult?.items || []
+
+  const [items, setItems] = useState(categories)
   const [selectedItems, setSelectedItems] = useState<Item[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const isMobile = useMediaQuery(kiboTheme.breakpoints.down('sm'))
@@ -64,8 +77,8 @@ const CmsHomePageCategory = (props: HomePageProps) => {
   }
 
   useEffect(() => {
-    setItems(jsonData)
-  }, [])
+    setItems(categories)
+  }, [categories])
 
   const isPrevDisabled = currentIndex === 0
   const isNextDisabled = currentIndex + itemsPerPage >= items.length
@@ -74,9 +87,9 @@ const CmsHomePageCategory = (props: HomePageProps) => {
     <Container maxWidth={'xl'} sx={ShopByCategoryStyle.container}>
       <Box sx={ShopByCategoryStyle.navigationContainer}>
         <Typography variant="h1" gutterBottom sx={ShopByCategoryStyle.mainTitle}>
-          {props?.shopByCategory?.title}
+          {shopByCategory?.title}
         </Typography>
-        <Box sx={ShopByCategoryStyle.navigationIconConainer}>
+        <Box sx={ShopByCategoryStyle.navigationIconContainer}>
           <IconButton
             onClick={handleNextClick}
             sx={
@@ -107,16 +120,28 @@ const CmsHomePageCategory = (props: HomePageProps) => {
             xs={12}
             onClick={() => handleItemClick(item)}
             sx={ShopByCategoryStyle.categoryMainItem}
+            key={item?.categoryCode}
           >
             <Box sx={ShopByCategoryStyle.categoryItem}>
-              <Link href={item.link} sx={ShopByCategoryStyle.categoryLink}>
-                <Box
-                  component="img"
-                  src={item.imageUrl}
-                  alt={item.imageAlt}
-                  sx={ShopByCategoryStyle.categoryImage}
-                />
-                <Box sx={ShopByCategoryStyle.categoryText}>{item.categoryName}</Box>
+              <Link
+                href={getCategoryLink(item?.categoryCode as string)}
+                sx={ShopByCategoryStyle.categoryLink}
+              >
+                <Box sx={ShopByCategoryStyle.categoryItemWrapper}>
+                  <Box sx={ShopByCategoryStyle.categoryImageWrapper}>
+                    <Box
+                      component="img"
+                      src={productGetters.handleProtocolRelativeUrl(
+                        categorySearchGetters.getCoverImage(item)
+                      )}
+                      // alt={item.imageAlt}
+                      sx={ShopByCategoryStyle.categoryImage}
+                    />
+                  </Box>
+                  <Box sx={ShopByCategoryStyle.categoryText}>
+                    {categorySearchGetters.getName(item) as string}
+                  </Box>
+                </Box>
               </Link>
             </Box>
           </Grid>

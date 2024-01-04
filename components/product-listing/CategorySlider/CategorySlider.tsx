@@ -14,7 +14,6 @@ export interface CategorySliderProps {
 
 const CategorySlider = (props: CategorySliderProps) => {
   const { categoryCodes } = props
-  console.log('Category Codes --->', categoryCodes)
   const { publicRuntimeConfig } = getConfig()
   const { getCategoryLink } = uiHelpers()
   const { data: categorySearchResult } = useCategorySearchQueries(categoryCodes)

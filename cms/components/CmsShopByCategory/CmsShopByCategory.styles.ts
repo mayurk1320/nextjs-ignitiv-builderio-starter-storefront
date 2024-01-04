@@ -1,5 +1,6 @@
-import theme from '@/styles/theme'
 import { ForkRight } from '@mui/icons-material'
+
+import theme from '@/styles/theme'
 
 export const ShopByCategoryStyle = {
   categoryLink: {
@@ -9,7 +10,9 @@ export const ShopByCategoryStyle = {
   },
 
   categoryImage: {
-    maxWidth: '100%',
+    height: '100%',
+    width: '100%',
+    objectFit: 'cover',
     padding: '5px',
   },
 
@@ -28,6 +31,7 @@ export const ShopByCategoryStyle = {
   },
   categoryItem: {
     background: '#dddddd',
+    height: '350px',
     padding: '25px',
     borderRadius: '5px',
     marginBottom: '20px',
@@ -38,6 +42,16 @@ export const ShopByCategoryStyle = {
       backgroundColor: '#ffffff',
       boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
     },
+  },
+  categoryItemWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    alignItems: 'center',
+  },
+  categoryImageWrapper: {
+    height: '90%',
+    width: '100%',
   },
   container: {
     maxWidth: '1536px',
@@ -113,7 +127,7 @@ export const ShopByCategoryStyle = {
       display: 'none',
     },
   },
-  navigationIconConainer: {
+  navigationIconContainer: {
     float: 'right',
     width: 'auto',
   },
