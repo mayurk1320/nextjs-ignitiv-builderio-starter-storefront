@@ -128,7 +128,6 @@ const CmsHomePageCategory = (props: HomePageProps) => {
                       src={productGetters.handleProtocolRelativeUrl(
                         categorySearchGetters.getCoverImage(item)
                       )}
-                      // alt={item.imageAlt}
                       sx={ShopByCategoryStyle.categoryImage}
                     />
                   </Box>
