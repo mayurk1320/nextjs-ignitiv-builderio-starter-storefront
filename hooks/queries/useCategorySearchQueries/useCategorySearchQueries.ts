@@ -32,9 +32,6 @@ export const useCategorySearchQueries = (categoryCodes: Array<string>): Category
     categroyCodeFilter.push(`categoryCode eq ${code}`)
   })
 
-  console.log('categroyCodeFilter', categroyCodeFilter)
-  console.log('categoryCodes', categoryCodes)
-
   const searchParams = buildCategorySearchParams({
     filter: categroyCodeFilter.join(' or '),
     pageSize: categoryCodes?.length,
