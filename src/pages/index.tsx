@@ -616,6 +616,10 @@ Builder.registerComponent(CmsShopByCategory, {
         },
       ],
     },
+    {
+      name: 'categoryCodes',
+      type: 'KiboCommerceCategoriesList',
+    },
   ],
 })
 
