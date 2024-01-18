@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useMediaQuery, useTheme, styled } from '@mui/material'
+import { useMediaQuery, Typography, Box, useTheme, styled } from '@mui/material'
 
 import { KiboImage } from '@/components/common'
 
@@ -11,42 +11,48 @@ interface ClpHeroBannerProps {
   imageUrl: string
   mobileImageUrl: string
   imageAlt: string
-  title: string
-  subtitle: string
+  description: string
 }
 
 const MainStyle = styled('div')({
   display: 'flex',
   color: 'grey.700',
-  maxHeight: '350px',
+  flexDirection: 'column',
+  marginBottom: '25px',
 })
 
-const IgnHeroBanner = ({ clpHeroBannerProps }: ItemProps) => {
+const ClpHeroBanner = ({ clpHeroBannerProps }: ItemProps) => {
   const kiboTheme = useTheme()
   const mobileView = useMediaQuery(kiboTheme.breakpoints.down('sm'))
 
-  const { title, subtitle, imageUrl, mobileImageUrl, imageAlt } = clpHeroBannerProps || {}
+  const { description, imageUrl, mobileImageUrl, imageAlt } = clpHeroBannerProps || {}
 
   return (
     <>
       {clpHeroBannerProps && (
-        <MainStyle>
-          <p>I am Souvik</p>
-          <p>{title}</p>
-          <p>{subtitle}</p>
-          <KiboImage
-            src={mobileView ? mobileImageUrl : imageUrl}
-            alt={imageAlt || 'category-image'}
-            sizes="(max-width: 1200px) 92vw, 1152px"
-            loading="eager"
-            layout="fill"
-            objectFit="cover"
-            priority
-          />
-        </MainStyle>
+        <>
+          <MainStyle>
+            <Box>
+              <KiboImage
+                src={mobileView ? mobileImageUrl : imageUrl}
+                alt={imageAlt}
+                style={{
+                  width: '100%',
+                  height: '150px',
+                  objectFit: 'cover',
+                }}
+                width={1200}
+                height={150}
+              />
+            </Box>
+            <Box>
+              <Typography>{description}&nbsp;</Typography>
+            </Box>
+          </MainStyle>
+        </>
       )}
     </>
   )
 }
 
-export default IgnHeroBanner
+export default ClpHeroBanner

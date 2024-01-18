@@ -1,8 +1,11 @@
 import { BuilderComponent, builder, Builder } from '@builder.io/react'
+import { Box, Button } from '@mui/material'
 import getConfig from 'next/config'
+import router from 'next/router'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import { ClpHeroBanner } from '@/components/catrgory-list-page'
+import { ClpHeroBanner, CmsCLPPageCategory } from '@/components/catrgory-list-page'
 import { IgnHeroBanner } from '@/components/home'
 import getCategoryTree from '@/lib/api/operations/get-category-tree'
 import type { CategoryTreeResponse } from '@/lib/types'
@@ -17,23 +20,15 @@ builder.init(apiKey)
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { locale } = context
 
-  // const pathnameArr = context.params?.pagename
   const pageUrl = context.resolvedUrl
   console.log('context', pageUrl, context.query.categoryCode)
-  // let pagename
-  // if (Array.isArray(pathnameArr) && pathnameArr?.length > 1) {
-  //   pagename = pathnameArr.join('/')
-  // } else {
-  //   pagename = pathnameArr
-  // }
-  // console.log('pagename', pagename, pathnameArr)
 
   const categoriesTree: CategoryTreeResponse = await getCategoryTree()
 
   const page = await builder
     .get(publicRuntimeConfig?.builderIO?.modelKeys?.defaultPage, {
       userAttributes: {
-        urlPath: `/${pageUrl}`,
+        urlPath: `/clp/${context.query.categoryCode}`,
       },
     })
     .toPromise()
@@ -41,7 +36,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       page: page || null,
-      categoriesTree,
+      categoriesTree: categoriesTree || null,
+      parentCategoryCode: context.query.categoryCode || null,
       ...(await serverSideTranslations(locale as string, ['common'])),
     },
   }
@@ -53,25 +49,14 @@ Builder.registerComponent(ClpHeroBanner, {
     {
       name: 'clpHeroBannerProps',
       type: 'object',
-      defaultValue: [
-        {
-          title: 'Parent Category Name',
-          subtitle: 'Catagory description',
-          imageUrl:
-            'https://e7.pngegg.com/pngimages/323/773/png-clipart-sneakers-basketball-shoe-sportswear-nike-shoe-outdoor-shoe-running.png',
-          mobileImageUrl: 'https://sportsclick.my/wp-content/uploads/2023/01/DC3728-014-2.jpg',
-          imageAlt: 'Nike',
-        },
-      ],
+      defaultValue: {
+        imageUrl: 'https://cdn-sb.mozu.com/26507-m1/cms/files/655bb09f-e5f2-4027-8cf6-76d0363172d1',
+        mobileImageUrl:
+          'https://cdn-sb.mozu.com/26507-m1/cms/files/655bb09f-e5f2-4027-8cf6-76d0363172d1',
+        imageAlt: 'image Alt text',
+        description: 'Explore the latest deals.',
+      },
       subFields: [
-        {
-          name: 'title',
-          type: 'string',
-        },
-        {
-          name: 'subtitle',
-          type: 'string',
-        },
         {
           name: 'imageUrl',
           type: 'file',
@@ -82,6 +67,10 @@ Builder.registerComponent(ClpHeroBanner, {
         },
         {
           name: 'imageAlt',
+          type: 'string',
+        },
+        {
+          name: 'description',
           type: 'string',
         },
       ],
@@ -146,14 +135,28 @@ Builder.registerComponent(IgnHeroBanner, {
 
 const Page = (props: any) => {
   const { page } = props
+  const { categoriesTree } = props
+  const { parentCategoryCode } = props
+  const categoryData = categoriesTree[0]?.childrenCategories.find(
+    (e: { categoryCode: string }) => e.categoryCode === parentCategoryCode
+  )
+  const { t } = useTranslation('common')
   return (
-    <div>
-      <p>i am souvik</p>
+    <>
       <BuilderComponent
         model={publicRuntimeConfig?.builderIO?.modelKeys?.defaultPage}
         content={page}
       />
-    </div>
+      <Box>
+        <p>
+          <Button onClick={() => router.push('/')}>{t('home')}</Button>|{' '}
+          {categoryData?.content?.name}{' '}
+        </p>
+      </Box>
+      <Box>
+        <CmsCLPPageCategory childCategory={categoryData} />
+      </Box>
+    </>
   )
 }
 
