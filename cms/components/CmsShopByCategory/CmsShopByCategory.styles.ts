@@ -1,5 +1,3 @@
-import { ForkRight } from '@mui/icons-material'
-
 import theme from '@/styles/theme'
 
 export const ShopByCategoryStyle = {

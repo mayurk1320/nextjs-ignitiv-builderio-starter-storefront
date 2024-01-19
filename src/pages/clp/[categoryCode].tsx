@@ -19,7 +19,6 @@ builder.init(apiKey)
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { locale } = context
-  const pageUrl = context.resolvedUrl
   const categoriesTree: CategoryTreeResponse = await getCategoryTree()
 
   const page = await builder

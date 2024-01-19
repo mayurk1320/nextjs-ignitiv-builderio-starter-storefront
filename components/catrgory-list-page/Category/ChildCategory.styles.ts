@@ -1,6 +1,4 @@
-import { ForkRight } from '@mui/icons-material'
-
-import theme from '@/styles/theme'
+import theme, { themeBackGround, themeBorder } from '@/styles/theme'
 
 export const ChildCategoryStyle = {
   categoryLink: {
@@ -37,8 +35,8 @@ export const ChildCategoryStyle = {
     margin: '0 1%',
     textAlign: 'center',
     '&:hover': {
-      backgroundColor: theme?.palette.background.white,
-      boxShadow: `0 4px 8px 0 ${theme?.palette.background.boxShadow1}, 0 6px 20px 0 ${theme?.palette.background.boxShadow2}`,
+      backgroundColor: theme?.palette.common.white,
+      boxShadow: `0 4px 8px 0 ${themeBackGround.boxShadowPrimary}, 0 6px 20px 0 ${themeBackGround.boxShadowSecondary}`,
     },
   },
   categoryItemWrapper: {
@@ -65,13 +63,13 @@ export const ChildCategoryStyle = {
     marginRight: '10px',
     marginTop: '8px',
     color: theme?.palette.primary.main,
-    backgroundColor: theme?.palette?.background.white,
+    backgroundColor: theme?.palette?.common.white,
     border: `2px solid ${theme?.palette.primary.main}`,
     borderRadius: '7px',
     height: '28px',
     width: '28px',
     '&:hover': {
-      color: theme?.palette?.background.white,
+      color: theme?.palette?.common.white,
       backgroundColor: theme?.palette.primary.main,
     },
   },
@@ -80,13 +78,13 @@ export const ChildCategoryStyle = {
     marginRight: '10px',
     marginTop: '8px',
     color: theme?.palette.primary.main,
-    backgroundColor: theme?.palette?.background.white,
+    backgroundColor: theme?.palette?.common.white,
     border: `2px solid ${theme?.palette.primary.main}`,
     borderRadius: '7px',
     height: '28px',
     width: '28px',
     '&:hover': {
-      color: theme?.palette?.background.white,
+      color: theme?.palette?.common.white,
       backgroundColor: theme?.palette.primary.main,
     },
   },
@@ -95,18 +93,18 @@ export const ChildCategoryStyle = {
     marginRight: '10px',
     marginTop: '8px',
     color: theme?.palette.primary.main,
-    backgroundColor: theme?.palette.background.white,
+    backgroundColor: theme?.palette.common.white,
     border: `2px solid ${theme?.palette.primary.main}`,
     borderRadius: '7px',
     height: '28px',
     width: '28px',
     '&:hover': {
-      color: theme?.palette.background.white,
+      color: theme?.palette.common.white,
       backgroundColor: theme?.palette.primary.main,
     },
   },
   selectedItem: {
-    border: `2px solid ${theme?.palette.border.main}`,
+    border: `2px solid ${themeBorder.main}`,
   },
 
   navigationContainer: {
@@ -117,7 +115,7 @@ export const ChildCategoryStyle = {
     justifyContent: 'space-between',
   },
   categoryName: {
-    borderLeft: `8px solid ${theme?.palette.border.light}`,
+    borderLeft: `8px solid ${themeBorder.light}`,
     padding: '10px 20px',
     fontFamily: 'Roboto Slab',
     fontStyle: 'normal',
@@ -132,11 +130,11 @@ export const ChildCategoryStyle = {
     backgroundColor: theme?.palette.primary.main,
     border: `1px solid ${theme?.palette.primary.main}`,
     fontSize: '16px',
-    color: theme?.palette.background.white,
+    color: theme?.palette.common.white,
     fontWeight: '600',
     '&:hover': {
-      backgroundColor: theme?.palette.background.buttonPrimary,
-      border: `1px solid ${theme?.palette.background.buttonPrimary}`,
+      backgroundColor: theme?.palette.background.default,
+      border: `1px solid ${theme?.palette.background.default}`,
     },
   },
   navigationIconContainer: {
