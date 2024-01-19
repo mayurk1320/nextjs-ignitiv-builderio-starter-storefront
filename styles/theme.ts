@@ -3,6 +3,8 @@ import type {} from '@mui/lab/themeAugmentation'
 declare module '@mui/material/styles/createPalette' {
   interface PaletteOptions {
     red?: PaletteColorOptions
+    shadow?: PaletteColorOptions
+    background?: Partial<TypeBackground>
   }
 }
 
@@ -21,6 +23,8 @@ export const grey = {
   // Secondary Button (cancel button)
   50: '#FAFAFA',
 }
+
+export const backGround = {}
 
 export const red = {
   900: '#bb2500',
@@ -132,6 +136,16 @@ let theme = createTheme({
     },
     grey: { ...grey },
     red: { ...red },
+    background: {
+      white: '#ffffff',
+      boxShadow1: '#00000033',
+      boxShadow2: 'rgba(0, 0, 0, 0.19)',
+      buttonPrimary: 'rgb(98, 62, 176)',
+    },
+    border: {
+      main: '#cccccc',
+      light: '#d8dcdc',
+    },
   },
   components: {
     MuiButton: {
