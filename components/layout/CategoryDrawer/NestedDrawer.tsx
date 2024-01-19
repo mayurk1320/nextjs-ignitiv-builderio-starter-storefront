@@ -248,11 +248,7 @@ const MegaMenuComponent: React.FC<MegaMenuComponentProps> = ({ categories, handl
           />
           <Box sx={{ paddingLeft: '30px', paddingTop: '24px' }}>
             <Box>
-              <StyledLinkHead
-                href={getCategoryLink(categoryCode, seoFriendlyUrl)}
-                passHref
-                onClick={handleToggle}
-              >
+              <StyledLinkHead href={`/clp/${categoryCode}`} passHref onClick={handleToggle}>
                 <strong>{t('shop-all')}</strong>
               </StyledLinkHead>
             </Box>
