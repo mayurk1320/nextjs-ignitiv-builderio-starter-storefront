@@ -20,6 +20,7 @@ import { useTranslation } from 'next-i18next'
 import { ChildCategoryStyle } from './ChildCategory.styles'
 import { categorySearchGetters, productGetters } from '@/lib/getters'
 import { uiHelpers } from '@/lib/helpers'
+
 interface Item {
   title: string
   categoryCode: string
@@ -54,15 +55,19 @@ const CmsCLPPageCategory = (props: ClpPageProps) => {
   const { childCategory } = props
   const { getCategoryLink } = uiHelpers()
   const categories = childCategory?.childrenCategories || []
-
   const [items, setItems] = useState(categories)
   const [selectedItems, setSelectedItems] = useState<Item[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const isMobile = useMediaQuery(kiboTheme.breakpoints.down('sm'))
   const isTablet = useMediaQuery(kiboTheme.breakpoints.down('md'))
   const itemsPerPage = isMobile ? 24 : isTablet ? 24 : 24
+  const isPrevDisabled = currentIndex === 0
+  const isNextDisabled = currentIndex + itemsPerPage >= items.length
+
   const router = useRouter()
+
   const { t } = useTranslation('common')
+
   const handleItemClick = (item: Item) => {
     setSelectedItems((prevSelected) =>
       prevSelected.includes(item)
@@ -87,22 +92,18 @@ const CmsCLPPageCategory = (props: ClpPageProps) => {
     setItems(categories)
   }, [categories])
 
-  const isPrevDisabled = currentIndex === 0
-  const isNextDisabled = currentIndex + itemsPerPage >= items.length
-
   return (
     <Container maxWidth={'xl'} sx={ChildCategoryStyle.container}>
       <Box>
         <Box sx={ChildCategoryStyle.navigationContainer}>
           <Typography variant="h1" sx={ChildCategoryStyle.categoryName}>
-            {childCategory?.content?.name}
+            {categorySearchGetters.getName(childCategory) as string}
           </Typography>
-
           <Button
             sx={ChildCategoryStyle.shopAllButton}
             onClick={() => router.push('/category/' + childCategory?.categoryCode)}
           >
-            {t('shop-all')} {childCategory?.content?.name}
+            {t('shop-all')} {categorySearchGetters.getName(childCategory) as string}
           </Button>
         </Box>
         <Box>
@@ -115,11 +116,13 @@ const CmsCLPPageCategory = (props: ClpPageProps) => {
                 xs={12}
                 onClick={() => handleItemClick(item)}
                 sx={ChildCategoryStyle.categoryMainItem}
-                key={item?.categoryCode}
+                key={categorySearchGetters.getCategoryCode(item) as string}
               >
                 <Box sx={ChildCategoryStyle.categoryItem}>
                   <Link
-                    href={getCategoryLink(item?.categoryCode as string)}
+                    href={getCategoryLink(
+                      categorySearchGetters.getCategoryCode(item) as string as string
+                    )}
                     sx={ChildCategoryStyle.categoryLink}
                   >
                     <Box sx={ChildCategoryStyle.categoryItemWrapper}>

@@ -14,7 +14,7 @@ interface ClpHeroBannerProps {
   description: string
 }
 
-const MainStyle = styled('div')({
+const HeroBannerContainer = styled('div')({
   display: 'flex',
   color: 'grey.700',
   flexDirection: 'column',
@@ -30,26 +30,24 @@ const ClpHeroBanner = ({ clpHeroBannerProps }: ItemProps) => {
   return (
     <>
       {clpHeroBannerProps && (
-        <>
-          <MainStyle>
-            <Box>
-              <KiboImage
-                src={mobileView ? mobileImageUrl : imageUrl}
-                alt={imageAlt}
-                style={{
-                  width: '100%',
-                  height: '150px',
-                  objectFit: 'cover',
-                }}
-                width={1200}
-                height={150}
-              />
-            </Box>
-            <Box>
-              <Typography>{description}&nbsp;</Typography>
-            </Box>
-          </MainStyle>
-        </>
+        <HeroBannerContainer>
+          <Box>
+            <KiboImage
+              src={mobileView ? mobileImageUrl : imageUrl}
+              alt={imageAlt}
+              style={{
+                width: '100%',
+                height: '150px',
+                objectFit: 'cover',
+              }}
+              width={1200}
+              height={150}
+            />
+          </Box>
+          <Box>
+            <Typography>{description}&nbsp;</Typography>
+          </Box>
+        </HeroBannerContainer>
       )}
     </>
   )
