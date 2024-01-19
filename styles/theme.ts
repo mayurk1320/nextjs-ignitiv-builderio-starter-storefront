@@ -24,8 +24,16 @@ export const grey = {
   50: '#FAFAFA',
 }
 
-export const backGround = {}
+export const themeBackGround = {
+  default: 'rgb(98, 62, 176)',
+  boxShadowPrimary: '#00000033',
+  boxShadowSecondary: 'rgba(0, 0, 0, 0.19)',
+}
 
+export const themeBorder = {
+  main: '#cccccc',
+  light: '#d8dcdc',
+}
 export const red = {
   900: '#bb2500',
   // wishlist color
@@ -136,15 +144,8 @@ let theme = createTheme({
     },
     grey: { ...grey },
     red: { ...red },
-    background: {
+    common: {
       white: '#ffffff',
-      boxShadow1: '#00000033',
-      boxShadow2: 'rgba(0, 0, 0, 0.19)',
-      buttonPrimary: 'rgb(98, 62, 176)',
-    },
-    border: {
-      main: '#cccccc',
-      light: '#d8dcdc',
     },
   },
   components: {
