@@ -133,8 +133,8 @@ export const ChildCategoryStyle = {
     color: theme?.palette.common.white,
     fontWeight: '600',
     '&:hover': {
-      backgroundColor: theme?.palette.background.default,
-      border: `1px solid ${theme?.palette.background.default}`,
+      backgroundColor: themeBackGround.default,
+      border: `1px solid ${themeBackGround.default}`,
     },
   },
   navigationIconContainer: {
