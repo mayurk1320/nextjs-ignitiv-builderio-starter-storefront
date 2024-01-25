@@ -4,6 +4,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import { LoadingButton } from '@mui/lab'
 import {
   Grid,
+  Card,
   Typography,
   Box,
   Stack,
@@ -12,6 +13,7 @@ import {
   Divider,
   useMediaQuery,
 } from '@mui/material'
+import { grey } from '@mui/material/colors'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 
@@ -42,6 +44,32 @@ export interface CartTemplateProps {
   cart: CrCart
   cartTopContentSection?: any
   cartBottomContentSection?: any
+}
+
+const styles = {
+  card: {
+    maxWidth: '100%',
+    border: {
+      xs: 'none',
+      md: `1px solid ${grey[200]}`,
+    },
+    boxShadow: 'none',
+  },
+  cartItemContainer: {
+    display: 'flex',
+    flexDirection: {
+      xs: 'column',
+      md: 'row',
+    },
+    padding: '1rem 0.5rem',
+    justifyContent: 'space-around',
+  },
+  subContainer: {
+    flex: 1,
+    padding: '0 0.5rem',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }
 
 const CartTemplate = (props: CartTemplateProps) => {
@@ -185,15 +213,6 @@ const CartTemplate = (props: CartTemplateProps) => {
         : '',
     total: t('currency', { val: cartTotal }),
     isShippingTaxIncluded: false,
-    promoComponent: (
-      <PromoCodeBadge
-        onApplyCouponCode={handleApplyPromoCode}
-        onRemoveCouponCode={handleRemovePromoCode}
-        promoList={cart?.couponCodes as string[]}
-        promoError={!!promoError}
-        helpText={promoError}
-      />
-    ),
   }
 
   const handleContinueShopping = () => {
@@ -208,10 +227,10 @@ const CartTemplate = (props: CartTemplateProps) => {
           {cartTopContentSection}
         </Grid>
       )}
-      <Grid item xs={12} md={8} sx={{ paddingX: { xs: 2, md: 0 }, paddingY: { xs: 2 } }}>
+      <Grid item xs={12} md={12} sx={{ paddingX: { xs: 2, md: 0 }, paddingY: { xs: 2 } }}>
         <Box display="flex" gap={1}>
           <Typography variant="h1" gutterBottom>
-            {t('shopping-cart')}
+            {t('your-cart')}
           </Typography>
           <Typography variant="h1" fontWeight={'normal'}>
             ({t('item-quantity', { count: cartItemCount })})
@@ -226,7 +245,32 @@ const CartTemplate = (props: CartTemplateProps) => {
       {/* Cart item Section */}
       {!!cart?.items?.length && (
         <>
-          <Grid item xs={12} md={8} sx={{ paddingRight: { md: 2 } }}>
+          <Grid item xs={12} md={12} sx={{ paddingRight: { md: 2 } }}>
+            <Box py={5} right={12} gap={2} sx={{ display: 'flex', justifyContent: 'end' }}>
+              <Button variant="contained" color="primary" onClick={handleContinueShopping}>
+                {t('continue-shopping')}
+              </Button>
+              <LoadingButton
+                variant="contained"
+                color="primary"
+                name="goToCart"
+                onClick={handleGotoCheckout}
+                loading={showLoadingButton}
+                disabled={!cartItemCount || showLoadingButton}
+              >
+                {t('checkout')}
+              </LoadingButton>
+            </Box>
+            <Card sx={{ ...styles.card }} role="group">
+              <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' }, position: 'relative' }}>
+                <Box sx={{ ...styles.cartItemContainer }}>
+                  <Box sx={{ ...styles.subContainer }}>{t('product-information')}</Box>
+                  <Box sx={{ ...styles.subContainer }}>{t('pickup-information')}</Box>
+                  <Box sx={{ ...styles.subContainer }}>{t('quantity')}</Box>
+                  <Box sx={{ ...styles.subContainer }}>{t('sub-total')}</Box>
+                </Box>
+              </Box>
+            </Card>
             <CartItemList
               cartItems={cartItems}
               fulfillmentLocations={
@@ -239,34 +283,65 @@ const CartTemplate = (props: CartTemplateProps) => {
               onFulfillmentOptionSelection={handleFulfillmentOptionSelection}
               onProductPickupLocation={handleProductPickupLocation}
             />
-            <Box py={5}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleContinueShopping}
-                startIcon={<KeyboardArrowLeft fontSize="small" sx={{ color: 'text.secondary' }} />}
-              >
-                {t('continue-shopping')}
-              </Button>
-            </Box>
           </Grid>
           {/* Order Summary */}
-          <Grid item xs={12} md={4} sx={{ paddingRight: { xs: 0, md: 2 } }}>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{ paddingRight: { xs: 0, md: 2 }, alignContent: 'pull-right' }}
+          >
+            <PromoCodeBadge
+              onApplyCouponCode={handleApplyPromoCode}
+              onRemoveCouponCode={handleRemovePromoCode}
+              promoList={cart?.couponCodes as string[]}
+              promoError={!!promoError}
+              helpText={promoError}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{ paddingRight: { xs: 0, md: 2 }, alignContent: 'pull-right' }}
+          ></Grid>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{ paddingRight: { xs: 0, md: 2 }, alignContent: 'pull-right' }}
+          >
             <OrderSummary {...orderSummaryArgs}>
               <Stack direction="column" gap={2}>
-                <LoadingButton
+                {/* <LoadingButton
                   variant="contained"
                   color="primary"
                   name="goToCart"
-                  fullWidth
                   onClick={handleGotoCheckout}
                   loading={showLoadingButton}
                   disabled={!cartItemCount || showLoadingButton}
                 >
-                  {t('go-to-checkout')}
-                </LoadingButton>
+                  {t('checkout')}
+                </LoadingButton> */}
               </Stack>
             </OrderSummary>
+          </Grid>
+          <Grid item xs={12} md={12} sx={{ paddingRight: { md: 2 } }}>
+            <Box py={5} right={12} gap={2} sx={{ display: 'flex', justifyContent: 'end' }}>
+              <Button variant="contained" color="primary" onClick={handleContinueShopping}>
+                {t('continue-shopping')}
+              </Button>
+              <LoadingButton
+                variant="contained"
+                color="primary"
+                name="goToCart"
+                onClick={handleGotoCheckout}
+                loading={showLoadingButton}
+                disabled={!cartItemCount || showLoadingButton}
+              >
+                {t('checkout')}
+              </LoadingButton>
+            </Box>
           </Grid>
         </>
       )}

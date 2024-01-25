@@ -27,6 +27,9 @@ const styles = {
     mr: '0.5rem',
   },
   buttonStyle: { width: '5rem', height: '2.20rem', marginTop: '1.5rem' },
+  textStyle: {
+    marginTop: '1.5rem',
+  },
 }
 
 const PromoCodeBadge = (props: PromoCodeBadgeProps) => {
@@ -59,6 +62,9 @@ const PromoCodeBadge = (props: PromoCodeBadgeProps) => {
 
   return (
     <>
+      <Box display="flex" gap={1}>
+        <Typography sx={styles.textStyle}>{t('promotion')}</Typography>
+      </Box>
       <Stack direction="row">
         <KiboTextBox
           name="promocode"
@@ -81,7 +87,7 @@ const PromoCodeBadge = (props: PromoCodeBadgeProps) => {
         </Button>
       </Stack>
       {promoList?.map((coupon: string) => (
-        <Box key={coupon} data-testid="promotype" component="div" sx={styles.boxStyle}>
+        <Box key={coupon} data-testid="promotype" component="div">
           <Stack direction="row" spacing={0.5} alignItems="center">
             <Typography sx={{ textAlign: 'left' }}>{coupon}</Typography>
             <CloseIcon
