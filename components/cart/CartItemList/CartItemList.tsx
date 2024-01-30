@@ -58,17 +58,19 @@ const CartItemList = (props: CartItemListProps) => {
             },
           }}
         >
-          <CartItem
-            cartItem={item}
-            key={item?.id}
-            maxQuantity={undefined}
-            onQuantityUpdate={handleQuantityUpdate}
-            onCartItemDelete={handleCartItemDelete}
-            onCartItemActionSelection={handleCartItemActionSelection}
-            fulfillmentOptions={handleSupportedFulfillmentOptions(item as CrCartItem)}
-            onFulfillmentOptionChange={onFulfillmentOptionSelection}
-            onProductPickupLocation={onProductPickupLocation}
-          />
+          {item && (
+            <CartItem
+              cartItem={item}
+              key={item?.id}
+              maxQuantity={undefined}
+              onQuantityUpdate={handleQuantityUpdate}
+              onCartItemDelete={handleCartItemDelete}
+              onCartItemActionSelection={handleCartItemActionSelection}
+              fulfillmentOptions={handleSupportedFulfillmentOptions(item as CrCartItem)}
+              onFulfillmentOptionChange={onFulfillmentOptionSelection}
+              onProductPickupLocation={onProductPickupLocation}
+            />
+          )}
           <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none' } }}>
             <FullWidthDivider />
           </Box>

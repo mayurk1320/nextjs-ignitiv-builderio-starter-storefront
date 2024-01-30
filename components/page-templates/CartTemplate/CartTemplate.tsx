@@ -13,10 +13,10 @@ import {
   Divider,
   useMediaQuery,
 } from '@mui/material'
-import { grey } from '@mui/material/colors'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 
+import { CartTemplateStyle } from './CartTemplate.styles'
 import { CartItemList } from '@/components/cart'
 import { PromoCodeBadge, OrderSummary } from '@/components/common'
 import { StoreLocatorDialog } from '@/components/dialogs'
@@ -44,32 +44,6 @@ export interface CartTemplateProps {
   cart: CrCart
   cartTopContentSection?: any
   cartBottomContentSection?: any
-}
-
-const styles = {
-  card: {
-    maxWidth: '100%',
-    border: {
-      xs: 'none',
-      md: `1px solid ${grey[200]}`,
-    },
-    boxShadow: 'none',
-  },
-  cartItemContainer: {
-    display: 'flex',
-    flexDirection: {
-      xs: 'column',
-      md: 'row',
-    },
-    padding: '1rem 0.5rem',
-    justifyContent: 'space-around',
-  },
-  subContainer: {
-    flex: 1,
-    padding: '0 0.5rem',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 }
 
 const CartTemplate = (props: CartTemplateProps) => {
@@ -261,13 +235,13 @@ const CartTemplate = (props: CartTemplateProps) => {
                 {t('checkout')}
               </LoadingButton>
             </Box>
-            <Card sx={{ ...styles.card }} role="group">
+            <Card sx={CartTemplateStyle.card} role="group">
               <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' }, position: 'relative' }}>
-                <Box sx={{ ...styles.cartItemContainer }}>
-                  <Box sx={{ ...styles.subContainer }}>{t('product-information')}</Box>
-                  <Box sx={{ ...styles.subContainer }}>{t('pickup-information')}</Box>
-                  <Box sx={{ ...styles.subContainer }}>{t('quantity')}</Box>
-                  <Box sx={{ ...styles.subContainer }}>{t('sub-total')}</Box>
+                <Box sx={CartTemplateStyle.cartItemContainer}>
+                  <Box sx={CartTemplateStyle.subContainer}>{t('product-information')}</Box>
+                  <Box sx={CartTemplateStyle.subContainer}>{t('pickup-information')}</Box>
+                  <Box sx={CartTemplateStyle.subContainer}>{t('quantity')}</Box>
+                  <Box sx={CartTemplateStyle.subContainer}>{t('sub-total')}</Box>
                 </Box>
               </Box>
             </Card>
@@ -312,18 +286,7 @@ const CartTemplate = (props: CartTemplateProps) => {
             sx={{ paddingRight: { xs: 0, md: 2 }, alignContent: 'pull-right' }}
           >
             <OrderSummary {...orderSummaryArgs}>
-              <Stack direction="column" gap={2}>
-                {/* <LoadingButton
-                  variant="contained"
-                  color="primary"
-                  name="goToCart"
-                  onClick={handleGotoCheckout}
-                  loading={showLoadingButton}
-                  disabled={!cartItemCount || showLoadingButton}
-                >
-                  {t('checkout')}
-                </LoadingButton> */}
-              </Stack>
+              <Stack direction="column" gap={2}></Stack>
             </OrderSummary>
           </Grid>
           <Grid item xs={12} md={12} sx={{ paddingRight: { md: 2 } }}>

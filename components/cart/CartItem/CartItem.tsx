@@ -3,6 +3,7 @@ import { Box, Card, Divider, Button, SxProps, Theme, useMediaQuery, useTheme } f
 import { grey } from '@mui/material/colors'
 import { useTranslation } from 'next-i18next'
 
+import { CartItemStyle } from './CartItem.styles'
 import { CartItemActions, CartItemActionsMobile } from '@/components/cart'
 import { FulfillmentOptions, Price, ProductItem, QuantitySelector } from '@/components/common'
 import { cartGetters, productGetters } from '@/lib/getters'
@@ -12,7 +13,7 @@ import type { FulfillmentOption } from '@/lib/types'
 import type { CrCartItem as CartItemType, CrProduct, Maybe } from '@/lib/gql/types'
 
 interface CartItemProps {
-  cartItem: Maybe<CartItemType>
+  cartItem: CartItemType
   maxQuantity: number | undefined
   actions?: Array<string>
   fulfillmentOptions: FulfillmentOption[]
@@ -21,53 +22,6 @@ interface CartItemProps {
   onCartItemActionSelection: () => void
   onFulfillmentOptionChange: (fulfillmentMethod: string, cartItemId: string) => void
   onProductPickupLocation: (cartItemId: string) => void
-}
-
-const styles = {
-  card: {
-    maxWidth: '100%',
-    border: {
-      xs: 'none',
-      md: `1px solid ${grey[200]}`,
-    },
-    boxShadow: 'none',
-  },
-  cartItemContainer: {
-    display: 'flex',
-    flexDirection: {
-      xs: 'column',
-      md: 'row',
-    },
-    padding: '1rem 0.5rem',
-    justifyContent: 'space-around',
-  },
-  subContainer: {
-    flex: 1,
-    padding: '0 0.5rem',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  icon: {
-    alignItems: 'flex-start',
-    margin: '0',
-    position: 'absolute',
-    padding: {
-      xs: '0.5rem 0',
-      sm: '0 0.5rem',
-    },
-    top: {
-      xs: 0,
-      sm: '2%',
-      md: '5%',
-      lg: '6%',
-    },
-    right: {
-      xs: 0,
-      sm: 0,
-      md: '1%',
-      lg: '1%',
-    },
-  } as SxProps<Theme>,
 }
 
 const CartItem = (props: CartItemProps) => {
@@ -100,10 +54,10 @@ const CartItem = (props: CartItemProps) => {
 
   return (
     <>
-      <Card sx={{ ...styles.card }} role="group">
+      <Card sx={CartItemStyle.card} role="group">
         <Box sx={{ position: 'relative' }}>
-          <Box sx={{ ...styles.cartItemContainer }}>
-            <Box sx={{ ...styles.subContainer }}>
+          <Box sx={CartItemStyle.cartItemContainer}>
+            <Box sx={CartItemStyle.subContainer}>
               <ProductItem
                 image={productGetters.handleProtocolRelativeUrl(
                   productGetters.getProductImage(cartItem?.product as CrProduct)
@@ -113,13 +67,9 @@ const CartItem = (props: CartItemProps) => {
                 link={getProductLink(cartItem?.product?.productCode as string)}
                 subscriptionFrequency={subscriptionDetails as string}
               ></ProductItem>
-
-              {/* <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block', ml: 1 } }}>
-                <CartItemActions />
-              </Box> */}
             </Box>
 
-            <Box sx={{ ...styles.subContainer }}>
+            <Box sx={CartItemStyle.subContainer}>
               <FulfillmentOptions
                 fulfillmentOptions={fulfillmentOptions}
                 selected={cartItem?.fulfillmentMethod || ''}
@@ -129,7 +79,7 @@ const CartItem = (props: CartItemProps) => {
                 onStoreSetOrUpdate={() => handleProductPickupLocation(cartItem?.id as string)} // change store: Open storelocator modal. Should not change global store.
               />
             </Box>
-            <Box sx={{ ...styles.subContainer }}>
+            <Box sx={CartItemStyle.subContainer}>
               <Box sx={{ py: '0.5rem' }}>
                 <QuantitySelector
                   quantity={cartItemQuantity}
@@ -141,7 +91,7 @@ const CartItem = (props: CartItemProps) => {
                 />
               </Box>
             </Box>
-            <Box sx={{ ...styles.subContainer }}>
+            <Box sx={CartItemStyle.subContainer}>
               <Box>
                 <Price
                   variant="body2"
@@ -163,7 +113,7 @@ const CartItem = (props: CartItemProps) => {
             </Box>
           </Box>
 
-          <Box sx={{ ...styles.icon }}>
+          <Box sx={CartItemStyle.icon}>
             <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none' }, alignItems: 'right' }}>
               <CartItemActionsMobile
                 cartItem={cartItem}

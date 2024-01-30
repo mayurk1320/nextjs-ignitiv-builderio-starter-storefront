@@ -4,35 +4,15 @@ import MoreVert from '@mui/icons-material/MoreVert'
 import { IconButton, Menu, MenuItem, CardActions, Button } from '@mui/material'
 import { useTranslation } from 'next-i18next'
 
+import { CartItemActionsMobileStyle } from './CartItemActionsMobile.styles'
+
 import type { CrCartItem as CartItemType, Maybe } from '@/lib/gql/types'
 
 interface CartItemActionsMobileProps {
-  cartItem: any
+  cartItem: CartItemType
   actions: string[]
   onMenuItemSelection: (option: string) => void
   onCartItemDelete: (cartItemId: string) => void
-}
-
-const styles = {
-  menuItemStyle: {
-    typography: {
-      sm: 'body2',
-    },
-    padding: '0.5rem 1rem',
-  },
-  cardAction: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    p: '0.5rem 0',
-  },
-  button: {
-    minWidth: 'auto',
-    lineHeight: 'initial',
-    color: 'text.primary',
-    justifyContent: 'flex-start',
-    mr: 1,
-  },
 }
 
 const CartItemActionsMobile = (props: CartItemActionsMobileProps) => {
@@ -119,7 +99,7 @@ const CartItemActionsMobile = (props: CartItemActionsMobileProps) => {
           <MenuItem
             key={action}
             onClick={() => handleMenuItemClick(action)}
-            sx={{ ...styles.menuItemStyle }}
+            sx={CartItemActionsMobileStyle.menuItemStyle}
           >
             {t('edit')}
             {action}
