@@ -56,10 +56,10 @@ const OrderSummary = (props: OrderSummaryProps) => {
     isShippingTaxIncluded,
   }
   return (
-    <Card sx={{ bgcolor: 'grey.100' }}>
+    <Card>
       <CardContent>
         <Box sx={styles.headerStyle}>
-          <Typography variant="h3" color="text.primary" fontWeight="bold" pt={0.5}>
+          <Typography color="text.primary" fontWeight="bold" pt={0.5}>
             {nameLabel}
           </Typography>
         </Box>

@@ -1,17 +1,9 @@
 import Delete from '@mui/icons-material/Delete'
-import {
-  Box,
-  Card,
-  Divider,
-  IconButton,
-  SxProps,
-  Theme,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material'
+import { Box, Card, Divider, Button, SxProps, Theme, useMediaQuery, useTheme } from '@mui/material'
 import { grey } from '@mui/material/colors'
 import { useTranslation } from 'next-i18next'
 
+import { CartItemStyle } from './CartItem.styles'
 import { CartItemActions, CartItemActionsMobile } from '@/components/cart'
 import { FulfillmentOptions, Price, ProductItem, QuantitySelector } from '@/components/common'
 import { cartGetters, productGetters } from '@/lib/getters'
@@ -21,7 +13,7 @@ import type { FulfillmentOption } from '@/lib/types'
 import type { CrCartItem as CartItemType, CrProduct, Maybe } from '@/lib/gql/types'
 
 interface CartItemProps {
-  cartItem: Maybe<CartItemType>
+  cartItem: CartItemType
   maxQuantity: number | undefined
   actions?: Array<string>
   fulfillmentOptions: FulfillmentOption[]
@@ -30,56 +22,6 @@ interface CartItemProps {
   onCartItemActionSelection: () => void
   onFulfillmentOptionChange: (fulfillmentMethod: string, cartItemId: string) => void
   onProductPickupLocation: (cartItemId: string) => void
-}
-
-const styles = {
-  card: {
-    maxWidth: '100%',
-    marginBottom: {
-      xs: 0,
-      sm: 0,
-      md: '1.5rem',
-    },
-    border: {
-      xs: 'none',
-      md: `2px solid ${grey[200]}`,
-    },
-    boxShadow: 'none',
-  },
-  cartItemContainer: {
-    display: 'flex',
-    flexDirection: {
-      xs: 'column',
-      md: 'row',
-    },
-    padding: '1rem 0.5rem',
-    justifyContent: 'space-around',
-  },
-  subContainer: {
-    flex: 1,
-    padding: '0 0.5rem',
-  },
-  icon: {
-    alignItems: 'flex-start',
-    margin: '0',
-    position: 'absolute',
-    padding: {
-      xs: '0.5rem 0',
-      sm: '0 0.5rem',
-    },
-    top: {
-      xs: 0,
-      sm: '2%',
-      md: '5%',
-      lg: '6%',
-    },
-    right: {
-      xs: 0,
-      sm: 0,
-      md: '1%',
-      lg: '1%',
-    },
-  } as SxProps<Theme>,
 }
 
 const CartItem = (props: CartItemProps) => {
@@ -112,10 +54,10 @@ const CartItem = (props: CartItemProps) => {
 
   return (
     <>
-      <Card sx={{ ...styles.card }} role="group">
+      <Card sx={CartItemStyle.card} role="group">
         <Box sx={{ position: 'relative' }}>
-          <Box sx={{ ...styles.cartItemContainer }}>
-            <Box sx={{ ...styles.subContainer }}>
+          <Box sx={CartItemStyle.cartItemContainer}>
+            <Box sx={CartItemStyle.subContainer}>
               <ProductItem
                 image={productGetters.handleProtocolRelativeUrl(
                   productGetters.getProductImage(cartItem?.product as CrProduct)
@@ -124,49 +66,10 @@ const CartItem = (props: CartItemProps) => {
                 options={productGetters.getOptions(cartItem?.product as CrProduct)}
                 link={getProductLink(cartItem?.product?.productCode as string)}
                 subscriptionFrequency={subscriptionDetails as string}
-              >
-                <Box>
-                  <Price
-                    variant="body2"
-                    fontWeight="bold"
-                    price={t('currency', {
-                      val: productGetters
-                        .getPrice(cartItem?.product as CrProduct)
-                        .regular?.toString(),
-                    })}
-                    salePrice={
-                      productGetters.getPrice(cartItem?.product as CrProduct).special
-                        ? t('currency', {
-                            val: productGetters.getPrice(cartItem?.product as CrProduct).special,
-                          })
-                        : undefined
-                    }
-                  />
-                </Box>
-                <Box sx={{ py: '0.5rem' }}>
-                  <QuantitySelector
-                    quantity={cartItemQuantity}
-                    label={t('qty')}
-                    maxQuantity={maxQuantity}
-                    onIncrease={() => handleQuantityUpdate(cartItemQuantity + 1)}
-                    onDecrease={() => handleQuantityUpdate(cartItemQuantity - 1)}
-                    onQuantityUpdate={(q) => handleQuantityUpdate(q)}
-                  />
-                </Box>
-              </ProductItem>
-
-              <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block', ml: 1 } }}>
-                <CartItemActions />
-              </Box>
+              ></ProductItem>
             </Box>
 
-            <Divider
-              orientation={orientationVertical ? 'vertical' : 'horizontal'}
-              sx={orientationVertical ? { borderTopWidth: '1px ' } : { borderLeftWidth: '1px' }}
-              flexItem
-            />
-
-            <Box sx={{ ...styles.subContainer }}>
+            <Box sx={CartItemStyle.subContainer}>
               <FulfillmentOptions
                 fulfillmentOptions={fulfillmentOptions}
                 selected={cartItem?.fulfillmentMethod || ''}
@@ -176,23 +79,74 @@ const CartItem = (props: CartItemProps) => {
                 onStoreSetOrUpdate={() => handleProductPickupLocation(cartItem?.id as string)} // change store: Open storelocator modal. Should not change global store.
               />
             </Box>
+            <Box sx={CartItemStyle.subContainer}>
+              <Box sx={{ py: '0.5rem' }}>
+                <QuantitySelector
+                  quantity={cartItemQuantity}
+                  label={t('qty')}
+                  maxQuantity={maxQuantity}
+                  onIncrease={() => handleQuantityUpdate(cartItemQuantity + 1)}
+                  onDecrease={() => handleQuantityUpdate(cartItemQuantity - 1)}
+                  onQuantityUpdate={(q) => handleQuantityUpdate(q)}
+                />
+              </Box>
+            </Box>
+            <Box sx={CartItemStyle.subContainer}>
+              <Box>
+                <Price
+                  variant="body2"
+                  fontWeight="bold"
+                  price={t('currency', {
+                    val: productGetters
+                      .getPrice(cartItem?.product as CrProduct)
+                      .regular?.toString(),
+                  })}
+                  salePrice={
+                    productGetters.getPrice(cartItem?.product as CrProduct).special
+                      ? t('currency', {
+                          val: productGetters.getPrice(cartItem?.product as CrProduct).special,
+                        })
+                      : undefined
+                  }
+                />
+              </Box>
+            </Box>
           </Box>
 
-          <Box sx={{ ...styles.icon }}>
-            <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none' } }}>
+          <Box sx={CartItemStyle.icon}>
+            <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none' }, alignItems: 'right' }}>
               <CartItemActionsMobile
+                cartItem={cartItem}
                 actions={actions || []}
                 onMenuItemSelection={() => handleActionSelection()}
+                onCartItemDelete={() => handleDelete(cartItem?.id as string)}
               />
             </Box>
-            <IconButton
-              sx={{ p: 0.5 }}
-              aria-label="item-delete"
-              name="item-delete"
-              onClick={() => handleDelete(cartItem?.id as string)}
+            <div style={{ alignItems: 'center' }}>
+              <Button
+                sx={{
+                  display: { xs: 'none', sm: 'none', md: 'block' },
+                  p: 0.5,
+                  textDecoration: 'underline',
+                }}
+                aria-label="item-delete"
+                name="item-delete"
+                onClick={() => handleDelete(cartItem?.id as string)}
+              >
+                {t('remove-cart')}
+              </Button>
+            </div>
+            <Button
+              sx={{
+                display: { xs: 'none', sm: 'none', md: 'block' },
+                p: 0.5,
+                textDecoration: 'underline',
+              }}
+              aria-label="add-wishlist"
+              name="add-wishlist"
             >
-              <Delete />
-            </IconButton>
+              {t('add-wishlist')}
+            </Button>
           </Box>
         </Box>
       </Card>

@@ -1,28 +1,26 @@
 import React, { MouseEvent, useState } from 'react'
 
 import MoreVert from '@mui/icons-material/MoreVert'
-import { IconButton, Menu, MenuItem } from '@mui/material'
+import { IconButton, Menu, MenuItem, CardActions, Button } from '@mui/material'
 import { useTranslation } from 'next-i18next'
 
+import { CartItemActionsMobileStyle } from './CartItemActionsMobile.styles'
+
+import type { CrCartItem as CartItemType, Maybe } from '@/lib/gql/types'
+
 interface CartItemActionsMobileProps {
+  cartItem: CartItemType
   actions: string[]
   onMenuItemSelection: (option: string) => void
-}
-
-const styles = {
-  menuItemStyle: {
-    typography: {
-      sm: 'body2',
-    },
-    padding: '0.5rem 1rem',
-  },
+  onCartItemDelete: (cartItemId: string) => void
 }
 
 const CartItemActionsMobile = (props: CartItemActionsMobileProps) => {
-  const { actions, onMenuItemSelection } = props
+  const { cartItem, actions, onMenuItemSelection, onCartItemDelete } = props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const { t } = useTranslation('common')
+  const handleDelete = (cartItemId: string) => onCartItemDelete(cartItemId)
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -72,12 +70,38 @@ const CartItemActionsMobile = (props: CartItemActionsMobileProps) => {
           horizontal: 'right',
         }}
       >
+        <div style={{ alignItems: 'center' }}>
+          <Button
+            sx={{
+              display: { xs: 'block', sm: 'block', md: 'none' },
+              p: 0.5,
+              textDecoration: 'underline',
+            }}
+            aria-label="item-delete"
+            name="item-delete"
+            onClick={() => handleDelete(cartItem?.id as string)}
+          >
+            {t('remove-cart')}
+          </Button>
+        </div>
+        <Button
+          sx={{
+            display: { xs: 'block', sm: 'block', md: 'none' },
+            p: 0.5,
+            textDecoration: 'underline',
+          }}
+          aria-label="add-wishlist"
+          name="add-wishlist"
+        >
+          {t('add-wishlist')}
+        </Button>
         {actions.map((action) => (
           <MenuItem
             key={action}
             onClick={() => handleMenuItemClick(action)}
-            sx={{ ...styles.menuItemStyle }}
+            sx={CartItemActionsMobileStyle.menuItemStyle}
           >
+            {t('edit')}
             {action}
           </MenuItem>
         ))}
