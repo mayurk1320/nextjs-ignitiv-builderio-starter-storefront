@@ -25,6 +25,7 @@ export const ChildCategoryStyle = {
     padding: '0',
     margin: '0',
     width: '100%',
+    justifyContent: 'center',
   },
   categoryItem: {
     background: theme?.palette.primary.light,
