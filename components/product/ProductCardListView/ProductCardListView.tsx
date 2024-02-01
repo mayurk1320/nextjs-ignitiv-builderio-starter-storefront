@@ -169,7 +169,7 @@ const ProductCardListView = (props: ProductCardListViewProps) => {
                   errorimage={placeholderImageUrl}
                 />
               </CardMedia>
-              <Box flexDirection="column" m={1} width="75%" className="product-info">
+              <Box flexDirection="column" m={1} width="100%" className="product-info">
                 <Typography variant="body1" gutterBottom color="text.primary">
                   {title}
                 </Typography>
