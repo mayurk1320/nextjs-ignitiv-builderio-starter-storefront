@@ -1,3 +1,4 @@
+import theme, { themeBackGround, themeBorder } from '@/styles/theme'
 export const ProductCardStyles = {
   main: {
     width: '100%',
@@ -9,17 +10,16 @@ export const ProductCardStyles = {
     position: 'relative',
     display: { xs: 'block', sm: 'flex' },
     padding: '0.625rem',
+    margin: '0 20px',
     backgroundColor: 'transparent',
     textDecoration: 'none',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'text.secondary',
-    boxShadow: 'none',
+    boxShadow: themeBackGround.boxShadowCard,
     cursor: 'pointer',
     '&:hover': {
-      boxShadow: '0 2px 16px 4px rgb(11 32 61 / 7%)',
-      borderColor: 'primary.main',
-      borderWidth: 1,
+      boxShadow: themeBackGround.boxShadowSecondary,
+      '.quick-view': {
+        opacity: 1,
+      },
     },
   },
   quickView: {
@@ -37,22 +37,18 @@ export const ProductCardStyles = {
     mt: 3,
   },
   shopNow: { width: '100%', marginTop: '3.063rem' },
-  hoveredButtons: {
-    display: ' flex',
-    alignItems: 'center',
-    padding: 0.5,
-    whiteSpace: 'nowrap',
-    backgroundColor: '#E2E5EA',
-    '&:hover': {
-      backgroundColor: 'primary.main',
-      '& > *': {
-        color: '#fff',
-      },
-    },
-  },
   quickViewButton: {
-    backgroundColor: 'primary.main',
-    color: 'common.white',
-    px: 2,
+    marginTop: '1 rem',
+    padding: '10px 20px',
+    borderRadius: '50px',
+    backgroundColor: theme?.palette.primary.main,
+    border: `1px solid ${theme?.palette.primary.main}`,
+    fontSize: '16px',
+    color: theme?.palette.common.white,
+    fontWeight: '600',
+    '&:hover': {
+      backgroundColor: themeBackGround.default,
+      border: `1px solid ${themeBackGround.default}`,
+    },
   },
 }
