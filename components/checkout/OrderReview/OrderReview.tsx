@@ -167,18 +167,6 @@ const OrderReview = (props: OrderReviewProps) => {
       <AccordionDetails data-testid="accordion-details" sx={{ ...style.accordionDetails }}>
         <Divider sx={{ marginX: '20px' }} />
         <StyledOrderReview>
-          {/*
-          <OrderInfoHeader
-            headerName={t('personal-details')}
-            dataStep={t('details')}
-            handleEditAction={handleEditAction}
-          >
-            <Box display={'inline'} pt={1}>
-              <Typography variant="body1">{userName} </Typography>
-              <Typography variant="body1">{shippingPhoneHome}</Typography>
-            </Box>
-          </OrderInfoHeader>
-      */}
           {billingAddress?.address1 !== shippingAddress?.address1 &&
             billingAddress?.address2 !== shippingAddress?.address2 &&
             billingAddress?.cityOrTown !== shippingAddress?.cityOrTown &&

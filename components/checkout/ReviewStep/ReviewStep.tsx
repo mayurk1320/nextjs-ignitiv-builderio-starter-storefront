@@ -115,9 +115,6 @@ const ReviewStep = (props: ReviewStepProps) => {
   const [isAgreeWithTermsAndConditions, setAgreeWithTermsAndConditions] =
     useState<boolean>(isAuthenticated)
 
-  console.log('personalDetails:', personalDetails)
-  console.log('checkout:', checkout)
-
   const { setStepNext, setStepBack, setStepStatusComplete } = useCheckoutStepContext()
   const { subTotal, shippingTotal, taxTotal, total, discountedSubtotal } = orderSummaryProps
 
@@ -182,10 +179,10 @@ const ReviewStep = (props: ReviewStepProps) => {
   const handleComplete = () => handleSubmit(onValid, onInvalidForm)()
 
   const orderPriceProps: OrderPriceProps = {
-    subTotalLabel: t('Sub-Total :'),
-    shippingTotalLabel: t('Delivery Fee :'),
-    taxLabel: t('Tax :'),
-    totalLabel: t('Total :'),
+    subTotalLabel: t('sub-total'),
+    shippingTotalLabel: t('delivery-fee'),
+    taxLabel: t('tax-text'),
+    totalLabel: t('total-text'),
     subTotal: t('currency', { val: subTotal }),
     discountedSubtotal:
       discountedSubtotal > 0 && discountedSubtotal !== subTotal
@@ -426,9 +423,7 @@ const ReviewStep = (props: ReviewStepProps) => {
       </Box>
 
       <Stack sx={{ mt: '20px', mb: '20px' }}>
-        {t(
-          'Please review your order below.Your order is not final until you click the Place Order button.'
-        ).toString()}
+        {t('place-order-review-infomation-text').toString()}
       </Stack>
 
       <Stack alignItems="left">
