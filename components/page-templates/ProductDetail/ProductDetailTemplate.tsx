@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded'
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded'
@@ -66,6 +66,20 @@ interface ProductDetailTemplateProps {
   breadcrumbs?: BreadCrumb[]
   isQuickViewModal?: boolean
   children?: any
+  isB2B?: boolean
+  addItemToList?: string
+  addItemToQuote?: string
+  addItemToCart?: string
+  title?: string
+  cancel?: string
+  quoteDetails?: any
+  shouldFetchShippingMethods?: boolean
+  getCurrentProduct?: (
+    addToCartPayload: any,
+    currentProduct: ProductCustom,
+    isValidateAddToCart: boolean,
+    isValidateAddToWishlist: boolean
+  ) => void
 }
 
 const styles = {
@@ -89,7 +103,20 @@ const StyledLink = styled(Link)(({ theme }: { theme: Theme }) => ({
 
 const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
   const { getProductLink } = uiHelpers()
-  const { product, breadcrumbs = [], isQuickViewModal = false, children } = props
+  const {
+    product,
+    breadcrumbs = [],
+    isQuickViewModal = false,
+    children,
+    isB2B = false,
+    addItemToList,
+    addItemToQuote,
+    addItemToCart,
+    cancel,
+    quoteDetails,
+    shouldFetchShippingMethods,
+    getCurrentProduct,
+  } = props
   const { t } = useTranslation('common')
 
   const [purchaseType, setPurchaseType] = useState<string>(PurchaseTypes.ONETIMEPURCHASE)
@@ -194,27 +221,30 @@ const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
     },
   ]
 
+  const addToCartPayload = {
+    product: {
+      productCode,
+      variationProductCode,
+      fulfillmentMethod,
+      options: updatedShopperEnteredValues,
+      purchaseLocationCode: selectedFulfillmentOption?.location?.code as string,
+      currentProduct,
+    },
+    quantity,
+    ...(purchaseType === PurchaseTypes.SUBSCRIPTION && {
+      subscription: {
+        required: true,
+        frequency: subscriptionGetters.getFrequencyUnitAndValue(selectedFrequency),
+      },
+    }),
+  }
+
   // methods
   const handleAddToCart = async () => {
     try {
-      const cartResponse = await addToCart.mutateAsync({
-        product: {
-          productCode,
-          variationProductCode,
-          fulfillmentMethod,
-          options: updatedShopperEnteredValues,
-          purchaseLocationCode: selectedFulfillmentOption?.location?.code as string,
-        },
-        quantity,
-        ...(purchaseType === PurchaseTypes.SUBSCRIPTION && {
-          subscription: {
-            required: true,
-            frequency: subscriptionGetters.getFrequencyUnitAndValue(selectedFrequency),
-          },
-        }),
-      })
+      const cartResponse = await addToCart.mutateAsync(addToCartPayload)
 
-      if (cartResponse.id) {
+      if (cartResponse.id && !isB2B) {
         showModal({
           Component: AddToCartDialog,
           props: {
@@ -253,15 +283,36 @@ const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
         isQuickViewModal: isQuickViewModal,
         isNested: isQuickViewModal,
         NestedDialog: isQuickViewModal ? ProductQuickViewDialog : null,
-        nestedDialogProps: { product: currentProduct, isQuickViewModal: true },
-        onNestedDialogClose: () => {
-          showModal({
-            Component: ProductQuickViewDialog,
-            props: {
-              product: currentProduct,
-              isQuickViewModal: true,
+        nestedDialogProps: {
+          product: currentProduct,
+          shouldFetchShippingMethods,
+          isQuickViewModal: true,
+          dialogProps: {
+            title: props.title,
+            cancel,
+            addItemToList: addItemToList,
+            addItemToQuote: addItemToQuote,
+            addItemToCart,
+            isB2B,
+          },
+          quoteDetails,
+        },
+        onNestedDialogClose: {
+          Component: ProductQuickViewDialog,
+          props: {
+            product: currentProduct,
+            isQuickViewModal: true,
+            shouldFetchShippingMethods,
+            dialogProps: {
+              title: props.title,
+              cancel,
+              addItemToList: addItemToList,
+              addItemToQuote: addItemToQuote,
+              addItemToCart,
+              isB2B,
             },
-          })
+            quoteDetails,
+          },
         },
         handleSetStore: async (selectedStore: LocationCustom) => {
           setSelectedFulfillmentOption({
@@ -273,9 +324,11 @@ const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
     })
   }
 
+  const isValidForAddToWishlist = wishlistGetters.isAvailableToAddToWishlist(currentProduct)
+
   const handleWishList = async () => {
     try {
-      if (!wishlistGetters.isAvailableToAddToWishlist(currentProduct)) return
+      if (!isValidForAddToWishlist) return
       await addOrRemoveWishlistItem({ product: currentProduct })
     } catch (error) {
       console.log('Error: add or remove wishlist item from PDP', error)
@@ -296,6 +349,17 @@ const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
   }
 
   const handleFrequencyChange = async (_name: string, value: string) => setSelectedFrequency(value)
+
+  useEffect(() => {
+    if (isB2B && (isValidForAddToCart() || isValidForAddToWishlist)) {
+      getCurrentProduct?.(
+        addToCartPayload,
+        currentProduct,
+        isValidForAddToCart(),
+        isValidForAddToWishlist as boolean
+      )
+    }
+  }, [isB2B, isValidForAddToCart(), isValidForAddToWishlist, JSON.stringify(addToCartPayload)])
 
   return (
     <Grid container>
@@ -446,8 +510,9 @@ const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
               })}
             </KiboSelect>
           )}
-          {purchaseType === PurchaseTypes.ONETIMEPURCHASE && (
+          {!addItemToList && purchaseType === PurchaseTypes.ONETIMEPURCHASE && (
             <FulfillmentOptions
+              title={t('fulfillment-options')}
               fulfillmentOptions={fulfillmentOptions}
               selected={selectedFulfillmentOption?.method}
               onFulfillmentOptionChange={(value: string) => handleFulfillmentOptionChange(value)}
@@ -456,54 +521,58 @@ const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
           )}
         </Box>
 
-        <Box pt={2} display="flex" sx={{ justifyContent: 'space-between' }}>
-          <Typography fontWeight="600" variant="body2">
-            {selectedFulfillmentOption?.method && `${quantityLeft} ${t('item-left')}`}
-          </Typography>
-          <MuiLink
-            color="inherit"
-            variant="body2"
-            sx={{ cursor: 'pointer' }}
-            onClick={() => handleProductPickupLocation(t('check-nearby-store'))}
-          >
-            {t('nearby-stores')}
-          </MuiLink>
-        </Box>
-        <Box paddingY={1} display="flex" flexDirection={'column'} gap={2}>
-          <LoadingButton
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={() => handleAddToCart()}
-            loading={addToCart.isPending}
-            {...(!isValidForAddToCart() && { disabled: true })}
-          >
-            {t('add-to-cart')}
-          </LoadingButton>
-          <Box display="flex" gap={3}>
+        {!addItemToList && (
+          <Box pt={2} display="flex" sx={{ justifyContent: 'space-between' }}>
+            <Typography fontWeight="600" variant="body2">
+              {selectedFulfillmentOption?.method && `${quantityLeft} ${t('item-left')}`}
+            </Typography>
+            <MuiLink
+              color="inherit"
+              variant="body2"
+              sx={{ cursor: 'pointer' }}
+              onClick={() => handleProductPickupLocation(t('check-nearby-store'))}
+            >
+              {t('nearby-stores')}
+            </MuiLink>
+          </Box>
+        )}
+        {!isB2B && (
+          <Box paddingY={1} display="flex" flexDirection={'column'} gap={2}>
             <LoadingButton
               variant="contained"
-              color="secondary"
+              color="primary"
               fullWidth
-              onClick={handleWishList}
-              loading={isWishlistLoading}
-              sx={{ padding: '0.375rem 0.5rem' }}
-              {...(!wishlistGetters.isAvailableToAddToWishlist(currentProduct) && {
-                disabled: true,
-              })}
+              onClick={() => handleAddToCart()}
+              loading={addToCart.isPending}
+              {...(!isValidForAddToCart() && { disabled: true })}
             >
-              {isProductInWishlist ? (
-                <FavoriteRoundedIcon sx={{ color: 'red.900', marginRight: '14px' }} />
-              ) : (
-                <FavoriteBorderRoundedIcon sx={{ color: 'grey.600', marginRight: '14px' }} />
-              )}
-              {t('add-to-wishlist')}
+              {t('add-to-cart')}
             </LoadingButton>
-            <Button variant="contained" color="inherit" fullWidth>
-              {t('one-click-checkout')}
-            </Button>
+            <Box display="flex" gap={3}>
+              <LoadingButton
+                variant="contained"
+                color="secondary"
+                fullWidth
+                onClick={handleWishList}
+                loading={isWishlistLoading}
+                sx={{ padding: '0.375rem 0.5rem' }}
+                {...(!isValidForAddToWishlist && {
+                  disabled: true,
+                })}
+              >
+                {isProductInWishlist ? (
+                  <FavoriteRoundedIcon sx={{ color: 'red.900', marginRight: '14px' }} />
+                ) : (
+                  <FavoriteBorderRoundedIcon sx={{ color: 'grey.600', marginRight: '14px' }} />
+                )}
+                {t('add-to-wishlist')}
+              </LoadingButton>
+              <Button variant="contained" color="inherit" fullWidth>
+                {t('one-click-checkout')}
+              </Button>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Grid>
       {!isQuickViewModal && (
         <>

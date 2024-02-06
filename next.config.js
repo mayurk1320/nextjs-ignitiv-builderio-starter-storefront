@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { i18n } = require('./next-i18next.config')
+
 const LOCATION_COOKIE = 'kibo_purchase_location'
 const DEFAULT_WISHLIST_NAME = 'default-wishlist'
 
@@ -45,17 +47,22 @@ module.exports = {
     shippingAddressPageSize: 5,
     billingAddressPageSize: 5,
     paymentMethodPageSize: 5,
+    b2bProductSearchPageSize: 16,
     badgeAttributeFQN: 'Tenant~badge',
     occasionAttributeFQN: 'Tenant~occasion',
     colorAttributeFQN: 'Tenant~Color',
     sizeAttributeFQN: 'Tenant~Size',
     paymentTypes: [
       {
+        id: 'PurchaseOrder',
+        name: 'Purchase Order',
+      },
+      {
         id: 'CreditCard',
         name: 'Credit / Debit Card',
       },
     ],
-    countries: ['US', 'AT', 'DE', 'NL'],
+    countries: ['US', 'AT', 'DE', 'NL', 'CA'],
     debounceTimeout: '1000',
     productListing: {
       sortOptions: [
@@ -69,6 +76,15 @@ module.exports = {
       pageSize: 16,
       // For Pagination use this.
       // pageSize: [15, 30, 50],
+    },
+    B2BQuotes: {
+      sortOptions: [
+        { value: 'Expiry Date Asc', id: 'expirationDate asc' },
+        { value: 'Expiry Date Desc', id: 'expirationDate desc' },
+        { value: 'Quote number: Low-High', id: 'number asc' },
+        { value: 'Quote number: High-Low', id: 'number desc' },
+      ],
+      pageSize: 5,
     },
     orderHistory: {
       startIndex: 0,
@@ -124,6 +140,42 @@ module.exports = {
       },
     ],
     isSubscriptionEnabled: true,
+    b2bUserListing: {
+      startIndex: 0,
+      pageSize: 5,
+      defaultFilter: 'isRemoved eq false',
+      defaultStartIndex: 0,
+      defaultPageSize: 5,
+      defaultPage: 1,
+    },
+    b2bList: {
+      startIndex: 0,
+      pageSize: 5,
+      sortBy: 'createDate desc',
+      filter: '',
+    },
+    b2bUserRoles: [
+      { roleName: 'Admin', roleId: 1 },
+      { roleName: 'Purchaser', roleId: 2 },
+      { roleName: 'Nonpurchaser', roleId: 3 },
+    ],
+    userFormRadioOptions: [
+      {
+        label: 'Admin',
+        name: 'role',
+        value: 'Admin',
+      },
+      {
+        label: 'Purchaser',
+        name: 'role',
+        value: 'Purchaser',
+      },
+      {
+        label: 'Non Purchaser',
+        name: 'role',
+        value: 'Nonpurchaser',
+      },
+    ],
     builderIO: {
       apiKey: process.env.BUILDER_IO_API_KEY,
       modelKeys: {
@@ -154,6 +206,9 @@ module.exports = {
       reCaptchaKey: process.env.RECAPTCHA_KEY,
       reCaptchaSecret: process.env.RECAPTCHA_SECRET,
       reCaptchaThreshold: process.env.RECAPTCHA_THRESHOLD,
+    },
+    B2BQuotes: {
+      pageSize: 5,
     },
   },
   staticPageGenerationTimeout: 1000,

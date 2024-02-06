@@ -1,4 +1,5 @@
 import { BuilderComponent, builder, Builder } from '@builder.io/react'
+import '@builder.io/widgets'
 import getConfig from 'next/config'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
@@ -370,8 +371,8 @@ Builder.registerComponent(ContentTile, {
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
+  const categoriesTree: CategoryTreeResponse = (await getCategoryTree()) || null
   const { serverRuntimeConfig } = getConfig()
-  const categoriesTree: CategoryTreeResponse = await getCategoryTree()
 
   const page = await builder
     .get(publicRuntimeConfig?.builderIO?.modelKeys?.defaultPage, {
