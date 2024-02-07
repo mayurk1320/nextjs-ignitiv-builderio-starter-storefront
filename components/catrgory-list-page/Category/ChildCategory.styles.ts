@@ -1,6 +1,6 @@
-import theme from '@/styles/theme'
+import theme, { themeBackGround, themeBorder } from '@/styles/theme'
 
-export const ShopByCategoryStyle = {
+export const ChildCategoryStyle = {
   categoryLink: {
     textDecoration: 'none',
     color: 'inherit',
@@ -15,7 +15,6 @@ export const ShopByCategoryStyle = {
   },
 
   categoryText: {
-    marginTop: '10px',
     fontSize: '20px',
     fontWeight: 'bold',
   },
@@ -24,21 +23,21 @@ export const ShopByCategoryStyle = {
     marginTop: { xs: '0px', md: '0px' },
     marginBottom: { xs: '15px', md: '15px' },
     padding: '0',
-    margin: '0 -16px',
+    margin: '0',
     width: '100%',
+    justifyContent: 'center',
   },
   categoryItem: {
     background: theme?.palette.primary.light,
     height: '350px',
-    padding: '25px',
     borderRadius: '5px',
     marginBottom: '20px',
     overflow: 'hidden',
     margin: '0 1%',
     textAlign: 'center',
     '&:hover': {
-      backgroundColor: '#ffffff',
-      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+      backgroundColor: theme?.palette.common.white,
+      boxShadow: `0 4px 8px 0 ${themeBackGround.boxShadowPrimary}, 0 6px 20px 0 ${themeBackGround.boxShadowSecondary}`,
     },
   },
   categoryItemWrapper: {
@@ -54,6 +53,7 @@ export const ShopByCategoryStyle = {
   container: {
     maxWidth: '1536px',
     padding: '0 !important',
+    marginBottom: '70px',
   },
   carouselContainer: {
     position: 'relative',
@@ -63,75 +63,90 @@ export const ShopByCategoryStyle = {
     float: 'right',
     marginRight: '10px',
     marginTop: '8px',
-    color: '#8D59FC',
-    backgroundColor: '#ffffff',
-    border: '2px solid #8D59FC',
+    color: theme?.palette.primary.main,
+    backgroundColor: theme?.palette?.common.white,
+    border: `2px solid ${theme?.palette.primary.main}`,
     borderRadius: '7px',
     height: '28px',
     width: '28px',
     '&:hover': {
-      color: '#ffffff',
-      backgroundColor: '#8D59FC',
+      color: theme?.palette?.common.white,
+      backgroundColor: theme?.palette.primary.main,
     },
   },
   nextButton: {
     float: 'right',
     marginRight: '10px',
     marginTop: '8px',
-    color: '#8D59FC',
-    backgroundColor: '#ffffff',
-    border: '2px solid #8D59FC',
+    color: theme?.palette.primary.main,
+    backgroundColor: theme?.palette?.common.white,
+    border: `2px solid ${theme?.palette.primary.main}`,
     borderRadius: '7px',
     height: '28px',
     width: '28px',
     '&:hover': {
-      color: '#ffffff',
-      backgroundColor: '#8D59FC',
+      color: theme?.palette?.common.white,
+      backgroundColor: theme?.palette.primary.main,
     },
   },
   disabledButton: {
     float: 'right',
     marginRight: '10px',
     marginTop: '8px',
-    color: '#8D59FC',
-    backgroundColor: '#ffffff',
-    border: '2px solid #8D59FC',
+    color: theme?.palette.primary.main,
+    backgroundColor: theme?.palette.common.white,
+    border: `2px solid ${theme?.palette.primary.main}`,
     borderRadius: '7px',
     height: '28px',
     width: '28px',
     '&:hover': {
-      color: '#ffffff',
-      backgroundColor: '#8D59FC',
+      color: theme?.palette.common.white,
+      backgroundColor: theme?.palette.primary.main,
     },
   },
   selectedItem: {
-    border: '2px solid #cccccc',
+    border: `2px solid ${themeBorder.main}`,
   },
 
   navigationContainer: {
-    textAlign: 'right',
     marginRight: '25px',
     width: '100%',
     overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
-  viewAllText: {
-    float: 'right',
-    marginTop: '10px',
-    fontSize: '16px',
-    color: '#8D59FC',
-    fontWeight: '600',
+  categoryName: {
+    borderLeft: `8px solid ${themeBorder.light}`,
+    padding: '10px 20px',
+    fontFamily: 'Roboto Slab',
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: '44px',
+    lineHeight: '1.2',
+  },
+  shopAllButton: {
+    padding: '10px 20px',
+    borderRadius: '50px',
     marginRight: '15px',
-    '@media (max-width: 767px)': {
-      display: 'none',
+    backgroundColor: theme?.palette.primary.main,
+    border: `1px solid ${theme?.palette.primary.main}`,
+    fontSize: '16px',
+    color: theme?.palette.common.white,
+    fontWeight: '600',
+    '&:hover': {
+      backgroundColor: themeBackGround.default,
+      border: `1px solid ${themeBackGround.default}`,
     },
   },
   navigationIconContainer: {
     float: 'right',
-    width: 'auto',
+    marginBottom: '25px',
+    width: '100%',
+    overflow: 'hidden',
   },
   mainTitle: {
     FontSize: '36px !important',
-    color: '#555555',
+    color: theme?.palette?.text?.primary,
     fontWeight: '400',
     margin: '15px',
     float: 'left',

@@ -84,7 +84,6 @@
   "item-quantity_one": "{{count}} item",
   "item-quantity_other": "{{count}} items",
   "order-summary": "Order Summary",
-  "cart-summary": "Cart Summary",
   "subtotal": "Subtotal",
   "shipping": "Shipping",
   "total-price": "Total Price",
@@ -166,6 +165,7 @@
   "social": "Social",
   "empty-wishlist-message": "You haven’t saved any items to your wishlist yet. Tap the heart of your favorite items to add them to your wishlist.",
   "shopping-cart": "Shopping Cart",
+  "your-cart": "Your Cart",
   "save-for-later": "Save for Later",
   "add-to-favorites": "Add to Favorites",
   "empty-cart-message": "You haven’t added any items to your shopping cart yet. Shop now to add your favorite items to your cart.",
@@ -357,5 +357,11 @@
   "delivery-fee": "Delivery Fee :",
   "tax-text": "Tax :",
   "total-text": "Total :",
-  "place-order-review-infomation-text": "Please review your order below. Your order is not final until you click the Place Order button."
+  "place-order-review-infomation-text": "Please review your order below. Your order is not final until you click the Place Order button.",
+  "cart-summary": "Cart Summary",
+  "remove-cart": "Remove from Cart",
+  "add-wishlist": "Add to Wishlist",
+  "promotion": "Promotion or Coupon Code",
+  "checkout": "Checkout",
+  "pickup-information": "Pickup Information"
 }

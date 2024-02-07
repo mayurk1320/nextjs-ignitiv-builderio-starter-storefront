@@ -11,6 +11,7 @@ import {
   IgnHeroBanner,
   Deals,
   SaleBanner,
+  DealsToday,
 } from '@/components/home'
 import { ProductRecommendations } from '@/components/product'
 import { CategorySlider } from '@/components/product-listing'
@@ -514,6 +515,31 @@ Builder.registerComponent(ContentTile, {
   ],
 })
 
+Builder.registerComponent(DealsToday, {
+  name: 'Deals Today',
+  inputs: [
+    {
+      name: 'title',
+      type: 'string',
+      defaultValue: 'Deals Today',
+    },
+    {
+      name: 'subTitle',
+      type: 'string',
+      defaultValue: 'Deals refresh every 24 hrs',
+    },
+    {
+      name: 'viewAllLink',
+      type: 'string',
+      defaultValue: '/',
+    },
+    {
+      name: 'productCodes',
+      type: 'KiboCommerceProductsList',
+    },
+  ],
+})
+
 Builder.registerComponent(Deals, {
   name: 'Deals',
   inputs: [
@@ -600,6 +626,7 @@ Builder.registerComponent(Deals, {
     },
   ],
 })
+
 Builder.registerComponent(CmsShopByCategory, {
   name: 'CmsShopByCategory',
   inputs: [
@@ -615,6 +642,10 @@ Builder.registerComponent(CmsShopByCategory, {
           type: 'string',
         },
       ],
+    },
+    {
+      name: 'categoryCodes',
+      type: 'KiboCommerceCategoriesList',
     },
   ],
 })

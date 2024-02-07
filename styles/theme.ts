@@ -3,6 +3,8 @@ import type {} from '@mui/lab/themeAugmentation'
 declare module '@mui/material/styles/createPalette' {
   interface PaletteOptions {
     red?: PaletteColorOptions
+    shadow?: PaletteColorOptions
+    background?: Partial<TypeBackground>
   }
 }
 
@@ -22,6 +24,17 @@ export const grey = {
   50: '#FAFAFA',
 }
 
+export const themeBackGround = {
+  default: 'rgb(98, 62, 176)',
+  boxShadowPrimary: '#00000033',
+  boxShadowSecondary: 'rgba(0, 0, 0, 0.19)',
+  boxShadowCard: '0 2px 16px 4px rgb(40 44 63 / 7%)',
+}
+
+export const themeBorder = {
+  main: '#cccccc',
+  light: '#d8dcdc',
+}
 export const red = {
   900: '#bb2500',
   // wishlist color
@@ -132,6 +145,9 @@ let theme = createTheme({
     },
     grey: { ...grey },
     red: { ...red },
+    common: {
+      white: '#ffffff',
+    },
   },
   components: {
     MuiButton: {
