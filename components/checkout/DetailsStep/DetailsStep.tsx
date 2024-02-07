@@ -129,7 +129,7 @@ const DetailsStep = <T extends CrOrder | Checkout>(props: DetailsProps<T>) => {
         <div>
           <Button
             variant="contained"
-            color="inherit"
+            color="primary"
             sx={{ ...buttonStyle }}
             style={{ textTransform: 'none' }}
             onClick={openLoginModal}
@@ -185,7 +185,7 @@ const DetailsStep = <T extends CrOrder | Checkout>(props: DetailsProps<T>) => {
             <IconButton aria-label={t('full-rewards-program-benifits')}>
               <CardGiftcard fontSize="medium" />
             </IconButton>
-            {t('full-rewards-program-benifits')}
+            {t('full-rewards-program-benefits')}
           </Grid>
           <Grid item xs={12}>
             <IconButton aria-label={t('manage-your-wishlist')}>

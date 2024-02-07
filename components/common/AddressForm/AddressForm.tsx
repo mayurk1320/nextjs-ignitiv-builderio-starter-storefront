@@ -160,7 +160,7 @@ const AddressForm = (props: AddressFormProps) => {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={12} md={isAddressFormInDialog ? 12 : 6}>
           <Controller
             name="address.address1"
             control={control}
@@ -181,7 +181,7 @@ const AddressForm = (props: AddressFormProps) => {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={12} md={isAddressFormInDialog ? 12 : 6}>
           <Controller
             name="address.address2"
             control={control}

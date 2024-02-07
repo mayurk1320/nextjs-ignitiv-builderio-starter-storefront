@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import { Box, Button, Checkbox, FormControlLabel, Stack, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControlLabel, Stack, Typography, SxProps } from '@mui/material'
+import { Theme } from '@mui/material/styles'
 import getConfig from 'next/config'
 import { useTranslation } from 'next-i18next'
 
@@ -32,6 +33,11 @@ import type {
   CustomerContactCollection,
   CustomerContactInput,
 } from '@/lib/gql/types'
+
+const buttonStyle = {
+  height: '42px',
+  fontSize: (themeParam: Theme) => themeParam.typography.subtitle1,
+} as SxProps<Theme> | undefined
 
 interface PaymentMethodProps {
   user: CustomerAccount
@@ -372,8 +378,8 @@ const PaymentMethod = (props: PaymentMethodProps) => {
           ))}
           <Button
             variant="contained"
-            color="inherit"
-            sx={{ ...styles.addPaymentMethodButtonStyle }}
+            color="primary"
+            sx={{ ...buttonStyle }}
             onClick={() => handleAddNewPaymentMethod()}
             startIcon={<AddCircleOutlineIcon />}
           >
@@ -473,9 +479,9 @@ const PaymentMethod = (props: PaymentMethodProps) => {
             {!showBillingFormAddress && (
               <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
+                sx={{ ...buttonStyle, maxWidth: '26rem' }}
                 onClick={handleAddNewBillingAddress}
-                sx={{ maxWidth: '26rem' }}
               >
                 {t('add-new-address')}
               </Button>
@@ -489,6 +495,7 @@ const PaymentMethod = (props: PaymentMethodProps) => {
             <Button
               variant="contained"
               color="primary"
+              sx={{ ...buttonStyle }}
               {...(isAddPaymentMethodButtonDisabled() && { disabled: true })}
               onClick={handleSaveNewPaymentMethod}
             >
