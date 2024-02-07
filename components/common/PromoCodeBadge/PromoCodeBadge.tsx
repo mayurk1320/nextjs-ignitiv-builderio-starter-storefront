@@ -14,12 +14,15 @@ export interface PromoCodeBadgeProps {
   promoList?: string[] | null
   promoError?: boolean
   helpText?: string
+  couponLabel?: string
+  isEdit?: boolean
 }
 const styles = {
   boxStyle: {
     display: 'inline-block',
     mr: '0.5rem',
     px: '0.5rem',
+    mb: '0.5rem',
     backgroundColor: 'grey.500',
   },
   textBoxStyle: {
@@ -34,7 +37,15 @@ const styles = {
 
 const PromoCodeBadge = (props: PromoCodeBadgeProps) => {
   const { t } = useTranslation('common')
-  const { onApplyCouponCode, onRemoveCouponCode, promoList, promoError, helpText } = props
+  const {
+    onApplyCouponCode,
+    onRemoveCouponCode,
+    promoList,
+    promoError,
+    helpText,
+    couponLabel,
+    isEdit = true,
+  } = props
   const [promo, setPromo] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string | undefined>(helpText as string)
 
@@ -87,17 +98,19 @@ const PromoCodeBadge = (props: PromoCodeBadgeProps) => {
         </Button>
       </Stack>
       {promoList?.map((coupon: string) => (
-        <Box key={coupon} data-testid="promotype" component="div">
+        <Box key={coupon} data-testid="applied-coupon" component="div" sx={styles.boxStyle}>
           <Stack direction="row" spacing={0.5} alignItems="center">
             <Typography sx={{ textAlign: 'left' }}>{coupon}</Typography>
-            <CloseIcon
-              aria-label="remove-promo-code"
-              sx={{
-                cursor: 'pointer',
-                fontSize: '1rem',
-              }}
-              onClick={() => handleRemoveCouponCode(coupon)}
-            />
+            {isEdit && (
+              <CloseIcon
+                aria-label="remove-promo-code"
+                sx={{
+                  cursor: 'pointer',
+                  fontSize: '1rem',
+                }}
+                onClick={() => handleRemoveCouponCode(coupon)}
+              />
+            )}
           </Stack>
         </Box>
       ))}

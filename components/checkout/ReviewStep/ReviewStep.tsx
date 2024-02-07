@@ -160,7 +160,7 @@ const ReviewStep = (props: ReviewStepProps) => {
           password: formData.password,
         })
 
-        if (account.userId) {
+        if (account?.customerAccount.userId) {
           updateUserOrder.mutateAsync(checkout.id as string)
         }
       }
@@ -177,19 +177,12 @@ const ReviewStep = (props: ReviewStepProps) => {
   const onInvalidForm = () => console.log('Invalid Form')
   const handleComplete = () => handleSubmit(onValid, onInvalidForm)()
 
-  const orderPriceProps: OrderPriceProps = {
+  const orderPriceProps = {
     subTotalLabel: t('subtotal'),
     shippingTotalLabel: t('shipping'),
-    taxLabel: t('estimated-tax'),
+    handlingLabel: t('handling'),
     totalLabel: t('total'),
-    subTotal: t('currency', { val: subTotal }),
-    discountedSubtotal:
-      discountedSubtotal > 0 && discountedSubtotal !== subTotal
-        ? t('currency', { val: discountedSubtotal })
-        : '',
-    shippingTotal: t('currency', { val: shippingTotal || 0 }),
-    tax: t('currency', { val: taxTotal }),
-    total: t('currency', { val: total }),
+    orderDetails: checkout,
   }
 
   return (
@@ -258,6 +251,7 @@ const ReviewStep = (props: ReviewStepProps) => {
                       price={productGetters.getPrice(product).regular?.toString()}
                       salePrice={productGetters.getPrice(product).special?.toString()}
                       expectedDeliveryDate={item?.expectedDeliveryDate}
+                      discounts={item?.productDiscounts}
                     />
                   </Stack>
                 </>
@@ -303,7 +297,7 @@ const ReviewStep = (props: ReviewStepProps) => {
               data-testid="termsConditions"
               size="medium"
               color="primary"
-              value={isAgreeWithTermsAndConditions}
+              checked={isAgreeWithTermsAndConditions}
               onChange={handleAgreeTermsConditions}
             />
           }

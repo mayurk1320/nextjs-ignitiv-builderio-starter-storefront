@@ -13,10 +13,20 @@ interface CartItemActionsMobileProps {
   actions: string[]
   onMenuItemSelection: (option: string) => void
   onCartItemDelete: (cartItemId: string) => void
+  width?: string
+}
+
+const styles = {
+  menuItemStyle: {
+    typography: {
+      sm: 'body2',
+    },
+    padding: '0.5rem 1rem',
+  },
 }
 
 const CartItemActionsMobile = (props: CartItemActionsMobileProps) => {
-  const { cartItem, actions, onMenuItemSelection, onCartItemDelete } = props
+  const { actions, onMenuItemSelection, width, cartItem, onCartItemDelete } = props
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const { t } = useTranslation('common')
@@ -58,7 +68,7 @@ const CartItemActionsMobile = (props: CartItemActionsMobileProps) => {
         onClose={handleClose}
         PaperProps={{
           style: {
-            width: '12.063rem',
+            width: width ?? '12.063rem',
           },
         }}
         anchorOrigin={{

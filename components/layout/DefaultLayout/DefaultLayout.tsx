@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect } from 'react'
 
-import { Container } from '@mui/material'
+import { Container, Stack } from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
 import { HydrationBoundary } from '@tanstack/react-query'

@@ -17,8 +17,14 @@ import {
   useAddOrderPaymentInfo,
   useVoidOrderPayment,
   useCreateOrder,
+  useGetCards,
+  useGetCustomerPurchaseOrderAccount,
+  useCreateCustomerCard,
+  useCreateCustomerAddress,
 } from '@/hooks'
+import { AccountType, AddressType } from '@/lib/constants'
 import { orderGetters } from '@/lib/getters'
+import { buildCreateCustomerCardParam, buildAddressParams } from '@/lib/helpers'
 import type { PersonalDetails } from '@/lib/types'
 
 import type { CrOrder, CrOrderInput, PaymentActionInput } from '@/lib/gql/types'
@@ -44,7 +50,17 @@ const StandardShipCheckoutTemplate = (props: StandardShipCheckoutProps) => {
   })
 
   const { isAuthenticated, user } = useAuthContext()
-  const { data: savedUserAddressData } = useGetCustomerAddresses(user?.id as number)
+  const { data: addressCollection } = useGetCustomerAddresses(user?.id as number)
+  const { data: cardCollection } = useGetCards(user?.id as number)
+  const { createCustomerAddress } = useCreateCustomerAddress()
+  const { createCustomerCard } = useCreateCustomerCard()
+  const isB2BUser = user?.accountType?.toLowerCase() === AccountType.B2B.toLowerCase()
+
+  const { data: customerPurchaseOrderAccount } = useGetCustomerPurchaseOrderAccount(
+    user?.id as number,
+    isB2BUser
+  )
+
   const { updateOrderCoupon } = useUpdateOrderCoupon()
   const { deleteOrderCoupon } = useDeleteOrderCoupon()
 
@@ -56,7 +72,7 @@ const StandardShipCheckoutTemplate = (props: StandardShipCheckoutProps) => {
         couponCode,
       })
       if (response?.invalidCoupons?.length) {
-        setPromoError(response?.invalidCoupons[0]?.reason)
+        setPromoError(`<strong>${couponCode}</strong> ${response?.invalidCoupons[0]?.reason}`)
       }
     } catch (err) {
       console.error(err)
@@ -127,7 +143,32 @@ const StandardShipCheckoutTemplate = (props: StandardShipCheckoutProps) => {
   }
 
   const handleCreateOrder = async (order: CrOrder) => {
+    const orderPayments = orderGetters.getNewOrderPayments(order as CrOrder)
     await createOrder.mutateAsync(order)
+
+    if (orderPayments[0]?.billingInfo?.card?.isCardInfoSaved) {
+      const address = {
+        ...orderPayments[0].billingInfo.billingContact.address,
+        contact: {
+          ...orderPayments[0].billingInfo.billingContact,
+          email: user?.emailAddress as string,
+        },
+      }
+      const params = buildAddressParams({
+        accountId: user?.id as number,
+        address,
+        isDefaultAddress: false,
+        addressType: AddressType.BILLING,
+      })
+      const savedCustomerAddressRes = await createCustomerAddress.mutateAsync(params)
+
+      const cardParams = buildCreateCustomerCardParam(
+        orderPayments[0].billingInfo,
+        user?.id as number,
+        savedCustomerAddressRes.id
+      )
+      await createCustomerCard.mutateAsync(cardParams)
+    }
 
     router.push(
       { pathname: '/order-confirmation', query: { checkoutId: order.id } },
@@ -151,13 +192,17 @@ const StandardShipCheckoutTemplate = (props: StandardShipCheckoutProps) => {
         />
         <StandardShippingStep
           checkout={order as CrOrder}
-          savedUserAddressData={savedUserAddressData}
+          savedUserAddressData={addressCollection}
           isAuthenticated={isAuthenticated}
         />
         <PaymentStep
           checkout={order as CrOrder}
+          addressCollection={addressCollection}
+          cardCollection={cardCollection}
+          customerPurchaseOrderAccount={customerPurchaseOrderAccount}
           onVoidPayment={handleVoidPayment}
           onAddPayment={handleAddPayment}
+          isMultiShipEnabled={false}
         />
         <ReviewStep
           checkout={order as CrOrder}

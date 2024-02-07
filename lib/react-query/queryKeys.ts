@@ -1,3 +1,6 @@
+import { QueryQuotesArgs } from '../gql/types'
+import { PageProps } from '@/hooks'
+
 import type { CategoryPagedCollectionParams, CategorySearchParams } from '../types'
 
 export const checkoutKeys = {
@@ -19,6 +22,15 @@ export const shippingMethodKeys = {
     [...shippingMethodKeys.all, id, newAddress, addressId] as const,
 }
 
+export const quoteShippingMethodKeys = {
+  all: ['quoteShippingMethod'] as const,
+  detail: (
+    id: string,
+    draft?: boolean,
+    addressId?: boolean,
+    selectedShippingAddressId?: string | number
+  ) => [...quoteShippingMethodKeys.all, id, draft, addressId, selectedShippingAddressId] as const,
+}
 export const searchKeys = {
   all: ['search'] as const,
   suggestions: (term: string) => [...searchKeys.all, term] as const,
@@ -42,6 +54,24 @@ export const categorySearchResultKeys = {
     [...categorySearchResultKeys.all, params] as const,
 }
 
+export const customerB2BUserKeys = {
+  all: ['b2BUsers'] as any,
+  search: (
+    accountId: number,
+    index: number,
+    pageSize: number,
+    searchTerm: string | undefined,
+    filter: string,
+    sortBy: string
+  ) =>
+    [...customerB2BUserKeys.all, accountId, index, pageSize, searchTerm, filter, sortBy] as const,
+}
+
+export const accountHierarchyKeys = {
+  all: ['accountHierarchy'] as any,
+  accountHierarchy: (accountId: number) => [...accountHierarchyKeys.all, accountId] as const,
+}
+
 export const productSearchResultKeys = {
   all: ['productSearch'] as const,
   searchParams: (params: CategorySearchParams) => [...productSearchResultKeys.all, params] as const,
@@ -54,6 +84,12 @@ export const cartKeys = {
 export const customerAccountCardsKeys = {
   all: ['customerAccountCards'] as const,
   cardById: (accountId: number) => [...customerAccountCardsKeys.all, accountId] as const,
+}
+
+export const customerPurchaseOrderAccountKeys = {
+  all: ['customerPurchaseOrderAccount'] as const,
+  purchaseOrderAccountById: (accountId: number) =>
+    [...customerPurchaseOrderAccountKeys.all, accountId] as const,
 }
 
 export const customerAccountContactsKeys = {
@@ -73,6 +109,14 @@ export const locationKeys = {
 
 export const wishlistKeys = {
   all: ['wishlist'] as const,
+  page: (key: PageProps) =>
+    [
+      wishlistKeys.all[0],
+      { startIndex: key.startIndex },
+      { pageSize: key.pageSize },
+      { filter: key.filter },
+      { sortBy: key.sortBy },
+    ] as const,
 }
 
 export const ordersKeys = {
@@ -102,4 +146,18 @@ export const productKeys = {
   all: ['product'] as const,
   productParams: (productCode: string, useSubscriptionPricing: boolean) =>
     [productCode, useSubscriptionPricing] as const,
+}
+
+export const b2bQuotesKeys = {
+  all: ['quotes'],
+  quotesParams: (params: QueryQuotesArgs) => [...b2bQuotesKeys.all, params] as const,
+}
+export const quoteKeys = {
+  all: ['quote'] as const,
+  detail: (id: string) => [...quoteKeys.all, id] as const,
+}
+
+export const customerWishlistKeys = {
+  all: ['customerWishlist'] as const,
+  detail: (id: string) => [...customerWishlistKeys.all, id] as const,
 }

@@ -287,6 +287,7 @@ const IgnitivHeader = (props: KiboHeaderProps) => {
         setIsDrawerOpen={() => toggleHamburgerMenu()}
         navLinks={navLinks}
         onAccountIconClick={handleAccountIconClick}
+        requestAccountIconComponent={undefined}
       />
     </>
   )

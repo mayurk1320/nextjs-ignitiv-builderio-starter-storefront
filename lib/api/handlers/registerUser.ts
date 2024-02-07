@@ -2,6 +2,7 @@ import getConfig from 'next/config'
 
 import { fetcher, getAdditionalHeader } from '../util'
 import getUserClaimsFromRequest from '../util/getUserClaimsFromRequest'
+import { fromBitVectorSetArray } from '@/lib/helpers'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -27,6 +28,12 @@ export default async function registerUserHandler(req: NextApiRequest, res: Next
     // set HTTP cookie
     const account = response?.data?.account
     const userId = response?.data?.account?.customerAccount?.userId
+    const jwtAccessToken = response?.data?.account?.jwtAccessToken
+    const decoded = JSON.parse(
+      Buffer.from(jwtAccessToken.split('.')[1], 'base64').toString('ascii')
+    )
+    const bv = decoded['https://www.kibocommerce.com/user_claims'].bv
+    const behaviors = fromBitVectorSetArray(bv)
 
     const cookieValue = {
       accessToken: account?.accessToken,
@@ -41,7 +48,18 @@ export default async function registerUserHandler(req: NextApiRequest, res: Next
       'Set-Cookie',
       `${cookieName}=${encodedValue}; HttpOnly; Max-Age=${maxCookieAge}; path=/`
     )
-    res.status(200).json(response)
+    // response object
+    const successResponse = {
+      data: {
+        account: {
+          customerAccount: response?.data?.account?.customerAccount,
+          behaviors,
+        },
+      },
+    }
+    // response status
+    const registerResponse = userId ? successResponse : response
+    res.status(200).json(registerResponse)
   } catch (error: any) {
     res.status(error?.code).json({ message: error?.message })
   }

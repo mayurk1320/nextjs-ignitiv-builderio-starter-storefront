@@ -6,22 +6,84 @@ import { useTranslation } from 'next-i18next'
 import { CartItemStyle } from './CartItem.styles'
 import { CartItemActions, CartItemActionsMobile } from '@/components/cart'
 import { FulfillmentOptions, Price, ProductItem, QuantitySelector } from '@/components/common'
+import { QuoteStatus } from '@/lib/constants'
 import { cartGetters, productGetters } from '@/lib/getters'
 import { uiHelpers } from '@/lib/helpers'
 import type { FulfillmentOption } from '@/lib/types'
 
-import type { CrCartItem as CartItemType, CrProduct, Maybe } from '@/lib/gql/types'
+import type { CrCartItem as CartItemType, CrOrderItem, CrProduct, Maybe } from '@/lib/gql/types'
 
 interface CartItemProps {
   cartItem: CartItemType
   maxQuantity: number | undefined
   actions?: Array<string>
   fulfillmentOptions: FulfillmentOption[]
+  mode?: string
+  isQuote?: boolean
+  status?: string
   onQuantityUpdate: (cartItemId: string, quantity: number) => void
   onCartItemDelete: (cartItemId: string) => void
   onCartItemActionSelection: () => void
   onFulfillmentOptionChange: (fulfillmentMethod: string, cartItemId: string) => void
   onProductPickupLocation: (cartItemId: string) => void
+}
+
+const styles = {
+  card: {
+    maxWidth: '100%',
+    marginBottom: {
+      xs: 0,
+      sm: 0,
+      md: '1.5rem',
+    },
+    border: {
+      xs: 'none',
+      md: `2px solid ${grey[200]}`,
+    },
+    boxShadow: 'none',
+  },
+  cartItemContainer: {
+    display: 'flex',
+    flexDirection: {
+      xs: 'column',
+      md: 'row',
+    },
+    padding: '1rem 0.5rem',
+    justifyContent: 'space-around',
+  },
+  subContainer: {
+    flex: 1,
+    padding: '0 0.5rem',
+    paddingTop: {
+      xs: 2,
+      md: 0,
+    },
+    paddingLeft: {
+      xs: 0,
+      md: 2,
+    },
+  },
+  icon: {
+    alignItems: 'flex-start',
+    margin: '0',
+    position: 'absolute',
+    padding: {
+      xs: '0.5rem 0',
+      sm: '0 0.5rem',
+    },
+    top: {
+      xs: 0,
+      sm: '2%',
+      md: '5%',
+      lg: '6%',
+    },
+    right: {
+      xs: 0,
+      sm: 0,
+      md: '1%',
+      lg: '1%',
+    },
+  } as SxProps<Theme>,
 }
 
 const CartItem = (props: CartItemProps) => {
@@ -30,6 +92,9 @@ const CartItem = (props: CartItemProps) => {
     maxQuantity,
     actions,
     fulfillmentOptions,
+    mode,
+    status,
+    isQuote = false,
     onQuantityUpdate,
     onCartItemDelete,
     onCartItemActionSelection,

@@ -31,7 +31,7 @@ type GenericProduct = Product | ProductCustom | CrProduct
 
 const getName = (product: GenericProduct): string => {
   if ('name' in product) {
-    return product.name as string
+    return product?.name as string
   }
 
   if ('content' in product) {
@@ -93,7 +93,7 @@ const getProductGallery = (product: Product | ProductCustom) => {
 const getProductImage = (product: CrProduct): string => product?.imageUrl || DefaultImage
 
 const handleProtocolRelativeUrl = (url: string) => {
-  if (typeof url === 'string' && !url.startsWith('http')) {
+  if (url && typeof url === 'string' && !url.startsWith('http')) {
     return `https:${url}`
   }
   return url
@@ -388,4 +388,5 @@ export const productGetters = {
   getProductCharacteristics,
   getCoverImageAlt,
   getSeoFriendlyUrl,
+  getDescription,
 }

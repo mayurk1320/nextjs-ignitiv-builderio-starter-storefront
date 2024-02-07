@@ -14,6 +14,7 @@ export enum PaymentWorkflow {
 }
 
 export enum PaymentType {
+  PURCHASEORDER = 'PurchaseOrder',
   CREDITCARD = 'CreditCard',
 }
 
@@ -136,6 +137,7 @@ export enum DisplayMode {
 export enum DateFormat {
   DATE_FORMAT = 'MMMM dd, yyyy',
   DATE_FORMAT_WITH_TIME = 'MMMM dd, yyyy, hh:mm a zzz',
+  DATE_FORMAT_WITH_SLASH = 'MM/dd/yyyy',
 }
 
 export enum ActionName {
@@ -161,4 +163,43 @@ export enum ProductAvailabilityStatus {
   PREORDER = 'Preorder',
   BACKORDER = 'Backorder',
   OUTOFSTOCK = 'Out of Stock',
+}
+
+export const AllAccountActions = {
+  EDIT_ACCOUNT: 'Edit account',
+  ADD_ACCOUNT: 'Add a child account',
+  VIEW_BUYER_ACCOUNT: 'View buyers for this account',
+  VIEW_ACCOUNT: 'View account',
+  VIEW_QUOTES: 'View quotes for this account',
+  DELETE_ACCOUNT: 'Delete account',
+}
+
+export enum AccountType {
+  B2B = 'B2B',
+}
+
+export const QuoteStatus: { [key: string]: string } = {
+  Pending: 'Pending',
+  InReview: 'In Review',
+  ReadyForCheckout: 'Ready For Checkout',
+  Completed: 'Completed',
+  Expired: 'Expired',
+}
+
+export const StatusColorCode: any = {
+  Pending: 'disabled',
+  InReview: 'warning',
+  ReadyForCheckout: 'info',
+  Completed: 'success',
+  Expired: 'error',
+}
+
+export const QuoteUpdateMode = {
+  ApplyToDraft: 'ApplyToDraft',
+  ApplyAndCommit: 'ApplyAndCommit',
+}
+
+export const CountryCode = {
+  US: 'US',
+  CA: 'CA',
 }
