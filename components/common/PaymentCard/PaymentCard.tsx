@@ -28,11 +28,6 @@ const PaymentCard = (props: PaymentCardProps) => {
         </Typography>
       )}
       <Box display="flex" pt={1} gap={2}>
-        <Box minWidth={45}>
-          {cardTypeMemoized && (
-            <KiboImage src={cardTypeMemoized} alt={cardType as string} width={45} height={35} />
-          )}
-        </Box>
         <Box>
           <Box display="flex">
             <Typography variant="body1" sx={{ pr: 1 }} component="span">
@@ -50,6 +45,11 @@ const PaymentCard = (props: PaymentCardProps) => {
               {expireMonth}/{expireYear}
             </Typography>
           </Box>
+        </Box>
+        <Box minWidth={45}>
+          {cardTypeMemoized && (
+            <KiboImage src={cardTypeMemoized} alt={cardType as string} width={45} height={35} />
+          )}
         </Box>
       </Box>
     </>

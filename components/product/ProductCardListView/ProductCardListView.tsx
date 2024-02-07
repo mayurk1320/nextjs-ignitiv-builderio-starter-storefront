@@ -9,6 +9,7 @@ import { useTranslation } from 'next-i18next'
 
 import { ProductCardStyles } from './ProductCardListView.styles'
 import { KiboImage, Price } from '@/components/common'
+import { PLPStyles } from '@/components/page-templates/ProductListingTemplate/ProductListingTemplate.styles'
 import { usePriceRangeFormatter } from '@/hooks'
 import { FulfillmentOptions as FulfillmentOptionsConstant } from '@/lib/constants'
 import DefaultImage from '@/public/product_placeholder.svg'
@@ -168,7 +169,7 @@ const ProductCardListView = (props: ProductCardListViewProps) => {
                   errorimage={placeholderImageUrl}
                 />
               </CardMedia>
-              <Box flexDirection="column" m={1} width="75%" className="product-info">
+              <Box flexDirection="column" m={1} width="100%" className="product-info">
                 <Typography variant="body1" gutterBottom color="text.primary">
                   {title}
                 </Typography>
@@ -200,18 +201,15 @@ const ProductCardListView = (props: ProductCardListViewProps) => {
 
                 <Box pt={1} display={'flex'} gap={2}>
                   {showQuickViewButton ? (
-                    <Box
-                      sx={{
-                        ...ProductCardStyles.hoveredButtons,
-                        ...ProductCardStyles.quickViewButton,
-                      }}
+                    <Button
+                      sx={ProductCardStyles.quickViewButton}
                       onClick={handleOpenProductQuickViewModal}
                     >
-                      <Typography variant="caption">{t('quick-view')}</Typography>
-                    </Box>
+                      {t('quick-view')}
+                    </Button>
                   ) : null}
                   {/* <QuantitySelector /> */}
-                  <Button variant="contained" color="primary" onClick={handleAddToCart}>
+                  <Button sx={ProductCardStyles.quickViewButton} onClick={handleAddToCart}>
                     {t('add-to-cart')}
                   </Button>
                 </Box>

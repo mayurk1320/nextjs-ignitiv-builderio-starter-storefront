@@ -25,6 +25,7 @@ export const ChildCategoryStyle = {
     padding: '0',
     margin: '0',
     width: '100%',
+    justifyContent: 'center',
   },
   categoryItem: {
     background: theme?.palette.primary.light,
@@ -133,8 +134,8 @@ export const ChildCategoryStyle = {
     color: theme?.palette.common.white,
     fontWeight: '600',
     '&:hover': {
-      backgroundColor: theme?.palette.background.default,
-      border: `1px solid ${theme?.palette.background.default}`,
+      backgroundColor: themeBackGround.default,
+      border: `1px solid ${themeBackGround.default}`,
     },
   },
   navigationIconContainer: {

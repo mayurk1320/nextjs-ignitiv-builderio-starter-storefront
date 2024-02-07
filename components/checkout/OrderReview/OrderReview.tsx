@@ -167,55 +167,50 @@ const OrderReview = (props: OrderReviewProps) => {
       <AccordionDetails data-testid="accordion-details" sx={{ ...style.accordionDetails }}>
         <Divider sx={{ marginX: '20px' }} />
         <StyledOrderReview>
-          <OrderInfoHeader
-            headerName={t('personal-details')}
-            dataStep={t('details')}
-            handleEditAction={handleEditAction}
-          >
-            <Box display={'inline'} pt={1}>
-              <Typography variant="body1">{userName} </Typography>
-              <Typography variant="body1">{shippingPhoneHome}</Typography>
-            </Box>
-          </OrderInfoHeader>
+          {billingAddress?.address1 !== shippingAddress?.address1 &&
+            billingAddress?.address2 !== shippingAddress?.address2 &&
+            billingAddress?.cityOrTown !== shippingAddress?.cityOrTown &&
+            billingAddress?.stateOrProvince !== shippingAddress?.stateOrProvince &&
+            billingAddress?.postalOrZipCode !== shippingAddress?.postalOrZipCode && (
+              <OrderInfoHeader
+                headerName={t('shipping-details')}
+                dataStep={t('shipping')}
+                handleEditAction={handleEditAction}
+              >
+                {!isMultiShipEnabled && (
+                  <AddressCard
+                    {...shippingPersonalDetails}
+                    address1={shippingAddress?.address1 as string}
+                    address2={shippingAddress?.address2 as string}
+                    cityOrTown={shippingAddress?.cityOrTown as string}
+                    stateOrProvince={shippingAddress?.stateOrProvince as string}
+                    postalOrZipCode={shippingAddress?.postalOrZipCode as string}
+                  />
+                )}
 
-          <OrderInfoHeader
-            headerName={t('shipping-details')}
-            dataStep={t('shipping')}
-            handleEditAction={handleEditAction}
-          >
-            {!isMultiShipEnabled && (
-              <AddressCard
-                {...shippingPersonalDetails}
-                address1={shippingAddress?.address1 as string}
-                address2={shippingAddress?.address2 as string}
-                cityOrTown={shippingAddress?.cityOrTown as string}
-                stateOrProvince={shippingAddress?.stateOrProvince as string}
-                postalOrZipCode={shippingAddress?.postalOrZipCode as string}
-              />
+                {isMultiShipEnabled &&
+                  multiShippingAddressesList &&
+                  multiShippingAddressesList.length > 0 && (
+                    <Box sx={{ flexWrap: 'wrap', flexDirection: 'column', marginBottom: '0rem' }}>
+                      {multiShippingAddressesList?.map((multiAddress: CustomerContact) => {
+                        return (
+                          <Box key={multiAddress?.id}>
+                            <AddressCard
+                              firstName={multiAddress?.firstName as string}
+                              lastNameOrSurname={multiAddress?.lastNameOrSurname as string}
+                              address1={multiAddress?.address?.address1 as string}
+                              address2={multiAddress?.address?.address2 as string}
+                              cityOrTown={multiAddress?.address?.cityOrTown as string}
+                              stateOrProvince={multiAddress?.address?.stateOrProvince as string}
+                              postalOrZipCode={multiAddress?.address?.postalOrZipCode as string}
+                            />
+                          </Box>
+                        )
+                      })}
+                    </Box>
+                  )}
+              </OrderInfoHeader>
             )}
-
-            {isMultiShipEnabled &&
-              multiShippingAddressesList &&
-              multiShippingAddressesList.length > 0 && (
-                <Box sx={{ flexWrap: 'wrap', flexDirection: 'column', marginBottom: '0rem' }}>
-                  {multiShippingAddressesList?.map((multiAddress: CustomerContact) => {
-                    return (
-                      <Box key={multiAddress?.id}>
-                        <AddressCard
-                          firstName={multiAddress?.firstName as string}
-                          lastNameOrSurname={multiAddress?.lastNameOrSurname as string}
-                          address1={multiAddress?.address?.address1 as string}
-                          address2={multiAddress?.address?.address2 as string}
-                          cityOrTown={multiAddress?.address?.cityOrTown as string}
-                          stateOrProvince={multiAddress?.address?.stateOrProvince as string}
-                          postalOrZipCode={multiAddress?.address?.postalOrZipCode as string}
-                        />
-                      </Box>
-                    )
-                  })}
-                </Box>
-              )}
-          </OrderInfoHeader>
 
           <OrderInfoHeader
             headerName={t('billing-address')}

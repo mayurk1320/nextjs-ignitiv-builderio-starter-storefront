@@ -6,6 +6,8 @@ import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
+import { ClpHeroBanner } from '@/components/catrgory-list-page'
+import { IgnHeroBanner } from '@/components/home'
 import { ProductListingTemplate } from '@/components/page-templates'
 import { useGetSearchedProducts } from '@/hooks'
 import { getCategoryTree, productSearch } from '@/lib/api/operations'
@@ -41,6 +43,96 @@ const { publicRuntimeConfig } = getConfig()
 const apiKey = publicRuntimeConfig?.builderIO?.apiKey
 
 builder.init(apiKey)
+
+Builder.registerComponent(ClpHeroBanner, {
+  name: 'ClpHeroBanner',
+  inputs: [
+    {
+      name: 'clpHeroBannerProps',
+      type: 'object',
+      defaultValue: {
+        imageUrl: 'https://cdn-sb.mozu.com/26507-m1/cms/files/655bb09f-e5f2-4027-8cf6-76d0363172d1',
+        mobileImageUrl:
+          'https://cdn-sb.mozu.com/26507-m1/cms/files/655bb09f-e5f2-4027-8cf6-76d0363172d1',
+        imageAlt: 'image Alt text',
+        description: 'Explore the latest deals.',
+      },
+      subFields: [
+        {
+          name: 'imageUrl',
+          type: 'file',
+        },
+        {
+          name: 'mobileImageUrl',
+          type: 'file',
+        },
+        {
+          name: 'imageAlt',
+          type: 'string',
+        },
+        {
+          name: 'description',
+          type: 'string',
+        },
+      ],
+    },
+  ],
+})
+
+Builder.registerComponent(IgnHeroBanner, {
+  name: 'IgnHeroBanner',
+  inputs: [
+    {
+      name: 'heroBannerProps',
+      type: 'object',
+      defaultValue: {
+        imageUrl: 'https://cdn-sb.mozu.com/26507-m1/cms/files/655bb09f-e5f2-4027-8cf6-76d0363172d1',
+        mobileImageUrl:
+          'https://cdn-sb.mozu.com/26507-m1/cms/files/655bb09f-e5f2-4027-8cf6-76d0363172d1',
+        imageAlt: 'image Alt text',
+        title: 'Make your house into a home',
+        subtitle: 'Explore the latest deals.',
+        callToAction: { title: 'Shop Now', url: '/category/deals' },
+      },
+      subFields: [
+        {
+          name: 'imageUrl',
+          type: 'file',
+        },
+        {
+          name: 'mobileImageUrl',
+          type: 'file',
+        },
+        {
+          name: 'imageAlt',
+          type: 'string',
+        },
+        {
+          name: 'title',
+          type: 'string',
+        },
+        {
+          name: 'subtitle',
+          type: 'string',
+        },
+        {
+          name: 'callToAction',
+          type: 'object',
+          subFields: [
+            {
+              name: 'title',
+              type: 'string',
+            },
+            {
+              name: 'url',
+              type: 'string',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+})
 
 function getMetaData(category: PrCategory): MetaData {
   return {

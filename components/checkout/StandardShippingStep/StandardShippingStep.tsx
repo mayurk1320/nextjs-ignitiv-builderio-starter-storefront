@@ -1,7 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
 
-import { Stack, Button, Typography, Grid, Box, FormControlLabel, Checkbox } from '@mui/material'
+import {
+  Stack,
+  Button,
+  Typography,
+  Grid,
+  Box,
+  FormControlLabel,
+  Checkbox,
+  SxProps,
+} from '@mui/material'
+import { Theme } from '@mui/material/styles'
 import { useTranslation } from 'next-i18next'
 
 import { ShippingMethod } from '@/components/checkout'
@@ -25,7 +35,10 @@ import type {
   CustomerContactCollection,
   CuAddress,
 } from '@/lib/gql/types'
-
+const buttonStyle = {
+  height: '42px',
+  fontSize: (themeParam: Theme) => themeParam.typography.subtitle1,
+} as SxProps<Theme> | undefined
 interface ShippingProps {
   setAutoFocus?: boolean
   checkout: CrOrder
@@ -355,8 +368,8 @@ const StandardShippingStep = (props: ShippingProps) => {
 
             <Button
               variant="contained"
-              color="inherit"
-              sx={{ width: { xs: '100%', sm: '50%' } }}
+              color="primary"
+              sx={{ ...buttonStyle, width: { xs: '100%', sm: '40%' } }}
               onClick={handleAddNewAddress}
             >
               {t('add-new-address')}
@@ -406,13 +419,15 @@ const StandardShippingStep = (props: ShippingProps) => {
                 <Button
                   variant="contained"
                   color="secondary"
+                  sx={{ ...buttonStyle }}
                   onClick={() => setShouldShowAddAddressButton(true)}
                 >
                   {t('cancel')}
                 </Button>
                 <Button
                   variant="contained"
-                  color="inherit"
+                  color="primary"
+                  sx={{ ...buttonStyle }}
                   style={{ textTransform: 'none' }}
                   onClick={handleAddressValidationAndSave}
                   {...(!isAddressFormValid && { disabled: true })}
