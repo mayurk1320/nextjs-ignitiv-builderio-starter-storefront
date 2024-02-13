@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { Box, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'next-i18next'
 
+import { MyProfileStyle } from './MyProfile.styles'
 import { ProfileDetailsForm } from '@/components/my-account'
 import { useUpdateCustomerProfile, useChangePassword } from '@/hooks'
 import { userGetters } from '@/lib/getters'
@@ -91,50 +92,54 @@ const MyProfile = (props: MyProfileProps) => {
 
   if (Boolean(currentEditableField)) {
     return (
-      <ProfileDetailsForm
-        {...(currentEditableField === ProfileSections.Email && { isEmailForm: true })}
-        {...(currentEditableField === ProfileSections.Password && { isPasswordForm: true })}
-        firstName={firstName}
-        lastName={lastName}
-        emailAddress={emailAddress}
-        onSaveProfileData={handleUpdateProfileData}
-        onCancel={() => setCurrentEditableField(null)}
-      />
+      <Box sx={{ ...MyProfileStyle.b2cMyProfileContainer }}>
+        <ProfileDetailsForm
+          {...(currentEditableField === ProfileSections.Email && { isEmailForm: true })}
+          {...(currentEditableField === ProfileSections.Password && { isPasswordForm: true })}
+          firstName={firstName}
+          lastName={lastName}
+          emailAddress={emailAddress}
+          onSaveProfileData={handleUpdateProfileData}
+          onCancel={() => setCurrentEditableField(null)}
+        />
+      </Box>
     )
   }
 
   return (
     <>
-      <Stack gap={2}>
-        {viewProfileDetails.map((each) => {
-          return (
-            <Box
-              key={each.label}
-              display="flex"
-              alignItems={'flex-end'}
-              justifyContent={'space-between'}
-            >
-              <Stack gap={1}>
-                <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
-                  {each.label}
-                </Typography>
-                <Typography variant="body1" data-testid={each.label}>
-                  {each.value}
-                </Typography>
-              </Stack>
-              <Typography
-                variant="body1"
-                onClick={() => {
-                  setCurrentEditableField(each.id)
-                }}
-                sx={{ cursor: 'pointer' }}
+      <Box sx={{ ...MyProfileStyle.b2cMyProfileContainer }}>
+        <Stack gap={2}>
+          {viewProfileDetails.map((each) => {
+            return (
+              <Box
+                key={each.label}
+                display="flex"
+                alignItems={'flex-end'}
+                justifyContent={'space-between'}
               >
-                {t('edit')}
-              </Typography>
-            </Box>
-          )
-        })}
-      </Stack>
+                <Stack gap={1}>
+                  <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+                    {each.label}
+                  </Typography>
+                  <Typography variant="body1" data-testid={each.label}>
+                    {each.value}
+                  </Typography>
+                </Stack>
+                <Typography
+                  variant="body1"
+                  onClick={() => {
+                    setCurrentEditableField(each.id)
+                  }}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  {t('edit')}
+                </Typography>
+              </Box>
+            )
+          })}
+        </Stack>
+      </Box>
     </>
   )
 }
