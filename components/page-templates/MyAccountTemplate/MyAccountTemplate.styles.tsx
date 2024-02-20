@@ -28,12 +28,6 @@ export const B2CMyAccountStyle = {
   //   expandedIcon: {
   //     color: 'text.primary',
   //   },
-  orderHistory: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    cursor: 'pointer',
-    alignItems: 'center',
-  },
   accountCircle: {
     fontSize: {
       md: '2.7rem',
@@ -60,7 +54,7 @@ export const B2CMyAccountStyle = {
     alignItems: 'flex-start',
   },
   menuBarContainerStyle: {
-    borderRight: '1px solid black',
+    borderRight: { md: '1px solid black', xs: 'none' },
     backgroundColor: 'transparent',
   },
 
@@ -71,6 +65,8 @@ export const B2CMyAccountStyle = {
     paddingRight: { md: '50px', xs: '1rem' },
     color: 'black',
     marginBottom: '10px',
+    fontSize: '14px',
+    cursor: 'pointer',
     '&:hover': {
       background: 'transparent',
       border: 'none',
@@ -84,13 +80,19 @@ export const B2CMyAccountStyle = {
     paddingRight: { md: '50px', xs: '1rem' },
     color: theme?.palette?.primary?.main,
     marginBottom: '10px',
+    fontSize: '15px',
+    cursor: 'pointer',
+    fontWeight: 700,
     '&:hover': {
       background: 'transparent',
       border: 'none',
     },
   },
   b2cDataSection: {
-    padding: '30px',
+    padding: {
+      md: '30px',
+      xs: '10px',
+    },
   },
   b2cMyAccountContainer: {
     // backgroundColor: theme?.palette.grey[300],

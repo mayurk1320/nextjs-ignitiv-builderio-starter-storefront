@@ -13,12 +13,18 @@ import {
   MenuItem,
   Grid,
   Collapse,
+  CardContent,
+  CardActions,
+  Card,
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import getConfig from 'next/config'
 import { useTranslation } from 'next-i18next'
 import { useReCaptcha } from 'next-recaptcha-v3'
 import { TransitionGroup } from 'react-transition-group'
 
+import { AddressBoxStyle } from './AddressBook.styles'
 import { AddressCard, AddressForm, KiboSelect, KiboPagination } from '@/components/common'
 import { ConfirmationDialog } from '@/components/dialogs'
 import { useModalContext, useSnackbarContext } from '@/context'
@@ -80,57 +86,57 @@ const AccountAddress = (props: AccountAddressProps) => {
   const { customerContact, isPrimaryAddress, addressType, editAddress, deleteAddress } = props
   const { t } = useTranslation('common')
   return (
-    <Box>
-      {isPrimaryAddress && (
-        <Stack>
-          {addressType === AddressType.SHIPPING && (
-            <Typography id="shipping-address" variant="h3" sx={{ pb: '1rem', fontWeight: '700' }}>
-              {t('shipping-address')}
-            </Typography>
-          )}
-          {addressType === AddressType.BILLING && (
-            <Typography id="billing-address" variant="h3" sx={{ pb: '1rem', fontWeight: '700' }}>
-              {t('billing-address')}
-            </Typography>
-          )}
-          {customerContact?.types?.[0]?.isPrimary && (
-            <Typography variant="h4" fontWeight="500">
-              {t('primary')}
-            </Typography>
-          )}
-        </Stack>
-      )}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Card>
+      <CardContent>
         <AddressCard {...buildAddressProps(customerContact)} />
-        <Stack>
-          <Typography
-            variant="body2"
-            sx={{ cursor: 'pointer' }}
-            onClick={() => editAddress(customerContact)}
-            data-testid={`address-edit`}
-          >
+      </CardContent>
+      <CardActions sx={{ ...AddressBoxStyle.cardAction }}>
+        <Box
+          sx={
+            isPrimaryAddress
+              ? { ...AddressBoxStyle.cardActionSectionPrimary }
+              : { ...AddressBoxStyle.cardActionSection }
+          }
+        >
+          {isPrimaryAddress && (
+            <>
+              {customerContact?.types?.[0]?.isPrimary && (
+                <Typography variant="h4" fontWeight="500">
+                  {t('primary')}
+                </Typography>
+              )}
+            </>
+          )}
+          <Button sx={{}} onClick={() => editAddress(customerContact)} data-testid={`address-edit`}>
             {t('edit')}
-          </Typography>
+          </Button>
           {!isPrimaryAddress && (
-            <Delete
-              sx={{ marginTop: '1.375rem' }}
+            <Button
+              sx={{}}
               onClick={() =>
                 deleteAddress({
                   accountId: customerContact?.accountId,
                   contactId: customerContact?.id as number,
                 })
               }
-            />
+            >
+              {' '}
+              {t('delete')}
+            </Button>
           )}
-        </Stack>
-      </Box>
-      <Divider sx={{ marginTop: '1.75rem', marginBottom: '0.25rem' }} />
-    </Box>
+        </Box>
+      </CardActions>
+    </Card>
   )
 }
 
 const AddressBook = (props: AddressBookProps) => {
   const { user, contacts } = props
+
+  const theme = useTheme()
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
+  const isMediumScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
 
   const { publicRuntimeConfig } = getConfig()
   const shippingAddressPageSize = publicRuntimeConfig.shippingAddressPageSize
@@ -339,27 +345,36 @@ const AddressBook = (props: AddressBookProps) => {
       {!isAddressModified && (
         <Box>
           <TransitionGroup>
-            {displayShippingAddresses?.map((item: CustomerContact, index: number) => (
-              <Collapse
-                key={`${item?.id}address`}
-                sx={{
-                  '.MuiCollapse-wrapperInner': {
-                    width: '100%',
-                  },
-                }}
-              >
-                <Box paddingY={1}>
-                  <AccountAddress
-                    customerContact={item}
-                    isPrimaryAddress={index === 0}
-                    addressType={AddressType.SHIPPING}
-                    editAddress={handleEditAddress}
-                    deleteAddress={handleConfirmDeleteAddress}
-                  />
-                </Box>
-              </Collapse>
-            ))}
-            {displayShippingAddresses?.length > 0 && shippingAddresses.length > 5 && (
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography
+                  id="shipping-address"
+                  variant="h3"
+                  sx={{ pb: '1rem', fontWeight: '700' }}
+                >
+                  {t('shipping-address')}
+                </Typography>
+              </Grid>
+              {displayShippingAddresses?.map((item: CustomerContact, index: number) => (
+                <Grid
+                  key={`${item?.id}address`}
+                  item
+                  xs={isSmallScreen ? 12 : 6}
+                  md={isMediumScreen ? 6 : 4}
+                >
+                  <Box sx={{ ...AddressBoxStyle.AddressBox }}>
+                    <AccountAddress
+                      customerContact={item}
+                      isPrimaryAddress={index === 0}
+                      addressType={AddressType.SHIPPING}
+                      editAddress={handleEditAddress}
+                      deleteAddress={handleConfirmDeleteAddress}
+                    />
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+            {displayShippingAddresses?.length > 0 && shippingAddresses.length > 3 && (
               <Box display={'flex'} justifyContent={'center'} width="100%" py={10}>
                 <KiboPagination
                   count={Math.ceil(shippingAddresses?.length / shippingAddressPageSize)}
@@ -369,27 +384,38 @@ const AddressBook = (props: AddressBookProps) => {
                 />
               </Box>
             )}
-            {displayBillingAddresses?.map((item: CustomerContact, index: number) => (
-              <Collapse
-                key={`${item?.id}address`}
-                sx={{
-                  '.MuiCollapse-wrapperInner': {
-                    width: '100%',
-                  },
-                }}
-              >
-                <Box paddingY={1}>
-                  <AccountAddress
-                    customerContact={item}
-                    isPrimaryAddress={index === 0}
-                    addressType={AddressType.BILLING}
-                    editAddress={handleEditAddress}
-                    deleteAddress={handleConfirmDeleteAddress}
-                  />
-                </Box>
-              </Collapse>
-            ))}
-            {displayBillingAddresses?.length > 0 && billingAddresses?.length > 5 && (
+
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography
+                  id="billing-address"
+                  variant="h3"
+                  sx={{ pb: '1rem', fontWeight: '700' }}
+                >
+                  {t('billing-address')}
+                </Typography>
+              </Grid>
+              {displayBillingAddresses?.map((item: CustomerContact, index: number) => (
+                <Grid
+                  key={`${item?.id}address`}
+                  item
+                  xs={isSmallScreen ? 12 : 6}
+                  md={isMediumScreen ? 6 : 4}
+                >
+                  <Box sx={{ ...AddressBoxStyle.AddressBox }}>
+                    <AccountAddress
+                      customerContact={item}
+                      isPrimaryAddress={index === 0}
+                      addressType={AddressType.BILLING}
+                      editAddress={handleEditAddress}
+                      deleteAddress={handleConfirmDeleteAddress}
+                    />
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+
+            {displayBillingAddresses?.length > 0 && billingAddresses?.length > 4 && (
               <Box display={'flex'} justifyContent={'center'} width="100%" py={10}>
                 <KiboPagination
                   count={Math.ceil(billingAddresses?.length / billingAddressPageSize)}
@@ -404,11 +430,8 @@ const AddressBook = (props: AddressBookProps) => {
       )}
       {!isAddressModified && (
         <Button
-          variant="contained"
-          color="inherit"
-          sx={{ ...styles.addNewAddressButtonStyle }}
+          sx={{ ...AddressBoxStyle.primaryButton }}
           onClick={handleNewAddress}
-          fullWidth
           startIcon={<AddCircleOutlineIcon />}
         >
           {t('add-new-address')}

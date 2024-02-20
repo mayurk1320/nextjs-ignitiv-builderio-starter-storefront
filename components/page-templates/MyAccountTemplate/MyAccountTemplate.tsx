@@ -169,8 +169,8 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
             <Button
               sx={
                 selectedOption && selectedOption === 'my-profile-content'
-                  ? { ...B2CMyAccountStyle.menuButtonSelected, cursor: 'pointer' }
-                  : { ...B2CMyAccountStyle.menuButtons, cursor: 'pointer' }
+                  ? { ...B2CMyAccountStyle.menuButtonSelected }
+                  : { ...B2CMyAccountStyle.menuButtons }
               }
               onClick={handleSelectChange}
               value="my-profile-content"
@@ -180,8 +180,8 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
             <Button
               sx={
                 selectedOption && selectedOption === 'address-book-content'
-                  ? { ...B2CMyAccountStyle.menuButtonSelected, cursor: 'pointer' }
-                  : { ...B2CMyAccountStyle.menuButtons, cursor: 'pointer' }
+                  ? { ...B2CMyAccountStyle.menuButtonSelected }
+                  : { ...B2CMyAccountStyle.menuButtons }
               }
               onClick={handleSelectChange}
               value="address-book-content"
@@ -191,8 +191,8 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
             <Button
               sx={
                 selectedOption && selectedOption === 'payment-method-content'
-                  ? { ...B2CMyAccountStyle.menuButtonSelected, cursor: 'pointer' }
-                  : { ...B2CMyAccountStyle.menuButtons, cursor: 'pointer' }
+                  ? { ...B2CMyAccountStyle.menuButtonSelected }
+                  : { ...B2CMyAccountStyle.menuButtons }
               }
               onClick={handleSelectChange}
               value="payment-method-content"
@@ -202,31 +202,22 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
             <Button
               sx={{
                 ...B2CMyAccountStyle.menuButtons,
-                ...B2CMyAccountStyle.orderHistory,
               }}
               onClick={handleGoToOrderHistory}
             >
               {t('order-history')}
             </Button>
-
-            {/* code for subscription below */}
             {isSubscriptionEnabled && (
               <Button
                 sx={{
                   ...B2CMyAccountStyle.menuButtons,
-                  ...B2CMyAccountStyle.orderHistory,
                 }}
                 onClick={handleGoToSubscription}
               >
                 {t('my-subscription')}
               </Button>
             )}
-            {/* code for subscription ends here */}
-            <Button
-              sx={{ ...B2CMyAccountStyle.menuButtons, cursor: 'pointer' }}
-              onClick={logout}
-              value="option2"
-            >
+            <Button sx={{ ...B2CMyAccountStyle.menuButtons }} onClick={logout} value="option2">
               {t('logout')}
             </Button>
           </Box>

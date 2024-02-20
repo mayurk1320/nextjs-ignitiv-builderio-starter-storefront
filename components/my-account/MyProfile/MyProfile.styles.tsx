@@ -5,6 +5,6 @@ import theme, { themeBackGround, themeBorder, grey } from '@/styles/theme'
 
 export const MyProfileStyle = {
   b2cMyProfileContainer: {
-    width: '370px',
+    maxWidth: '370px',
   },
 }
