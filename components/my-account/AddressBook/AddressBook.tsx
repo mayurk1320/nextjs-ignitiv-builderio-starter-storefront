@@ -62,7 +62,7 @@ interface AccountAddressProps {
 
 const styles = {
   addNewAddressButtonStyle: {
-    maxWidth: '26.313rem',
+    maxWidth: '420px',
     '& > *:first-of-type': {
       fontSize: 'inherit',
     },
@@ -350,7 +350,7 @@ const AddressBook = (props: AddressBookProps) => {
                 <Typography
                   id="shipping-address"
                   variant="h3"
-                  sx={{ pb: '1rem', fontWeight: '700' }}
+                  sx={{ pb: '16px', fontWeight: '700' }}
                 >
                   {t('shipping-address')}
                 </Typography>
@@ -384,13 +384,12 @@ const AddressBook = (props: AddressBookProps) => {
                 />
               </Box>
             )}
-
             <Grid container>
               <Grid item xs={12}>
                 <Typography
                   id="billing-address"
                   variant="h3"
-                  sx={{ pb: '1rem', fontWeight: '700' }}
+                  sx={{ pb: '16px', fontWeight: '700' }}
                 >
                   {t('billing-address')}
                 </Typography>
@@ -439,7 +438,7 @@ const AddressBook = (props: AddressBookProps) => {
       )}
 
       {isAddressModified && (
-        <Box pb={'1.813rem'}>
+        <Box pb={'29px'}>
           <Grid item xs={12} md={6} pl={1} pb={2.5} pr={6.5}>
             <KiboSelect
               name="address-type"
@@ -476,7 +475,7 @@ const AddressBook = (props: AddressBookProps) => {
               label={t('make-this-my-default-address')}
               control={
                 <Checkbox
-                  sx={{ marginLeft: '0.5rem' }}
+                  sx={{ marginLeft: '8px' }}
                   inputProps={{
                     'aria-label': t('make-this-my-default-address'),
                   }}
@@ -497,7 +496,7 @@ const AddressBook = (props: AddressBookProps) => {
                 }
                 control={
                   <Checkbox
-                    sx={{ marginLeft: '0.5rem' }}
+                    sx={{ marginLeft: '8px' }}
                     inputProps={{
                       'aria-label':
                         addressType === AddressType.SHIPPING
@@ -514,12 +513,7 @@ const AddressBook = (props: AddressBookProps) => {
             )}
           </Box>
 
-          <Stack
-            pl={1}
-            pt={1}
-            gap={2}
-            sx={{ width: { xs: '100%', md: '50%', maxWidth: '26.313rem' } }}
-          >
+          <Stack pl={1} pt={1} gap={2} sx={{ width: { xs: '100%', md: '50%', maxWidth: '420px' } }}>
             <Button variant="contained" color="secondary" onClick={handleCancelUpdateAddress}>
               {t('cancel')}
             </Button>

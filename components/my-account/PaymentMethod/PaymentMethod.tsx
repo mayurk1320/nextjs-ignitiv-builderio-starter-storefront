@@ -372,7 +372,7 @@ const PaymentMethod = (props: PaymentMethodProps) => {
               <Grid
                 key={each?.cardInfo?.id as string}
                 item
-                xs={isSmallScreen ? 12 : 6}
+                xs={isSmallScreen ? 12 : 10}
                 md={isMediumScreen ? 6 : 4}
                 data-testid="saved-cards-and-contacts"
                 sx={{ ...PaymentMethodStyle.PaymentsBox }}

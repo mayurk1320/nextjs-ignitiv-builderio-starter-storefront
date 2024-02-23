@@ -4,7 +4,7 @@ import theme, { themeBackGround, themeBorder, grey } from '@/styles/theme'
 
 export const PaymentMethodStyle = {
   PaymentsBox: {
-    padding: '10px 15px 10px 0',
+    padding: '20px 15px 30px 0',
   },
   cardAction: {
     justifyContent: 'space-between',

@@ -17,21 +17,18 @@ export const B2CMyAccountStyle = {
     p: { md: 0 },
   },
   myAccountChildren: {
-    paddingLeft: { md: 0, xs: '1rem' },
-    paddingRight: { md: 0, xs: '1rem' },
-    marginTop: '0.75rem',
-    marginBottom: '0.75rem',
+    paddingLeft: { md: 0, xs: '16px' },
+    paddingRight: { md: 0, xs: '16px' },
+    marginTop: '12px',
+    marginBottom: '12px',
   },
   accordionSummary: {
     padding: { md: 0 },
   },
-  //   expandedIcon: {
-  //     color: 'text.primary',
-  //   },
   accountCircle: {
     fontSize: {
-      md: '2.7rem',
-      xs: '3.3rem',
+      md: '44px',
+      xs: '53px',
     },
   },
   backButton: {
@@ -40,31 +37,34 @@ export const B2CMyAccountStyle = {
     color: 'text.primary',
     display: 'flex',
     alignItems: 'center',
-    padding: '1rem 0.5rem',
+    padding: '16px 8px',
     cursor: 'pointer',
   },
   divider: {
-    height: '1.188rem',
-    borderColor: 'transparent',
+    height: '20px',
+    borderColor: 'black',
   },
 
   menuBarStyle: {
-    display: 'flex',
+    display: {
+      sm: 'flex',
+      xs: 'unset',
+    },
     flexDirection: 'column',
     alignItems: 'flex-start',
   },
   menuBarContainerStyle: {
-    borderRight: { md: '1px solid black', xs: 'none' },
+    borderRight: { md: '1px solid black', sm: '1px solid black', xs: 'none' },
     backgroundColor: 'transparent',
   },
 
   menuButtons: {
     border: 'none',
     background: 'transparent',
-    paddingLeft: { md: '50px', xs: '1rem' },
-    paddingRight: { md: '50px', xs: '1rem' },
+    paddingLeft: { lg: '50px', md: '20px', sm: '10px', xs: '16px' },
+    paddingRight: { lg: '50px', md: '20px', sm: '10px', xs: '16px' },
     color: 'black',
-    marginBottom: '10px',
+    margin: '5px 0',
     fontSize: '14px',
     cursor: 'pointer',
     '&:hover': {
@@ -76,11 +76,11 @@ export const B2CMyAccountStyle = {
   menuButtonSelected: {
     border: 'none',
     background: 'transparent',
-    paddingLeft: { md: '50px', xs: '1rem' },
-    paddingRight: { md: '50px', xs: '1rem' },
+    paddingLeft: { lg: '50px', md: '20px', sm: '10px', xs: '16px' },
+    paddingRight: { lg: '10px', md: '20px', sm: '10px', xs: '16px' },
     color: theme?.palette?.primary?.main,
-    marginBottom: '10px',
-    fontSize: '15px',
+    margin: '10px 0',
+    fontSize: '16px',
     cursor: 'pointer',
     fontWeight: 700,
     '&:hover': {
@@ -93,8 +93,5 @@ export const B2CMyAccountStyle = {
       md: '30px',
       xs: '10px',
     },
-  },
-  b2cMyAccountContainer: {
-    // backgroundColor: theme?.palette.grey[300],
   },
 }

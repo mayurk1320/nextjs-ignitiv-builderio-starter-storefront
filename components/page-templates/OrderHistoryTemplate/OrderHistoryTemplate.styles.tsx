@@ -4,7 +4,7 @@ import theme, { themeBackGround, themeBorder, grey } from '@/styles/theme'
 
 export const OrderHistoryTemplateStyle = {
   OrderHistoryItemBox: {
-    padding: '10px 15px 10px 0',
+    padding: '30px 15px 10px 0',
   },
   ItemCard: {
     curser: 'pointer',

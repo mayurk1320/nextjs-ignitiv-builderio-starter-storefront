@@ -4,7 +4,7 @@ import theme, { themeBackGround, themeBorder, grey } from '@/styles/theme'
 
 export const AddressBoxStyle = {
   AddressBox: {
-    padding: '10px 15px 10px 0',
+    padding: '20px 15px 30px 0',
   },
   AddressSection: {
     display: 'flex',
@@ -13,7 +13,6 @@ export const AddressBoxStyle = {
   cardAction: {
     justifyContent: 'space-between',
   },
-  cardContent: {},
   AddressCard: {
     display: 'flex',
   },

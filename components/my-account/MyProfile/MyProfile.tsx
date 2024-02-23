@@ -110,34 +110,32 @@ const MyProfile = (props: MyProfileProps) => {
     <>
       <Box sx={{ ...MyProfileStyle.b2cMyProfileContainer }}>
         <Stack gap={2}>
-          {viewProfileDetails.map((each) => {
-            return (
-              <Box
-                key={each.label}
-                display="flex"
-                alignItems={'flex-end'}
-                justifyContent={'space-between'}
-              >
-                <Stack gap={1}>
-                  <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
-                    {each.label}
-                  </Typography>
-                  <Typography variant="body1" data-testid={each.label}>
-                    {each.value}
-                  </Typography>
-                </Stack>
-                <Typography
-                  variant="body1"
-                  onClick={() => {
-                    setCurrentEditableField(each.id)
-                  }}
-                  sx={{ cursor: 'pointer' }}
-                >
-                  {t('edit')}
+          {viewProfileDetails.map((each) => (
+            <Box
+              key={each.label}
+              display="flex"
+              alignItems={'flex-end'}
+              justifyContent={'space-between'}
+            >
+              <Stack gap={1}>
+                <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+                  {each.label}
                 </Typography>
-              </Box>
-            )
-          })}
+                <Typography variant="body1" data-testid={each.label}>
+                  {each.value}
+                </Typography>
+              </Stack>
+              <Typography
+                variant="body1"
+                onClick={() => {
+                  setCurrentEditableField(each.id)
+                }}
+                sx={{ cursor: 'pointer' }}
+              >
+                {t('edit')}
+              </Typography>
+            </Box>
+          ))}
         </Stack>
       </Box>
     </>

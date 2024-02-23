@@ -23,6 +23,7 @@ import { useTranslation } from 'next-i18next'
 import { useReCaptcha } from 'next-recaptcha-v3'
 
 import { B2CMyAccountStyle } from './MyAccountTemplate.styles'
+import { FullWidthDivider } from '@/components/common'
 import { MyProfile, PaymentMethod, AddressBook } from '@/components/my-account'
 import { useAuthContext, useSnackbarContext } from '@/context'
 import {
@@ -67,10 +68,16 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
 
   const handleSelectChange = (event: any) => {
     setSelectedOption(event.target.value)
+    if (window.innerWidth <= 600) {
+      window.scrollTo({
+        top: window.scrollY + 400,
+        behavior: 'smooth',
+      })
+    }
   }
 
   const handleGoToOrderHistory = () => {
-    router.push('/my-account/order-history?filters=M-6')
+    router.push('/my-account/order-history')
   }
 
   const handleGoToSubscription = useCallback(() => {
@@ -136,7 +143,7 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
   }
 
   return (
-    <Box sx={{ ...B2CMyAccountStyle.b2cMyAccountContainer }}>
+    <Box>
       {!mdScreen && (
         <Link aria-label={t('back')} sx={{ ...B2CMyAccountStyle.backButton }} href="/">
           <ChevronLeft />
@@ -164,8 +171,9 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
             {t('my-account')}
           </Typography>
         </Grid>
-        <Grid item md={2} xs={12} sx={{ ...B2CMyAccountStyle.menuBarContainerStyle }}>
+        <Grid item md={2} sm={3} xs={12} sx={{ ...B2CMyAccountStyle.menuBarContainerStyle }}>
           <Box sx={{ ...B2CMyAccountStyle.menuBarStyle }}>
+            <Divider />
             <Button
               sx={
                 selectedOption && selectedOption === 'my-profile-content'
@@ -177,6 +185,7 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
             >
               {t('my-profile')}
             </Button>
+            <Divider />
             <Button
               sx={
                 selectedOption && selectedOption === 'address-book-content'
@@ -188,6 +197,7 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
             >
               {t('address-book')}
             </Button>
+            <Divider />
             <Button
               sx={
                 selectedOption && selectedOption === 'payment-method-content'
@@ -199,6 +209,7 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
             >
               {t('payment-method')}
             </Button>
+            <Divider />
             <Button
               sx={{
                 ...B2CMyAccountStyle.menuButtons,
@@ -207,22 +218,27 @@ const MyAccountTemplate = (props: MyAccountTemplateProps) => {
             >
               {t('order-history')}
             </Button>
+            <Divider />
             {isSubscriptionEnabled && (
-              <Button
-                sx={{
-                  ...B2CMyAccountStyle.menuButtons,
-                }}
-                onClick={handleGoToSubscription}
-              >
-                {t('my-subscription')}
-              </Button>
+              <>
+                <Button
+                  sx={{
+                    ...B2CMyAccountStyle.menuButtons,
+                  }}
+                  onClick={handleGoToSubscription}
+                >
+                  {t('my-subscription')}
+                </Button>
+                <Divider />
+              </>
             )}
             <Button sx={{ ...B2CMyAccountStyle.menuButtons }} onClick={logout} value="option2">
               {t('logout')}
             </Button>
+            <Divider />
           </Box>
         </Grid>
-        <Grid item md={10} xs={12}>
+        <Grid item md={10} sm={9} xs={12}>
           <Box sx={{ ...B2CMyAccountStyle.b2cDataSection }}>
             {selectedOption && (
               <div>
