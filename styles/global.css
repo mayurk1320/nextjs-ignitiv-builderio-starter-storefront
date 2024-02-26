@@ -53,3 +53,20 @@ a {
   background-color: rgb(98, 62, 176) !important;
   border: 1px solid rgb(98, 62, 176) !important;
 }
+
+.AddressBoxCardAction {
+  justify-content: space-between;
+}
+.AddressBoxCardActionSectionPrimary {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding: 0 16px;
+}
+.AddressBoxCardActionSection {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
+}

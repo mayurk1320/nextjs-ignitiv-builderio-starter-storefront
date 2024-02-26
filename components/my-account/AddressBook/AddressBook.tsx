@@ -24,7 +24,6 @@ import { useTranslation } from 'next-i18next'
 import { useReCaptcha } from 'next-recaptcha-v3'
 import { TransitionGroup } from 'react-transition-group'
 
-import { AddressBoxStyle } from './AddressBook.styles'
 import { AddressCard, AddressForm, KiboSelect, KiboPagination } from '@/components/common'
 import { ConfirmationDialog } from '@/components/dialogs'
 import { useModalContext, useSnackbarContext } from '@/context'
@@ -90,12 +89,10 @@ const AccountAddress = (props: AccountAddressProps) => {
       <CardContent>
         <AddressCard {...buildAddressProps(customerContact)} />
       </CardContent>
-      <CardActions sx={{ ...AddressBoxStyle.cardAction }}>
+      <CardActions className="AddressBoxCardAction">
         <Box
-          sx={
-            isPrimaryAddress
-              ? { ...AddressBoxStyle.cardActionSectionPrimary }
-              : { ...AddressBoxStyle.cardActionSection }
+          className={
+            isPrimaryAddress ? 'AddressBoxCardActionSectionPrimary' : 'AddressBoxCardActionSection'
           }
         >
           {isPrimaryAddress && (
