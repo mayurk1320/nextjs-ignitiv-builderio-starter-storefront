@@ -226,7 +226,7 @@ const ViewOrderDetails = (props: ViewOrderDetailsProps) => {
             <OrderSummary {...orderSummeryArgs}>
               {order?.status === OrderStatus.COMPLETED && (
                 <Button
-                  sx={{ ...OrderHistoryTemplateStyle.primaryButton }}
+                  className="primaryButton"
                   onClick={() => onReturnItemsVisible && onReturnItemsVisible(true)}
                   disabled={order?.returnStatus !== ReturnStatus.NONE}
                 >

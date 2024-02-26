@@ -362,7 +362,7 @@ const AddressBook = (props: AddressBookProps) => {
                   xs={isSmallScreen ? 12 : 6}
                   md={isMediumScreen ? 6 : 4}
                 >
-                  <Box sx={{ ...AddressBoxStyle.AddressBox }}>
+                  <Box className="AddressBox">
                     <AccountAddress
                       customerContact={item}
                       isPrimaryAddress={index === 0}
@@ -401,7 +401,7 @@ const AddressBook = (props: AddressBookProps) => {
                   xs={isSmallScreen ? 12 : 6}
                   md={isMediumScreen ? 6 : 4}
                 >
-                  <Box sx={{ ...AddressBoxStyle.AddressBox }}>
+                  <Box className="AddressBox">
                     <AccountAddress
                       customerContact={item}
                       isPrimaryAddress={index === 0}
@@ -429,7 +429,7 @@ const AddressBook = (props: AddressBookProps) => {
       )}
       {!isAddressModified && (
         <Button
-          sx={{ ...AddressBoxStyle.primaryButton }}
+          className="primaryButton"
           onClick={handleNewAddress}
           startIcon={<AddCircleOutlineIcon />}
         >
@@ -518,8 +518,7 @@ const AddressBook = (props: AddressBookProps) => {
               {t('cancel')}
             </Button>
             <Button
-              variant="contained"
-              color="primary"
+              className="primaryButton"
               onClick={handleAddressValidationAndSave}
               {...(!isAddressFormValid && { disabled: true })}
             >
