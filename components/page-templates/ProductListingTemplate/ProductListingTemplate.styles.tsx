@@ -1,6 +1,8 @@
 import { Theme } from '@emotion/react'
 import { SxProps } from '@mui/material'
 
+import theme, { themeBackGround, themeBorder } from '@/styles/theme'
+
 export const PLPStyles = {
   breadcrumbsClass: {
     margin: '1.5rem 0',
@@ -87,6 +89,30 @@ export const PLPStyles = {
   },
   showMoreButton: {
     width: { md: '23.5rem', xs: '12.5rem' },
+    padding: '10px 20px',
+    borderRadius: '50px',
+    backgroundColor: theme?.palette.primary.main,
+    border: `1px solid ${theme?.palette.primary.main}`,
+    fontSize: '16px',
+    color: theme?.palette.common.white,
+    fontWeight: '600',
+    '&:hover': {
+      backgroundColor: themeBackGround.default,
+      border: `1px solid ${themeBackGround.default}`,
+    },
+  },
+  clearFilterButton: {
+    padding: '10px 20px',
+    borderRadius: '10px',
+    backgroundColor: theme?.palette.primary.main,
+    border: `1px solid ${theme?.palette.primary.main}`,
+    fontSize: '16px',
+    color: theme?.palette.common.white,
+    fontWeight: '600',
+    '&:hover': {
+      backgroundColor: themeBackGround.default,
+      border: `1px solid ${themeBackGround.default}`,
+    },
   },
   productResults: {
     display: 'flex',
@@ -138,6 +164,74 @@ export const PLPStyles = {
     width: {
       xs: '100%',
       md: '80%',
+    },
+  },
+  cardRoot: {
+    padding: '0.625rem',
+    backgroundColor: 'transparent',
+    width: {
+      xs: '95%',
+      md: 230,
+    },
+    height: {
+      xs: 350,
+      md: 400,
+    },
+    boxShadow: {
+      xs: themeBackGround.boxShadowCard,
+      md: 'none',
+    },
+    cursor: 'pointer',
+    '&:hover': {
+      boxShadow: themeBackGround.boxShadowCard,
+      '.quick-view': {
+        opacity: 1,
+      },
+    },
+  },
+  cardRootListView: {
+    padding: '0.625rem',
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
+    cursor: 'pointer',
+    '&:hover': {
+      boxShadow: themeBackGround.boxShadowCard,
+      '.quick-view': {
+        opacity: 1,
+      },
+    },
+  },
+  quickView: {
+    display: {
+      xs: 'none',
+      md: 'block',
+    },
+    opacity: 0,
+    width: '100%',
+    marginTop: '1 rem',
+    padding: '10px 20px',
+    borderRadius: '50px',
+    backgroundColor: theme?.palette.primary.main,
+    border: `1px solid ${theme?.palette.primary.main}`,
+    fontSize: '16px',
+    color: theme?.palette.common.white,
+    fontWeight: '600',
+    '&:hover': {
+      backgroundColor: themeBackGround.default,
+      border: `1px solid ${themeBackGround.default}`,
+    },
+  },
+  cardInfo: {
+    height: {
+      xs: 130,
+      md: 180,
+    },
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    margin: {
+      xs: '10px',
+      md: '15px',
     },
   },
 }

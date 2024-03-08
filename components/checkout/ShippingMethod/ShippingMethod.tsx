@@ -58,7 +58,7 @@ const ShipItemList = (shipProps: ShipItemListProps) => {
       <Typography sx={styles.shippingType} py={2} data-testid="ship-title">
         {t('ship')}
       </Typography>
-      <Box pr={2}>
+      <Box pr={2} sx={{ width: { xs: '100%', md: '50%' } }}>
         <KiboSelect
           name="shippingMethodCode"
           onChange={handleShippingMethodChange}

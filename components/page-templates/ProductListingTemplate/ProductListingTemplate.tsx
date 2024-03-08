@@ -197,7 +197,7 @@ const ProductListingTemplate = (props: ProductListingTemplateProps) => {
                 />
               )}
               <Box pt={4} textAlign={'center'}>
-                <Button variant="contained" color="secondary" onClick={handleClearAllFilters}>
+                <Button sx={{ ...PLPStyles.clearFilterButton }} onClick={handleClearAllFilters}>
                   {t('clear-settings')}
                 </Button>
               </Box>
@@ -317,7 +317,7 @@ const ProductListingTemplate = (props: ProductListingTemplateProps) => {
                         lg={3}
                         md={4}
                         sm={4}
-                        xs={6}
+                        xs={12}
                       >
                         <ProductCard isLoading={isLoading} link="#" />
                       </Grid>
@@ -333,7 +333,7 @@ const ProductListingTemplate = (props: ProductListingTemplateProps) => {
                       lg={isListView ? 12 : 3}
                       md={isListView ? 12 : 4}
                       sm={isListView ? 12 : 4}
-                      xs={isListView ? 12 : 6}
+                      xs={12}
                     >
                       {isListView ? (
                         <ProductCardListView {...productCardProps(product)} />
