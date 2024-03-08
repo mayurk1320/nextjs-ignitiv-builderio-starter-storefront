@@ -130,17 +130,17 @@ describe('[getters] productGetters', () => {
         shortName: 'Ship',
         disabled: false,
       },
-      {
-        value: 'InStorePickup',
-        name: 'In Store Pickup',
-        code: 'SP',
-        label: 'Pickup in Store',
-        details: '',
-        fulfillmentLocation: '',
-        required: false,
-        shortName: 'Pickup',
-        disabled: false,
-      },
+      // {
+      //   value: 'InStorePickup',
+      //   name: 'In Store Pickup',
+      //   code: 'SP',
+      //   label: 'Pickup in Store',
+      //   details: '',
+      //   fulfillmentLocation: '',
+      //   required: false,
+      //   shortName: 'Pickup',
+      //   disabled: false,
+      // },
     ])
   })
 })

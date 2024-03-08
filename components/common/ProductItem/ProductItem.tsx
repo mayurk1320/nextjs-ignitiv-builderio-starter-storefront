@@ -63,13 +63,13 @@ const ProductItem = (props: ProductItemProps) => {
     qty,
     isPickupItem,
     expectedDeliveryDate,
-    purchaseLocation,
+    // purchaseLocation,
     link,
     children,
     width = '25%',
     subscriptionFrequency,
-    showChangeStoreLink,
-    onStoreLocatorClick,
+    // showChangeStoreLink,
+    // onStoreLocatorClick,
   } = props
   const { t } = useTranslation('common')
   const theme = useTheme()
@@ -163,7 +163,7 @@ const ProductItem = (props: ProductItemProps) => {
         </Stack>
       </Box>
 
-      {isPickupItem && (
+      {/* {isPickupItem && (
         <>
           <Box sx={{ display: 'inline-flex' }} px={2}>
             <KeyValueDisplay
@@ -184,7 +184,7 @@ const ProductItem = (props: ProductItemProps) => {
             </Box>
           )}
         </>
-      )}
+      )} */}
     </Box>
   )
 }

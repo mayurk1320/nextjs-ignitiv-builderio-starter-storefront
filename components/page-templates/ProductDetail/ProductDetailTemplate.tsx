@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import AddIcon from '@mui/icons-material/Add'
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded'
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded'
 import StarRounded from '@mui/icons-material/StarRounded'
@@ -16,6 +17,10 @@ import {
   Theme,
   MenuItem,
 } from '@mui/material'
+import Accordion from '@mui/material/Accordion'
+import AccordionActions from '@mui/material/AccordionActions'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import AccordionSummary from '@mui/material/AccordionSummary'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 
@@ -80,6 +85,22 @@ const styles = {
     paddingLeft: '30rem',
   },
 }
+
+const StyledAccordion = styled(Accordion)(({ theme }) => ({
+  '&.MuiAccordion-root': {
+    boxShadow: 'none',
+    maxWidth: '23.15rem',
+    display: 'inline-block',
+    position: 'static',
+  },
+  '& .MuiAccordionSummary-root': {
+    minHeight: '2.5rem !important',
+    height: '2.5rem',
+  },
+  '& .MuiCollapse-wrapper': {
+    display: 'table-row',
+  },
+}))
 
 const StyledLink = styled(Link)(({ theme }: { theme: Theme }) => ({
   ...styles.moreDetails,
@@ -228,19 +249,26 @@ const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
   }
 
   const handleFulfillmentOptionChange = (value: string) => {
-    if (
-      value === FulfillmentOptionsConstant.SHIP ||
-      selectedFulfillmentOption?.location?.name ||
-      purchaseLocation.code
-    ) {
-      setSelectedFulfillmentOption({
-        ...selectedFulfillmentOption,
-        method: value,
-      })
-    } else {
-      handleProductPickupLocation()
-    }
+    setSelectedFulfillmentOption({
+      ...selectedFulfillmentOption,
+      method: value,
+    })
+    // if (
+    //   value === FulfillmentOptionsConstant.SHIP ||
+    //   selectedFulfillmentOption?.location?.name ||
+    //   purchaseLocation.code
+    // ) {
+    //   setSelectedFulfillmentOption({
+    //     ...selectedFulfillmentOption,
+    //     method: value,
+    //   })
+    // } else {
+    //   handleProductPickupLocation()
+    // }
   }
+  React.useEffect(() => {
+    handleFulfillmentOptionChange('Ship')
+  }, [])
 
   const handleProductPickupLocation = (title?: string) => {
     showModal({
@@ -311,6 +339,9 @@ const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
         <Typography variant="h1" gutterBottom>
           {productName}
         </Typography>
+        <Typography fontWeight="600" gutterBottom>
+          {t('product-code')}: {productCode}
+        </Typography>
         <Price
           price={t<string>('currency', { val: productPrice.regular })}
           {...(productPrice.special && {
@@ -318,25 +349,6 @@ const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
           })}
           priceRange={usePriceRangeFormatter(productPriceRange)}
         />
-        <Box paddingY={1} display={shortDescription ? 'block' : 'none'}>
-          <Box
-            data-testid="short-description"
-            dangerouslySetInnerHTML={{
-              __html: shortDescription,
-            }}
-          />
-          {isQuickViewModal && (
-            <StyledLink
-              href={getProductLink(product?.productCode as string)}
-              passHref
-              onClick={() => closeModal()}
-              aria-label={t('more-details')}
-            >
-              {t('more-details')}
-            </StyledLink>
-          )}
-        </Box>
-
         <Box data-testid="product-rating">
           <Rating
             name="read-only"
@@ -456,9 +468,78 @@ const ProductDetailTemplate = (props: ProductDetailTemplateProps) => {
           )}
         </Box>
 
+        <div>
+          <Typography fontWeight="600">{t('product-overview')}</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={4} style={{ paddingLeft: '0px' }}>
+              <StyledAccordion>
+                <AccordionSummary
+                  expandIcon={<AddIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography>{t('description')}</Typography>
+                </AccordionSummary>
+                <AccordionDetails style={{ width: '100%' }}>
+                  {/* Content for Column 1 */}
+                  <Box paddingY={1} display={shortDescription ? 'block' : 'none'}>
+                    <Box
+                      data-testid="short-description"
+                      dangerouslySetInnerHTML={{
+                        __html: shortDescription,
+                      }}
+                    />
+                    {isQuickViewModal && (
+                      <StyledLink
+                        href={getProductLink(product?.productCode as string)}
+                        passHref
+                        onClick={() => closeModal()}
+                        aria-label={t('more-details')}
+                      >
+                        {t('more-details')}
+                      </StyledLink>
+                    )}
+                  </Box>
+                </AccordionDetails>
+              </StyledAccordion>
+            </Grid>
+            <Grid item xs={4}>
+              <StyledAccordion>
+                <AccordionSummary
+                  expandIcon={<AddIcon />}
+                  aria-controls="panel2a-content"
+                  id="panel2a-header"
+                >
+                  <Typography>{t('specifications')}</Typography>
+                </AccordionSummary>
+                <AccordionDetails style={{ width: '100%' }}>
+                  {/* Content for Column 2 */}
+                  <Typography>Content for Column 2</Typography>
+                </AccordionDetails>
+              </StyledAccordion>
+            </Grid>
+            <Grid item xs={4}>
+              <StyledAccordion>
+                <AccordionSummary
+                  expandIcon={<AddIcon />}
+                  aria-controls="panel3a-content"
+                  id="panel3a-header"
+                >
+                  <Typography>{t('reviews')}</Typography>
+                </AccordionSummary>
+                <AccordionDetails style={{ width: '100%' }}>
+                  {/* Content for Column 3 */}
+                  <Typography>Content for Column 3</Typography>
+                </AccordionDetails>
+              </StyledAccordion>
+            </Grid>
+          </Grid>{' '}
+          `
+        </div>
+
         <Box pt={2} display="flex" sx={{ justifyContent: 'space-between' }}>
           <Typography fontWeight="600" variant="body2">
-            {selectedFulfillmentOption?.method && `${quantityLeft} ${t('item-left')}`}
+            {`${quantityLeft} ${t('item-left')}`}
           </Typography>
           <MuiLink
             color="inherit"

@@ -260,9 +260,9 @@ const StandardShippingStep = (props: ShippingProps) => {
   if (!shipItems.length) {
     return (
       <>
-        <Typography variant="h2" component="h2" sx={{ fontWeight: 'bold' }}>
+        {/* <Typography variant="h2" component="h2" sx={{ fontWeight: 'bold' }}>
           {t('pickup')}
-        </Typography>
+        </Typography> */}
         <ShippingMethod
           showTitle={false}
           shipItems={shipItems}

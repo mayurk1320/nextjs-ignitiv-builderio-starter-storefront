@@ -167,7 +167,7 @@ const ViewOrderDetails = (props: ViewOrderDetailsProps) => {
           )}
 
           {/* Pickup orders */}
-          {pickupItems && pickupItems.length > 0 && (
+          {/* {pickupItems && pickupItems.length > 0 && (
             <Box>
               <Box sx={{ ...styles.container }}>
                 <Typography variant="h3" fontWeight={700} gutterBottom>
@@ -190,7 +190,7 @@ const ViewOrderDetails = (props: ViewOrderDetailsProps) => {
               </Box>
               <Divider sx={{ ...styles.divider }} />
             </Box>
-          )}
+          )} */}
 
           {/* Payment Information */}
           {!isOrderStatus && (

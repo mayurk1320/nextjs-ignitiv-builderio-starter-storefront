@@ -1,4 +1,5 @@
 import { Typography, Box, SxProps, Theme } from '@mui/material'
+import { useTranslation } from 'next-i18next'
 
 import type { PriceOnly, PriceRange, SalePrice } from '@/lib/types'
 interface PriceProps extends PriceOnly, SalePrice, PriceStyles {
@@ -38,6 +39,7 @@ const styles = {
 
 const PriceTypography = (priceTypographyProps: PriceTypographyProps) => {
   const { children, color, sx, variant = 'body1', fontWeight = 'bold' } = priceTypographyProps
+  const { t } = useTranslation('common')
   return (
     <Typography
       variant={variant}
@@ -46,7 +48,8 @@ const PriceTypography = (priceTypographyProps: PriceTypographyProps) => {
       sx={sx}
       data-testid="price-text"
     >
-      {children}
+      {' '}
+      {t('price')}:{children}
     </Typography>
   )
 }

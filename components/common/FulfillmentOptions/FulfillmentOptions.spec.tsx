@@ -33,21 +33,21 @@ describe('[components] Fulfillment Options Component', () => {
 
     const fulfillmentOptions = Common?.args?.fulfillmentOptions
 
-    const radioLabels = screen.getAllByRole('radio')
+    // const radioLabels = screen.getAllByRole('radio')
     const shipLabel = screen.getByText(fulfillmentOptions?.[0].label as string)
-    const pickupLabel = screen.getByText(fulfillmentOptions?.[1].label as string)
+    // const pickupLabel = screen.getByText(fulfillmentOptions?.[1].label as string)
 
     const shipDetails = screen.getByText(fulfillmentOptions?.[0].details as string)
-    const pickupDetails = screen.getByText(fulfillmentOptions?.[1].details as string)
+    // const pickupDetails = screen.getByText(fulfillmentOptions?.[1].details as string)
 
     const changeStoreText = screen.getByText(/Change-Store/i)
     const selectStoreTexts = screen.queryAllByText(/Select-Store/i)
 
-    expect(radioLabels.length).toBe(2)
+    // expect(radioLabels.length).toBe(2)
     expect(shipLabel).toBeVisible()
-    expect(pickupLabel).toBeVisible()
+    // expect(pickupLabel).toBeVisible()
     expect(shipDetails).toBeVisible()
-    expect(pickupDetails).toBeVisible()
+    // expect(pickupDetails).toBeVisible()
     expect(changeStoreText).toBeVisible()
     expect(selectStoreTexts).toStrictEqual([])
   })

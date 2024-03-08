@@ -1,16 +1,17 @@
-import { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos'
 import Clear from '@mui/icons-material/Clear'
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
-import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import Replay from '@mui/icons-material/Replay'
 import ZoomIn from '@mui/icons-material/ZoomIn'
 import ZoomOut from '@mui/icons-material/ZoomOut'
 import { IconButton, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { useTranslation } from 'next-i18next'
+import ReactImageZoom from 'react-image-zoom'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 
 import { KiboImage } from '@/components/common'
@@ -60,8 +61,8 @@ const ImageGallery = (props: ImageGalleryProps) => {
 
   // handle if vertical slider arrow should be visible or not
   const [showArrow, setArrowVisibility] = useState({
-    up: false,
-    down: images?.length > thumbnailDisplayCount,
+    left: false,
+    right: images?.length > thumbnailDisplayCount,
   })
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
@@ -80,31 +81,31 @@ const ImageGallery = (props: ImageGalleryProps) => {
     }
   }
 
-  const isScrollAtBottom = (element?: HTMLElement | null) => {
+  const isScrollAtRight = (element?: HTMLElement | null) => {
     if (element) {
-      return element.scrollHeight - (element.scrollTop + element.clientHeight) < NumberOfPxToScroll
+      return element.scrollWidth - (element.scrollLeft + element.clientWidth) < NumberOfPxToScroll
     }
   }
 
   // Desktop: handle vertical slider scrolling
-  const handleVerticalSlider = (isDirectionUp: boolean) => {
+  const handleHorizontalSlider = (isDirectionLeft: boolean) => {
     const scrollableDiv = scrollContainerRef.current
 
     scrollableDiv?.scrollBy({
-      top: isDirectionUp ? -NumberOfPxToScroll : NumberOfPxToScroll,
+      left: isDirectionLeft ? -NumberOfPxToScroll : NumberOfPxToScroll,
       behavior: 'smooth',
     })
 
     setArrowVisibility(
-      isDirectionUp
+      isDirectionLeft
         ? {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            up: scrollableDiv!.scrollTop > NumberOfPxToScroll,
-            down: true,
+            left: scrollableDiv!.scrollLeft > NumberOfPxToScroll,
+            right: true,
           }
         : {
-            up: true,
-            down: !isScrollAtBottom(scrollableDiv),
+            left: true,
+            right: !isScrollAtRight(scrollableDiv),
           }
     )
   }
@@ -132,87 +133,12 @@ const ImageGallery = (props: ImageGalleryProps) => {
       </Box>
 
       {/* Gallary Section start */}
-      <Stack direction="row" spacing={{ xs: 0, md: images?.length ? 2 : 0 }} maxHeight={maxHeight}>
-        {/* Vertical slider secton start */}
-        <Box
-          width="10%"
-          minWidth={ThumbnailDimensionInPx}
-          sx={{
-            display: {
-              xs: 'none',
-              md: images?.length ? 'flex' : 'none',
-            },
-          }}
-        >
-          <Stack spacing={1}>
-            {showArrow.up && (
-              <Box textAlign={'center'}>
-                <IconButton aria-label="up" onClick={() => handleVerticalSlider(true)} size="large">
-                  <KeyboardArrowUp fontSize="large" />
-                </IconButton>
-              </Box>
-            )}
-
-            <Stack
-              spacing={1.5}
-              role="tablist"
-              className="scrolling-div"
-              ref={scrollContainerRef}
-              sx={{
-                maxHeight: maxHeight,
-                width: '100%',
-                overflowY: 'auto',
-                '::-webkit-scrollbar': { width: '0px' },
-              }}
-            >
-              {images?.map((image, i) => {
-                return (
-                  <Box
-                    key={image?.imageUrl}
-                    component="div"
-                    width={ThumbnailDimensionInPx}
-                    minHeight={ThumbnailDimensionInPx}
-                    position="relative"
-                    sx={{
-                      borderWidth: i === selectedImage.selectedIndex ? 3 : 1,
-                      borderStyle: 'solid',
-                      borderColor: 'grey.600',
-                      cursor: 'pointer',
-                    }}
-                    aria-label={image?.altText || ''}
-                    aria-selected={i === selectedImage.selectedIndex}
-                    onClick={() => setSelectedImage({ selectedIndex: i })}
-                  >
-                    <KiboImage
-                      src={
-                        productGetters.handleProtocolRelativeUrl(image?.imageUrl as string) ||
-                        placeholderImageUrl
-                      }
-                      alt={(image?.altText as string) || t('product-image-alt')}
-                      layout="fill"
-                      objectFit="contain"
-                      errorimage={placeholderImageUrl}
-                    />
-                  </Box>
-                )
-              })}
-            </Stack>
-
-            {showArrow.down && (
-              <Box textAlign={'center'}>
-                <IconButton
-                  aria-label="down"
-                  size="large"
-                  onClick={() => handleVerticalSlider(false)}
-                >
-                  <KeyboardArrowDown fontSize="large" />
-                </IconButton>
-              </Box>
-            )}
-          </Stack>
-        </Box>
-        {/* Vertical slider secton end */}
-
+      <Stack
+        direction="row"
+        spacing={{ xs: 0, md: images?.length ? 2 : 0 }}
+        maxHeight={maxHeight}
+        display={'block'}
+      >
         {/* Selected Image secton start */}
         {images?.length > 1 && (
           <Box display={isZoomed ? 'flex' : 'none'} alignItems="center">
@@ -229,13 +155,12 @@ const ImageGallery = (props: ImageGalleryProps) => {
           position="relative"
           sx={{
             border: { xs: 'none', md: '1px solid #ccc' },
-            width: { xs: '100%', md: '90%' },
-            height: { xs: '40vh', md: 596 },
+            width: { xs: '100%', md: '97%' },
+            height: { xs: '40vh', md: 450 },
           }}
           display="flex"
-          flexDirection={'column'}
+          flexDirection={'row'}
           alignItems={'center'}
-          justifyContent="flex-start"
         >
           <TransformWrapper>
             {({ zoomIn, zoomOut, resetTransform }) => (
@@ -262,24 +187,30 @@ const ImageGallery = (props: ImageGalleryProps) => {
                 </Box>
                 <TransformComponent
                   wrapperStyle={{
+                    display: 'grid !important',
                     width: '100%',
                     height: '100%',
-                    display: 'flex',
                     flexDirection: 'column',
+                    justifyContent: 'center',
                   }}
-                  contentStyle={{ width: '100%', height: '100%' }}
+                  contentStyle={{
+                    width: '100%',
+                    height: '100%',
+                    justifyContent: 'center',
+                    margin: '0 100px',
+                  }}
                 >
                   <Box
                     width="100%"
-                    display="flex"
+                    display="block"
                     flexDirection="row"
                     flexWrap="wrap"
                     alignContent="center"
                     justifyContent="space-between"
                     position="relative"
                   >
-                    <KiboImage
-                      src={
+                    <ReactImageZoom
+                      img={
                         images?.length
                           ? productGetters.handleProtocolRelativeUrl(
                               images[selectedImage.selectedIndex]?.imageUrl as string
@@ -291,9 +222,10 @@ const ImageGallery = (props: ImageGalleryProps) => {
                           ? (images[selectedImage.selectedIndex]?.altText as string)
                           : 'placeholder-image'
                       }
-                      layout="fill"
-                      objectFit="contain"
-                      data-testid={`selected-image`}
+                      width={500}
+                      height={450}
+                      zoomWidth={710}
+                      zoomPosition="original"
                     />
                   </Box>
                 </TransformComponent>
@@ -313,6 +245,95 @@ const ImageGallery = (props: ImageGalleryProps) => {
           </Box>
         )}
         {/* Selected Image secton end */}
+
+        {/* Vertical slider secton start */}
+        <Box
+          width="100%"
+          minWidth={ThumbnailDimensionInPx}
+          sx={{
+            display: {
+              xs: 'none',
+              md: images?.length ? 'flex' : 'none',
+            },
+          }}
+        >
+          <Stack spacing={1} direction="row">
+            {showArrow.left && (
+              <Box textAlign={'center'}>
+                <IconButton
+                  aria-label="left"
+                  style={{ margin: '60% 0' }}
+                  onClick={() => handleHorizontalSlider(true)}
+                  size="large"
+                >
+                  <KeyboardArrowLeft fontSize="large" />
+                </IconButton>
+              </Box>
+            )}
+
+            <Stack
+              display="-webkit-box"
+              spacing={1.5}
+              role="tablist"
+              className="scrolling-div"
+              ref={scrollContainerRef}
+              sx={{
+                maxHeight: maxHeight,
+                width: '100%',
+                overflowY: 'auto',
+                '::-webkit-scrollbar': { width: '0px' },
+              }}
+            >
+              {images?.map((image, i) => {
+                return (
+                  <Box
+                    key={image?.imageUrl}
+                    component="div"
+                    width={ThumbnailDimensionInPx}
+                    minHeight={ThumbnailDimensionInPx}
+                    position="relative"
+                    marginRight={'12px !important'}
+                    marginTop={'12px !important'}
+                    sx={{
+                      borderWidth: i === selectedImage.selectedIndex ? 3 : 1,
+                      borderStyle: 'solid',
+                      borderColor: 'grey.600',
+                      cursor: 'pointer',
+                    }}
+                    aria-label={image?.altText || ''}
+                    aria-selected={i === selectedImage.selectedIndex}
+                    onClick={() => setSelectedImage({ selectedIndex: i })}
+                  >
+                    <KiboImage
+                      src={
+                        productGetters.handleProtocolRelativeUrl(image?.imageUrl as string) ||
+                        placeholderImageUrl
+                      }
+                      alt={(image?.altText as string) || t('product-image-alt')}
+                      layout="fill"
+                      objectFit="contain"
+                      errorimage={placeholderImageUrl}
+                    />
+                  </Box>
+                )
+              })}
+            </Stack>
+
+            {showArrow.right && (
+              <Box textAlign={'center'}>
+                <IconButton
+                  style={{ margin: '60% 0' }}
+                  aria-label="right"
+                  size="large"
+                  onClick={() => handleHorizontalSlider(false)}
+                >
+                  <KeyboardArrowRight fontSize="large" />
+                </IconButton>
+              </Box>
+            )}
+          </Stack>
+        </Box>
+        {/* Vertical slider secton end */}
       </Stack>
       {/* Gallary Section start */}
 
