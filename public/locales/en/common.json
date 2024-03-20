@@ -127,6 +127,7 @@
   "save-payment-method": "Save Payment Method",
   "save-payment-method-checkbox": "Save Payment Method",
   "payment-method": "Payment Method",
+  "saved-cards": "Saved Cards",
 
   "your-default-shipping-address": "Your default shipping address",
   "previously-saved-shipping-addresses": "Previously saved shipping addresses",
@@ -197,7 +198,7 @@
   "review-order": "Review Order",
   "go-back": "Go Back",
   "address1": "Street address",
-  "address2": "APT, STE",
+  "address2": "Address (APT/STE)",
   "city-or-town": "City",
   "state-or-province": "State/Province",
   "postal-or-zip-code": "Zip/Postal code",
@@ -352,11 +353,16 @@
   "shipping-tax-at-checkout": "Shipping charges and Tax to be calculated at checkout",
   "save-as-billing-address": "Save as billing address",
   "save-as-shipping-address": "Save as shipping address",
+  "review-and-place-order": "Review & Place Order",
+  "sub-total": "Sub-Total :",
+  "delivery-fee": "Delivery Fee :",
+  "tax-text": "Tax :",
+  "total-text": "Total :",
+  "place-order-review-infomation-text": "Please review your order below. Your order is not final until you click the Place Order button.",
   "cart-summary": "Cart Summary",
   "remove-cart": "Remove from Cart",
   "add-wishlist": "Add to Wishlist",
   "promotion": "Promotion or Coupon Code",
   "checkout": "Checkout",
-  "pickup-information": "Pickup Information",
-  "sub-total": "Sub-Total"
+  "pickup-information": "Pickup Information"
 }

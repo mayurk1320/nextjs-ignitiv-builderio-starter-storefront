@@ -14,7 +14,9 @@ import {
   Button,
   Box,
   Tooltip,
+  SxProps,
 } from '@mui/material'
+import { Theme } from '@mui/material/styles'
 import getConfig from 'next/config'
 import { useTranslation } from 'next-i18next'
 import { useReCaptcha } from 'next-recaptcha-v3'
@@ -55,6 +57,11 @@ import type {
   Checkout,
   CuAddress,
 } from '@/lib/gql/types'
+
+const buttonStyle = {
+  height: '42px',
+  fontSize: (themeParam: Theme) => themeParam.typography.subtitle1,
+} as SxProps<Theme> | undefined
 
 interface PaymentStepProps {
   checkout: CrOrder | Checkout
@@ -684,8 +691,8 @@ const PaymentStep = (props: PaymentStepProps) => {
 
             <Button
               variant="contained"
-              color="inherit"
-              sx={{ width: { xs: '100%', sm: '50%' } }}
+              color="primary"
+              sx={{ ...buttonStyle, width: { xs: '100%', sm: '50%' } }}
               onClick={handleAddPaymentMethod}
             >
               {t('add-payment-method')}
@@ -774,6 +781,7 @@ const PaymentStep = (props: PaymentStepProps) => {
             <Button
               variant="contained"
               color="primary"
+              sx={{ ...buttonStyle }}
               {...(isAddPaymentMethodButtonDisabled() && { disabled: true })}
               onClick={handleSaveNewPaymentMethod}
             >

@@ -13,6 +13,7 @@ import {
   FormControlLabel,
   FormControl,
   SxProps,
+  Link,
 } from '@mui/material'
 import { useTranslation } from 'next-i18next'
 import { useForm, Controller } from 'react-hook-form'
@@ -178,10 +179,10 @@ const ReviewStep = (props: ReviewStepProps) => {
   const handleComplete = () => handleSubmit(onValid, onInvalidForm)()
 
   const orderPriceProps: OrderPriceProps = {
-    subTotalLabel: t('subtotal'),
-    shippingTotalLabel: t('shipping'),
-    taxLabel: t('estimated-tax'),
-    totalLabel: t('total'),
+    subTotalLabel: t('sub-total'),
+    shippingTotalLabel: t('delivery-fee'),
+    taxLabel: t('tax-text'),
+    totalLabel: t('total-text'),
     subTotal: t('currency', { val: subTotal }),
     discountedSubtotal:
       discountedSubtotal > 0 && discountedSubtotal !== subTotal
@@ -194,11 +195,21 @@ const ReviewStep = (props: ReviewStepProps) => {
 
   return (
     <Box data-testid={'review-step-component'}>
-      <Typography variant="h2" component="h2" sx={{ fontWeight: 'bold' }} color="text.primary">
-        {t('order-details')}
+      <Typography variant="h1" component="h1" sx={{ fontWeight: 'bold' }} color="text.primary">
+        {t('Review & Place Order')}
       </Typography>
-
-      <Divider color={theme.palette.primary.main} sx={{ mt: '1.688rem', mb: '1.438rem' }} />
+      <Divider sx={{ mt: '1.688rem', mb: '1.438rem' }} />
+      <Stack>
+        <Typography variant="h3" component="h3" fontWeight={600} color="text.primary">
+          {t('Contact Details')}
+        </Typography>
+        <Box display={'inline'} pt={1}>
+          <Typography variant="body1">{personalDetails?.email}</Typography>
+          <Typography variant="body1">
+            {personalDetails?.firstName} {personalDetails?.lastNameOrSurname}
+          </Typography>
+        </Box>
+      </Stack>
 
       {/* MultiShip Checkout */}
       {isMultiShipEnabled && shipItems && shipItems.length > 0 && (
@@ -272,8 +283,20 @@ const ReviewStep = (props: ReviewStepProps) => {
       {/* Standard Checkout */}
       {!isMultiShipEnabled && shipItems && shipItems.length > 0 && (
         <Stack gap={4}>
-          <Typography variant="h3" component="h3" sx={{ fontWeight: 'bold' }} color="text.primary">
-            {t('shipping-to-home')}
+          <Typography
+            variant="h3"
+            component="h3"
+            sx={{ fontWeight: 'bold', mt: '20px', mb: '20px' }}
+            color="text.primary"
+          >
+            {t('order-summary')}
+            <Link
+              href="/cart"
+              sx={{ cursor: 'pointer', float: 'right', fontSize: '16px' }}
+              color="text.primary"
+            >
+              {t('Edit Cart')}
+            </Link>
           </Typography>
           <ProductItemList items={shipItems} testId={'review-ship-items'} />
           <Divider sx={{ mb: '1.438rem' }} />
@@ -290,10 +313,10 @@ const ReviewStep = (props: ReviewStepProps) => {
           <Divider sx={{ mt: '1.ZZ438rem', mb: '1.188rem' }} />
         </Stack>
       )}
-
-      <OrderPrice {...orderPriceProps} />
-
-      <Box sx={{ mt: '31px', mb: '35px' }}>
+      <Box sx={{ width: '55%' }}>
+        <OrderPrice {...orderPriceProps} />
+      </Box>
+      <Box sx={{ mt: '20px', mb: '20px' }}>
         <FormControlLabel
           control={
             <Checkbox
@@ -398,6 +421,10 @@ const ReviewStep = (props: ReviewStepProps) => {
           </FormControl>
         )}
       </Box>
+
+      <Stack sx={{ mt: '20px', mb: '20px' }}>
+        {t('place-order-review-infomation-text').toString()}
+      </Stack>
 
       <Stack alignItems="left">
         <Button

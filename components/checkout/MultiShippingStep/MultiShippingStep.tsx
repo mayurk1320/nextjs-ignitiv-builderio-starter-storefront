@@ -438,7 +438,7 @@ const MultiShippingStep = (props: MultiShippingStepProps) => {
                 </Button>
                 <Button
                   variant="contained"
-                  color="inherit"
+                  color="primary"
                   sx={{ ...buttonStyle }}
                   onClick={handleAddressValidationAndSave}
                   {...(!isAddressFormValid && { disabled: true })}

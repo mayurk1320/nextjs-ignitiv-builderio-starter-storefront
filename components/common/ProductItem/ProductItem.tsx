@@ -93,10 +93,11 @@ const ProductItem = (props: ProductItemProps) => {
 
         <Stack mr={1} flex={1}>
           <CardContent sx={{ py: 0, px: 1 }}>
-            <Typography variant="h4" data-testid="productName" pb={0.375}>
-              {name}
-            </Typography>
-
+            <Link href={link || ''} passHref>
+              <Typography variant="h4" data-testid="productName" pb={0.375}>
+                {name}
+              </Typography>
+            </Link>
             {children}
 
             <Box data-testid="productDetails">

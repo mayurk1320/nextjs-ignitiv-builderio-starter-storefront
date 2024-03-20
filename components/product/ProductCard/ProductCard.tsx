@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 
 import { KiboImage, Price } from '@/components/common'
+import { PLPStyles } from '@/components/page-templates/ProductListingTemplate/ProductListingTemplate.styles'
 import { usePriceRangeFormatter } from '@/hooks'
 import DefaultImage from '@/public/product_placeholder.svg'
 
@@ -40,33 +41,9 @@ export interface ProductCardProps {
   onClickAddToCart?: (payload: any) => void
 }
 
-const styles = {
-  cardRoot: {
-    padding: '0.625rem',
-    backgroundColor: 'transparent',
-    width: {
-      xs: 172,
-      md: 202,
-    },
-    boxShadow: 'none',
-    cursor: 'pointer',
-    '&:hover': {
-      boxShadow: '0 2px 16px 4px rgb(40 44 63 / 7%)',
-      '.quick-view': {
-        opacity: 1,
-      },
-    },
-  },
-  quickView: {
-    opacity: 0,
-    width: '100%',
-    marginTop: '1 rem',
-  },
-}
-
 const ProductCardSkeleton = () => {
   return (
-    <Stack spacing={1} sx={styles.cardRoot} data-testid="product-card-skeleton">
+    <Stack spacing={1} sx={PLPStyles.cardRoot} data-testid="product-card-skeleton">
       <Skeleton variant="rectangular" height={150} />
       <Skeleton variant="rectangular" height={20} />
       <Skeleton variant="rectangular" width={60} height={20} />
@@ -109,13 +86,22 @@ const ProductCard = (props: ProductCardProps) => {
     event.preventDefault()
     onClickQuickViewModal && onClickQuickViewModal()
   }
+
+  const truncate = (input: string | undefined) => {
+    if (input === undefined) {
+      return input
+    }
+
+    return input.length > 40 ? `${input.substring(0, 40)}...` : input
+  }
+
   if (isLoading) return <ProductCardSkeleton />
   else
     return (
       <Box>
         <Link href={link} passHref data-testid="product-card-link">
           <Box>
-            <Card sx={styles.cardRoot} data-testid="product-card">
+            <Card sx={PLPStyles.cardRoot} data-testid="product-card">
               {isShowWishlistIcon && (
                 <Box textAlign={'right'} width="100%" onClick={handleAddOrRemoveWishlistItem}>
                   {isInWishlist ? (
@@ -143,9 +129,9 @@ const ProductCard = (props: ProductCardProps) => {
                   />
                 </Box>
               </CardMedia>
-              <Box flexDirection="column" m={2} mt={1}>
+              <Box sx={PLPStyles.cardInfo} flexDirection="column" m={2} mt={1}>
                 <Typography variant="body1" gutterBottom color="text.primary">
-                  {title}
+                  {truncate(title)}
                 </Typography>
                 <Price
                   price={price}
@@ -167,10 +153,8 @@ const ProductCard = (props: ProductCardProps) => {
                 )}
                 {showQuickViewButton && (
                   <Button
-                    variant="contained"
-                    color="secondary"
                     className="quick-view"
-                    sx={styles.quickView}
+                    sx={PLPStyles.quickView}
                     onClick={handleOpenProductQuickViewModal}
                   >
                     {t('quick-view')}
