@@ -15,6 +15,7 @@ import {
 interface KiboRadioProps {
   title?: string
   selected?: string
+  checked?: boolean
   align?: 'baseline' | 'center' | 'flex-start'
   radioOptions: {
     label: string | number | ReactElement<any, string | JSXElementConstructor<any>>

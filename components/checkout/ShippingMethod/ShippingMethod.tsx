@@ -84,53 +84,53 @@ const ShipItemList = (shipProps: ShipItemListProps) => {
     </Box>
   )
 }
-const PickupItemList = (pickupProps: PickupItemListProps) => {
-  const { isShipItemsPresent, pickupItems, onClickChangeStore } = pickupProps
-  const { t } = useTranslation('common')
-  const expectedDeliveryDate = orderGetters.getExpectedDeliveryDate(pickupItems as CrOrderItem[])
-  const isPickupItem = pickupItems.length > 0
+// const PickupItemList = (pickupProps: PickupItemListProps) => {
+//   const { isShipItemsPresent, pickupItems, onClickChangeStore } = pickupProps
+//   const { t } = useTranslation('common')
+//   const expectedDeliveryDate = orderGetters.getExpectedDeliveryDate(pickupItems as CrOrderItem[])
+//   const isPickupItem = pickupItems.length > 0
 
-  const fulfillmentLocationCodes = orderGetters.getFulfillmentLocationCodes(
-    pickupItems as CrOrderItem[]
-  )
-  const { data: locations } = useGetStoreLocations({ filter: fulfillmentLocationCodes })
-  const storePickupAddress = storeLocationGetters.getLocations(locations)
+//   const fulfillmentLocationCodes = orderGetters.getFulfillmentLocationCodes(
+//     pickupItems as CrOrderItem[]
+//   )
+//   const { data: locations } = useGetStoreLocations({ filter: fulfillmentLocationCodes })
+//   const storePickupAddress = storeLocationGetters.getLocations(locations)
 
-  return (
-    <Box data-testid="pickup-items">
-      {isShipItemsPresent && (
-        <>
-          <Divider orientation="horizontal" flexItem />
-          <Box pt={2} pb={3}>
-            <Typography sx={styles.shippingType} py={2} data-testid="pickup-title">
-              {t('pickup')}
-            </Typography>
-          </Box>
-        </>
-      )}
+//   return (
+//     <Box data-testid="pickup-items">
+//       {isShipItemsPresent && (
+//         <>
+//           <Divider orientation="horizontal" flexItem />
+//           {/* <Box pt={2} pb={3}>
+//             <Typography sx={styles.shippingType} py={2} data-testid="pickup-title">
+//               {t('pickup')}
+//             </Typography>
+//           </Box> */}
+//         </>
+//       )}
 
-      <Box>
-        <ProductItemList
-          items={pickupItems}
-          storePickupAddresses={storePickupAddress}
-          isPickupItem={isPickupItem}
-          expectedDeliveryDate={expectedDeliveryDate}
-          showChangeStoreLink={false}
-          onClickChangeStore={onClickChangeStore}
-        />
-      </Box>
-    </Box>
-  )
-}
+//       <Box>
+//         <ProductItemList
+//           items={pickupItems}
+//           storePickupAddresses={storePickupAddress}
+//           isPickupItem={isPickupItem}
+//           expectedDeliveryDate={expectedDeliveryDate}
+//           showChangeStoreLink={false}
+//           onClickChangeStore={onClickChangeStore}
+//         />
+//       </Box>
+//     </Box>
+//   )
+// }
 const ShippingMethod = (props: ShippingMethodProps) => {
   const {
     shipItems,
-    pickupItems,
+    // pickupItems,
     orderShipmentMethods,
     showTitle = true,
     selectedShippingMethodCode,
     onShippingMethodChange,
-    onStoreLocatorClick,
+    // onStoreLocatorClick,
   } = props
 
   const { t } = useTranslation('common')
@@ -162,13 +162,13 @@ const ShippingMethod = (props: ShippingMethodProps) => {
           shipItems={shipItems}
         />
       ) : null}
-      {pickupItems?.length ? (
+      {/* {pickupItems?.length ? (
         <PickupItemList
           isShipItemsPresent={Boolean(shipItems?.length)}
           pickupItems={pickupItems}
           onClickChangeStore={onStoreLocatorClick}
         />
-      ) : null}
+      ) : null} */}
     </Box>
   )
 }

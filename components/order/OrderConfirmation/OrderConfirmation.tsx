@@ -127,14 +127,14 @@ const OrderConfirmation = ({ order }: { order: CrOrder }) => {
             <Divider sx={{ height: '1px' }} />
 
             {/* Pickup orders */}
-            {pickupItems && pickupItems.length > 0 && (
+            {/* {pickupItems && pickupItems.length > 0 && (
               <Box sx={{ paddingBlock: 2 }}>
                 <Typography variant="h3" fontWeight={700} gutterBottom>
                   {t('pickup')}
                 </Typography>
                 <ProductItemList items={pickupItems} />
               </Box>
-            )}
+            )} */}
           </Container>
         </Stack>
         {/* Order Summary */}

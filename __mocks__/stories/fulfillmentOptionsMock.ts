@@ -10,13 +10,13 @@ export const fulfillmentOptionsMock: FulfillmentOption[] = [
     isRequired: false,
     shortName: 'Ship',
   },
-  {
-    value: 'InStorePickup',
-    code: 'SP',
-    name: 'In Store Pickup',
-    label: 'Pickup in Store',
-    details: 'Available at',
-    isRequired: false,
-    shortName: 'Pickup',
-  },
+  // {
+  //   value: 'InStorePickup',
+  //   code: 'SP',
+  //   name: 'In Store Pickup',
+  //   label: 'Pickup in Store',
+  //   details: 'Available at',
+  //   isRequired: false,
+  //   shortName: 'Pickup',
+  // },
 ]

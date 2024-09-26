@@ -22,5 +22,5 @@ export const Common = Template.bind({})
 
 Common.args = {
   fulfillmentOptions: fulfillmentOptionsMock,
-  selected: 'Pickup',
+  // selected: 'Pickup',
 }

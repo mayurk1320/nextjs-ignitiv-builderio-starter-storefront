@@ -47,7 +47,7 @@ const FulfillmentOptions = (props: FulfillmentOptionsProps) => {
 
   const radioOptions = fulfillmentOptions?.map((option) => {
     return {
-      value: option.shortName as string,
+      value: 'Ship', //option.shortName as string,
       name: option.shortName as string,
       disabled: option?.disabled,
       label: (
@@ -67,9 +67,10 @@ const FulfillmentOptions = (props: FulfillmentOptionsProps) => {
   return (
     <Box data-testid="fulfillmentOptions">
       <KiboRadio
-        title={t('fulfillment-options')}
+        title={t('fulfillment-option')}
         radioOptions={radioOptions}
         selected={selected}
+        checked={true}
         onChange={onFulfillmentOptionChange}
       />
     </Box>
